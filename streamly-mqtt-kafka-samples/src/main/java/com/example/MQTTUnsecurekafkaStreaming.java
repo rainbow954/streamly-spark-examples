@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * by Mqtt is counted and the result is send to kafka.
  * 
  * 	
- * @author Raymond Wouapi
+ * @author Pascal Fenkam
  **/
 public class MQTTUnsecurekafkaStreaming {
 	static Logger log = LoggerFactory.getLogger(MQTTUnsecurekafkaStreaming.class);
