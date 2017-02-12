@@ -23,13 +23,13 @@ This will produce jar in ../target/streamly-kafka-cassandra-samples-0.0.1-BUILD-
 - You now have to configure your spark.properties
 - Click on the Profile icon
 - Copy your access(myacesskey) and secret key(mysecretkey)
-- In spark.properties configure the app.args appropriately that is 
+- In spark.properties configure the app.args appropriately that is
 - app.args=192.168.0.141:9093,mynamespace_kafka_topic,mynamespacekafkatocassandra,mynamespacewordcount
 - spark.cassandra.connection.port=9042
 - spark.cassandra.connection.host=192.168.0.141
 - spark.cassandra.auth.username=myacesskey
 - spark.cassandra.auth.password=mysecretkey
-- Go to the tab PROCESSING
+- Now go to the tab PROCESSING
 - Create an application e.g mynamespace-spark-app
 - Upload the jar ../target/streamly-kafka-cassandra-samples-0.0.1-BUILD-SNAPSHOT.jar and the file spark.properties
 - Start the app
