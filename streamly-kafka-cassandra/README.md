@@ -32,7 +32,7 @@ Wait until your application is running. Then click on Show UI icon. You should s
 
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
-[spark-ui-image]: /images/spark-ui-image.png?raw=true
+[spark-ui-image]: https://github.com/streamlyio/streamly-spark-examples/raw/master/streamly-kafka-cassandra/images/spark-ui-image.png
 [streamly-dashboard]: https://board.streamly.io:20080
 [kafka]: https://kafka.apache.org/
 [cassandra]: http://cassandra.apache.org/
