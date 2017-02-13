@@ -1,0 +1,17 @@
+= Streamly Kafka MQTT Example
+
+A simple spark job that collects data from an unsecured/secured kafka topic count those data and send them to
+a secured MQTT topic.
+
+== How to build it?
+
+You can run it with Maven
+
+[source,bash]
+----
+mvn clean install
+----
+
+This will produce a jar file to upload on streamly dashboard.
+
+
