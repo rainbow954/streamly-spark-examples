@@ -38,23 +38,35 @@ import org.slf4j.LoggerFactory;
 
 import scala.Tuple2;
 
+
+/** 
+ * This class process data coming from a secured/unsecured Kafka topic
+ * count them and send the results to a secured MQTT topic.
+ * 	
+ **/
+
 public class JavaKafkaMQTTStreaming {
 	private static final Pattern SPACE = Pattern.compile(" ");
 	static Logger log = LoggerFactory.getLogger(JavaKafkaMQTTStreaming.class);
 	
 	public static void main(String[] args) throws InterruptedException, MqttException {
 		tieSystemOutAndErrToLog();
-		if (args.length < 8) {
+		if (args.length < 7) {
 			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
 			System.exit(1);
 		}
 		
+		if (args.length > 8) {
+			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
+			System.exit(1);
+		}
+		
+		// Get the arguments provided in the spark.properties file
 		String mqttBrokerUrl = args[0];
 		String mqttTopic = args[1];
 		String mqttClientID = args[2];
 		String mqttUsername = args[3];
 		String mqttPassword = args[4];
-		
 		String kafkaBrokers = args[5];
 		String kafkaTopics = args[6];
 		String kafkaAdminJaasFile = args[7];
@@ -69,12 +81,15 @@ public class JavaKafkaMQTTStreaming {
 		client = new MqttClient(mqttBrokerUrl, mqttClientID);
 		client.connect(connOpt);
 		
-		System.out.println("Connected to " + mqttBrokerUrl);
+		log.info("Connected to {}", mqttBrokerUrl);
 		
-		// setup topic
+		// Setup the mqtt topic
 		final MqttTopic topic = client.getTopic(mqttTopic);
 		
-		System.setProperty("java.security.auth.login.config", kafkaAdminJaasFile);
+		// Add support for secured topics if user specified jaas file
+		if (args.length == 8) {
+			System.setProperty("java.security.auth.login.config", kafkaAdminJaasFile);
+		}
 		
 		// Create context with a 2 seconds batch interval
 		SparkConf sparkConf = new SparkConf().setAppName("JavaKafkaMQTTStreaming-"+System.currentTimeMillis());
@@ -88,8 +103,12 @@ public class JavaKafkaMQTTStreaming {
 		Map<String, Object> kafkaParams = new HashMap<>();
 		kafkaParams.put("bootstrap.servers", kafkaBrokers);
 		kafkaParams.put("group.id", "spark-consumer");
-		kafkaParams.put("security.protocol", "SASL_PLAINTEXT");
-		kafkaParams.put("sasl.mechanism", "PLAIN");
+		
+		if (args.length == 8) {
+			kafkaParams.put("security.protocol", "SASL_PLAINTEXT");
+			kafkaParams.put("sasl.mechanism", "PLAIN");
+		}
+		
 		kafkaParams.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		kafkaParams.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		 
@@ -98,7 +117,7 @@ public class JavaKafkaMQTTStreaming {
 				jssc,
 				LocationStrategies.PreferConsistent(),
 				ConsumerStrategies.<String, String>Subscribe(topicsSet, kafkaParams)
-				);
+		);
 
 		// Get the lines, split them into words, count the words and print
 		JavaPairDStream<String, String> results = messages.mapToPair(new PairFunction<ConsumerRecord<String, String>, String, String>() {
@@ -106,14 +125,14 @@ public class JavaKafkaMQTTStreaming {
 				    public Tuple2<String, String> call(ConsumerRecord<String, String> record) {
 				      return new Tuple2<>(record.key(), record.value());
 				    }
-		  });
+		});
 		
-		 JavaDStream<String> lines = results.map(new Function<Tuple2<String, String>, String>() {
+		JavaDStream<String> lines = results.map(new Function<Tuple2<String, String>, String>() {
 		      @Override
 		      public String call(Tuple2<String, String> tuple2) {
 		        return tuple2._2();
 		      }
-		    });
+		});
 		
 		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
 			@Override
@@ -121,6 +140,7 @@ public class JavaKafkaMQTTStreaming {
 				return Arrays.asList(SPACE.split(x)).iterator();
 			}
 		});
+		
 		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(
 				new PairFunction<String, String, Integer>() {
 					@Override
@@ -134,10 +154,8 @@ public class JavaKafkaMQTTStreaming {
 								return i1 + i2;
 							}
 						});
-		wordCounts.print();
 
 		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String,Integer>>() {
-			
 			@Override
 			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
 				Map<String, Integer> wordCountMap = arg0.collectAsMap();
@@ -149,7 +167,7 @@ public class JavaKafkaMQTTStreaming {
 			    	message.setRetained(false);
 
 			    	// Publish the message
-			    	System.out.println("Publishing to topic \"" + topic + "\" qos " + pubQoS);
+			    	log.info("Publishing to topic \"{}\" qos {}", topic, pubQoS);
 			    	MqttDeliveryToken token = null;
 			    	try {
 			    		// publish message to broker
@@ -167,7 +185,6 @@ public class JavaKafkaMQTTStreaming {
 
 		jssc.start();
 		jssc.awaitTermination();
-
 	}
 
 	public static String nowDate() {
@@ -178,6 +195,8 @@ public class JavaKafkaMQTTStreaming {
         System.setOut(createLoggingProxy(System.out));
         System.setErr(createLoggingProxy(System.err));
     }
+	
+	
     public static PrintStream createLoggingProxy(final PrintStream realPrintStream) {
         return new PrintStream(realPrintStream) {
            
