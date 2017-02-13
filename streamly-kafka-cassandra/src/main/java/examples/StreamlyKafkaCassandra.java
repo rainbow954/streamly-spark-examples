@@ -1,29 +1,30 @@
-package com.examples;
-import java.util.HashMap;
-import java.util.HashSet;
+package examples;
 import java.io.PrintStream;
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import scala.Tuple2;
-import scala.collection.JavaConverters;
-import kafka.serializer.StringDecoder;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.*;
-import org.apache.spark.streaming.api.java.*;
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.Function2;
+import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.api.java.function.VoidFunction;
+import org.apache.spark.streaming.Durations;
+import org.apache.spark.streaming.api.java.JavaDStream;
+import org.apache.spark.streaming.api.java.JavaInputDStream;
+import org.apache.spark.streaming.api.java.JavaPairDStream;
+import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.ConsumerStrategies;
-import org.apache.spark.streaming.kafka010.ConsumerStrategy;
 import org.apache.spark.streaming.kafka010.KafkaUtils;
 import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.slf4j.Logger;
@@ -32,47 +33,38 @@ import org.slf4j.LoggerFactory;
 import com.datastax.driver.core.Session;
 import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
-import com.examples.domain.KafkaTopic;
+import com.datastax.spark.connector.japi.CassandraStreamingJavaUtil;
 
-import org.apache.spark.streaming.Durations;
+import examples.domain.KafkaTopic;
+import scala.Tuple2;
 
 /** 
- * This is a streaming class that consumes data with kafka and send those
- * data to cassandra. Each word from each line collected
- * by kafka is counted and the result is send to cassandra.
- * 
- * 	
- * @author Pascal Fenkam
+ * This is a spark streaming application that consumes event from a kafka topic
+ * and saves the result into a cassandra table.	
  **/
 
-public class KafkaCassandraStreaming {
-	static Logger log = LoggerFactory.getLogger(KafkaCassandraStreaming.class);
+public class StreamlyKafkaCassandra {
+	static Logger log = LoggerFactory.getLogger(StreamlyKafkaCassandra.class);
 	private static final Pattern SPACE = Pattern.compile(" ");
-	
-	
 	
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
-		String brokers = args[0];
-		
+		String brokers = args[0];		
 		String topics =  args[1];
 		String keyspace =  args[2];
 		String table = args[3];
 		SparkConf sparkConf = new SparkConf()
-				.setAppName("KafkaCassandraStreaming");
+				.setAppName("StreamlyKafkaCassandra");
 		
-		// check Spark configuration for master URL, set it to local if not
-		// configured
-		if (!sparkConf.contains("spark.master")) {
-		sparkConf.setMaster("local[4]");
-		}
+		
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 
 		Set<String> topicsSet = new HashSet<>(Arrays.asList(topics.split(",")));
-		System.out.println(topicsSet);
+
+		
 		Map<String, Object> kafkaParams = new HashMap<>();
 		kafkaParams.put("bootstrap.servers", brokers);
-		kafkaParams.put("group.id", "spark-consumer");
+		kafkaParams.put("group.id", "kafka-cassandra-consumer");
 		kafkaParams.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		kafkaParams.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		
@@ -83,13 +75,13 @@ public class KafkaCassandraStreaming {
 			session.execute("CREATE TABLE IF NOT EXISTS " +keyspace+"."+table+ " (word TEXT PRIMARY KEY, count int)");
 		}
 
-		log.info("keyspace {} and tables : {} created successfully", keyspace, table);
+		log.info("Table : {} created successfully", table);
 		
-		// Create direct kafka stream with brokers and topics
 
 		final JavaInputDStream<ConsumerRecord<String, String>> messages = KafkaUtils.createDirectStream(jssc,
 				LocationStrategies.PreferConsistent(),
 				ConsumerStrategies.<String, String>Subscribe(topicsSet, kafkaParams));
+		
 		log.info("messages :{} " ,messages);
 		JavaPairDStream<String, String> results = messages
 				.mapToPair(new PairFunction<ConsumerRecord<String, String>, String, String>() {
@@ -110,7 +102,7 @@ public class KafkaCassandraStreaming {
 		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
 			@Override
 			public Iterator<String> call(String x) {
-				log.debug("Line retrieved {}",x);
+				log.info("Line retrieved {}",x);
 				return Arrays.asList(SPACE.split(x)).iterator();
 			}
 		});
@@ -136,8 +128,6 @@ public class KafkaCassandraStreaming {
 		
 		wordCounts.print();
 		
-		
-		
 		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String,Integer>>() {
 			
 			@Override
@@ -154,7 +144,6 @@ public class KafkaCassandraStreaming {
 				}
 				JavaRDD<KafkaTopic> kafkaTopicRDD = jssc.sparkContext().parallelize(topicList);
 				CassandraJavaUtil.javaFunctions(kafkaTopicRDD).writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(KafkaTopic.class)).saveToCassandra();
-				
 				log.info("Words successfully added : {}, keyspace {}, table {}", words,keyspace,table);
 			}
 		});
@@ -162,8 +151,6 @@ public class KafkaCassandraStreaming {
 				
 		jssc.start();
 		jssc.awaitTermination();
-
-
 	}
 
 	public static void tieSystemOutAndErrToLog() {

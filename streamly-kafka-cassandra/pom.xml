@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>streamly-kafka-cassandra-samples</artifactId>
-  <version>0.0.1-BUILD-SNAPSHOT</version>
+  <artifactId>streamly-kafka-cassandra</artifactId>
+  <version>0.0.1</version>
   <packaging>jar</packaging>
 
-  <name>Streamly Kafka Cassandra Samples</name>
-  <description>Streamly Kafka cassandra Samples</description>
+  <name>Streamly Kafka Cassandra</name>
+  <description>Streamly Kafka Cassandra</description>
 
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
