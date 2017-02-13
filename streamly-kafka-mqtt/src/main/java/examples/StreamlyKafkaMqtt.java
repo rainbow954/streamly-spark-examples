@@ -1,4 +1,4 @@
-package com.wouri.streamly.spark.examples;
+package examples;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -45,14 +45,14 @@ import scala.Tuple2;
  * 	
  **/
 
-public class JavaKafkaMQTTStreaming {
+public class StreamlyKafkaMqtt {
 	private static final Pattern SPACE = Pattern.compile(" ");
-	static Logger log = LoggerFactory.getLogger(JavaKafkaMQTTStreaming.class);
+	static Logger log = LoggerFactory.getLogger(StreamlyKafkaMqtt.class);
 	
 	public static void main(String[] args) throws InterruptedException, MqttException {
 		tieSystemOutAndErrToLog();
 		if (args.length < 7) {
-			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
+			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics>");
 			System.exit(1);
 		}
 		
@@ -69,7 +69,7 @@ public class JavaKafkaMQTTStreaming {
 		String mqttPassword = args[4];
 		String kafkaBrokers = args[5];
 		String kafkaTopics = args[6];
-		String kafkaAdminJaasFile = args[7];
+		
 		
 		MqttClient client;
 		MqttConnectOptions connOpt = new MqttConnectOptions();
@@ -88,14 +88,13 @@ public class JavaKafkaMQTTStreaming {
 		
 		// Add support for secured topics if user specified jaas file
 		if (args.length == 8) {
+			String kafkaAdminJaasFile = args[7];
 			System.setProperty("java.security.auth.login.config", kafkaAdminJaasFile);
 		}
 		
 		// Create context with a 2 seconds batch interval
-		SparkConf sparkConf = new SparkConf().setAppName("JavaKafkaMQTTStreaming-"+System.currentTimeMillis());
-		if (!sparkConf.contains("spark.master")) {
-			sparkConf.setMaster("local[4]");
-		}
+		SparkConf sparkConf = new SparkConf().setAppName("StreamlyKafkaMqtt");
+		
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 		
 		
