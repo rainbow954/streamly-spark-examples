@@ -1,4 +1,4 @@
-package com.wouri.streamly.spark.examples;
+package examples;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -24,14 +24,14 @@ import org.slf4j.LoggerFactory;
  * and persist them in a secured Elasticsearc Index.
  * 	
  **/
-public class JavaMQTTStreamSuite {
+public class StreamlyMqttElasticsearch {
 	
-	static Logger log = LoggerFactory.getLogger(JavaMQTTStreamSuite.class);
+	static Logger log = LoggerFactory.getLogger(StreamlyMqttElasticsearch.class);
 	
 	public static void main(String[] args) throws InterruptedException {
 		tieSystemOutAndErrToLog();
-		if (args.length < 7) {
-			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <esIndexName> <esIndexType>");
+		if (args.length != 7) {
+			System.err.println("Usage: StreamlyMqttElasticsearch <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <esIndexName> <esIndexType>");
 			System.exit(1);
 		}
 		
@@ -45,14 +45,8 @@ public class JavaMQTTStreamSuite {
 		
 		Duration batchInterval = new Duration(2000);
 
-		SparkConf sparkConf = new SparkConf().setAppName("JavaMQTTStreamSuite");
-		sparkConf.set("spark.driver.allowMultipleContexts", "true");
-		sparkConf.set("es.index.auto.create", "true");
+		SparkConf sparkConf = new SparkConf().setAppName("StreamlyMqttElasticsearch");
 		
-		if (!sparkConf.contains("spark.master")) {
-			sparkConf.setMaster("local[4]");
-		}
-
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, batchInterval);
 
 		JavaReceiverInputDStream<String> inputDStream = MQTTUtils.createStream(jssc, mqttBrokerUrl, mqttTopic, mqttClientID, mqttUsername,

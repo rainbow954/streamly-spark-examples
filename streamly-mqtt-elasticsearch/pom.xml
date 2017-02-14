@@ -1,10 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.wouri.streamly.spark.examples</groupId>
-  <artifactId>spark-streaming-mqtt-es</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>spark-streaming-mqtt-es</name>
-  <description>A simple project that illustrates streaming with MQTT and ES</description>
+  <groupId>examples</groupId>
+  <artifactId>streamly-mqtt-elasticsearch</artifactId>
+  <version>0.0.1</version>
+  <packaging>jar</packaging>
+  
+  <name>Streamly Mqtt ElasticSearch</name>
+  <description>Streamly Mqtt ElasticSearch</description>
   
   <dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.11 -->
