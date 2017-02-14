@@ -49,6 +49,10 @@ public class StreamlyKafkaCassandra {
 	
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
+		if (args.length != 4) {
+			System.err.println("Usage: StreamlyKafkaCassandra <brokerUrl> <topic> <keyspace> <table>");
+			System.exit(1);
+		}
 		String brokers = args[0];		
 		String topics =  args[1];
 		String keyspace =  args[2];

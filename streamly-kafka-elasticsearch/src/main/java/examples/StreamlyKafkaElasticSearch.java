@@ -44,6 +44,10 @@ public class StreamlyKafkaElasticSearch{
 
 	public static void main(String[] args) throws InterruptedException{
 		tieSystemOutAndErrToLog();
+		if (args.length != 3) {
+			System.err.println("Usage: StreamlyKafkaElasticSearch <brokerUrl> <topic> <resource>");
+			System.exit(1);
+		}
 		String brokers = args[0];		
 		String topics =  args[1];
 		String resource = args[2];
