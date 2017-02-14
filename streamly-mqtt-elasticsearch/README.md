@@ -23,14 +23,14 @@ Open `spark.properties` file and edit as appropriate.
 ### 3. Running the job on Streamly Dashboard
  - Log into [Streamly Dashboard] [streamly-dashboard]
  - Create an application in the Processing tab
- - Upload both `spark.properties` and the generated jar
+ - Upload both `spark.properties` and `streamly-mqtt-elasticsearch-0.0.1.jar`
  - Click on the start icon
 
 ### 4. Monitoring your application
 Wait until your application is running. Then click on Show UI icon. You should see something like this :
 ![spark ui image][spark-ui-image]
 
-You can see how our Spark Streaming job _processes_ the Kafka events stream.
+You can see how our Spark Streaming job _processes_ Mqtt events stream.
 
 [spark-ui-image]: https://github.com/streamlyio/streamly-spark-examples/raw/master/streamly-mqtt-elasticsearch/images/spark-ui-image.png
 [streamly-dashboard]: https://board.streamly.io:20080

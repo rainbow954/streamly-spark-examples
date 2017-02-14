@@ -24,7 +24,7 @@ Open `spark.properties` file and edit as appropriate.
 ### 3. Running the job on Streamly Dashboard
  - Log into [Streamly Dashboard] [streamly-dashboard]
  - Create an application in the Processing tab
- - Upload both `spark.properties` and the generated jar
+ - Upload both `spark.properties` and `streamly-mqtt-cassandra-0.0.1.jar`
  - Click on the start icon
 
 ### 4. Monitoring your application

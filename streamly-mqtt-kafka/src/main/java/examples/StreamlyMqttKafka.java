@@ -1,4 +1,4 @@
-package com.example;
+package examples;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -28,15 +28,11 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /** 
- * This is a streaming class that consumes data with mqtt and send those
- * data to an unsecure kafka topic. Each word from each line collected
- * by Mqtt is counted and the result is send to kafka.
- * 
- * 	
- * @author Pascal Fenkam
+ * This is a streaming class that consumes events from mqtt and send them
+ * to an unsecured kafka topic.
  **/
-public class MQTTUnsecurekafkaStreaming {
-	static Logger log = LoggerFactory.getLogger(MQTTUnsecurekafkaStreaming.class);
+public class StreamlyMqttKafka {
+	static Logger log = LoggerFactory.getLogger(StreamlyMqttKafka.class);
 
 	public static void sendToKafka(String brokersUrl,String word, Long count, String topic) {
 		log.debug("About to send data to kafka");
@@ -85,8 +81,8 @@ public class MQTTUnsecurekafkaStreaming {
 
 	public static void main(String[] args) {
 		tieSystemOutAndErrToLog();
-		if (args.length < 2) {
-			System.err.println("Usage: MQTTUnsecurekafkaStreaming <MQTTBrokerUrl> <topic> <clientId> <username> <password> <kafkaBrokersUrl> <kafkaTopic> <sparkJobName>");
+		if (args.length != 7) {
+			System.err.println("Usage: StreamlyMqttKafka <MQTTBrokerUrl> <topic> <clientId> <username> <password> <kafkaBrokersUrl> <kafkaTopic>");
 			System.exit(1);
 		}
 
@@ -97,18 +93,9 @@ public class MQTTUnsecurekafkaStreaming {
 		String password = args[4];
 		String kafkaBrokersUrl = args[5];
 		String kafkaTopic = args[6];
-		String sparkJobName = args[7];
-		log.debug("All needed data initialized");
 
-		SparkConf sparkConf = new SparkConf().setAppName(sparkJobName);
-		sparkConf.set("spark.driver.allowMultipleContexts", "true");
-
-		// check Spark configuration for master URL, set it to local if not
-		// configured
-		if (!sparkConf.contains("spark.master")) {
-			sparkConf.setMaster("local[4]");
-		}
-
+		SparkConf sparkConf = new SparkConf().setAppName("StreamlyMqttKafka");
+		
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(5));
 
 		JavaReceiverInputDStream<String> lines = MQTTUtils.createStream(jssc, brokerUrl, topic, clientID, username,
