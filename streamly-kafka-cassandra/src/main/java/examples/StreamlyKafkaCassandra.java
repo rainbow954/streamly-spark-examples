@@ -1,5 +1,6 @@
 package examples;
 import java.io.PrintStream;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class StreamlyKafkaCassandra {
 		
 		Map<String, Object> kafkaParams = new HashMap<>();
 		kafkaParams.put("bootstrap.servers", brokers);
-		kafkaParams.put("group.id", "kafka-cassandra-consumer");
+		kafkaParams.put("group.id", "kafka-cassandra"+ new SecureRandom().nextInt(100));
 		kafkaParams.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		kafkaParams.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		
@@ -110,7 +111,7 @@ public class StreamlyKafkaCassandra {
 				return Arrays.asList(SPACE.split(x)).iterator();
 			}
 		});
-
+		
 		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(
 				new PairFunction<String, String, Integer>() {
 					@Override
