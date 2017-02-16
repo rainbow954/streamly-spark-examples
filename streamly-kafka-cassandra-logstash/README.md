@@ -19,7 +19,7 @@ Assuming git, java and maven installed:
 
 ### 2. Update the configuration file
 Open `spark.properties` file and edit as appropriate.
-Open `logstash.conf` file and edit as appropriate. You can use any input and output plugin [logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
+Open `logstash.conf` file and edit as appropriate. You can use any input and output [Logstash Plugin] [logstash plugins]
 
 ### 3. Running the job on Streamly Dashboard
  - Log into [Streamly Dashboard] [streamly-dashboard]
@@ -39,3 +39,4 @@ You can see how our Spark Streaming job _processes_ the Kafka events stream.
 [cassandra]: http://cassandra.apache.org/
 [logstash]: https://www.elastic.co/guide/en/logstash/5.2/introduction.html/
 [blog-post]: http://streamly.io/streamly-new/blog.html
+[logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
