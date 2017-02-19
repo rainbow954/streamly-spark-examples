@@ -29,10 +29,7 @@ Open `spark.properties` file and edit as needed.
  - Click on the start icon
 
 ### 4. Monitoring your application
-Wait until your application is running. Then click on Show UI icon. You should see something like this :
-![spark-ui-image][spark-ui-image]
-
-You can see how your Spark Streaming application _processes_ the Kafka events stream.
+Wait until your application is running. Then click on Show UI icon in the processing tab. You should see your Spark Streaming application _processing_ Kafka events stream.
 
 [spark-ui-image]: https://github.com/streamlyio/streamly-spark-examples/raw/master/streamly-kafka-cassandra/images/spark-ui-image.png
 [streamly-dashboard]: https://board.streamly.io:20080
