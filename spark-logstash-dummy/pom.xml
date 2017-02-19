@@ -15,12 +15,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-            <groupId>org.jruby</groupId>
-            <artifactId>jruby-complete</artifactId>
-            <version>1.7.25</version>
-            <scope>compile</scope>
-        </dependency>
          <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 		    <groupId>org.slf4j</groupId>
