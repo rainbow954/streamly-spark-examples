@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.streamly</groupId>
-  <artifactId>streamly-kafka-cassandra-logstash</artifactId>
-  <version>0.0.1</version>
-  <packaging>jar</packaging>
+	<groupId>com.example</groupId>
+	<artifactId>streamly-kafka-cassandra-logstash</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
 
-  <name>Streamly Kafka Cassandra Logstash</name>
-  <description>Streamly Kafka to Cassandra and Logstash</description>
+	<name>Streamly Kafka Cassandra Logstash</name>
+	<description>Streamly Kafka to Cassandra and Logstash</description>
 
-  <properties>
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -22,23 +22,23 @@
 			<artifactId>spark-core_2.11</artifactId>
 			<version>2.0.0</version>
 			<exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-        <groupId>org.apache.spark</groupId>
-        <artifactId>spark-sql_2.10</artifactId>
-        <version>1.5.0</version>
-    </dependency>
-    <dependency>
-        	<groupId>io.streamly</groupId>
-  			<artifactId>spark-logstash-dummy</artifactId>
-  			<version>0.0.1-SNAPSHOT</version>
-  			<scope>provided</scope>
-        </dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-sql_2.10</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.streamly</groupId>
+			<artifactId>spark-logstash-mock</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-streaming_2.11</artifactId>
@@ -50,9 +50,9 @@
 			<version>2.0.0-M3</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.datastax.spark</groupId>
-		    <artifactId>spark-cassandra-connector_2.10</artifactId>
-		    <version>1.1.1</version>
+			<groupId>com.datastax.spark</groupId>
+			<artifactId>spark-cassandra-connector_2.10</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.datastax.spark</groupId>
@@ -70,12 +70,12 @@
 			<version>2.0.0</version>
 		</dependency>
 		<dependency>
-		  <groupId>org.elasticsearch</groupId>
-		  <artifactId>elasticsearch-hadoop</artifactId>
-		  <version>5.0.0</version>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch-hadoop</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 
-		
+
 	</dependencies>
 
 	<build>
