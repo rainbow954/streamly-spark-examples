@@ -89,7 +89,6 @@ Copyright © 2017 Streamly, Inc.
 [streamly]: https://board.streamly.io:20080
 [kafka]: https://kafka.apache.org/
 [mqtt]: http://mqtt.org/
-[blog-post]: http://streamly.io/streamly-new/blog.html
 [streamly-create-mqtt-topic]: https://cloud.githubusercontent.com/assets/25694018/23137087/52f97108-f7a0-11e6-8567-56c91625cbbe.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23129771/4375024a-f784-11e6-97ca-7d3b16b06929.png
 [open-streams]: http://streamly.io/streamly-new/streams.html
