@@ -1,4 +1,4 @@
-package examples;
+package io.streamly;
 
 import java.io.PrintStream;
 import java.security.SecureRandom;
@@ -37,7 +37,7 @@ import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 import com.wouri.streamly.spark.logstash.Logstash;
 
-import examples.domain.KafkaTopic;
+import io.streamly.domain.KafkaTopic;
 import scala.Tuple2;
 
 /**
