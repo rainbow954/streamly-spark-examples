@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -64,7 +65,11 @@ public class StreamlyKafkaCassandraLogstash {
 		String parameter = args[4];
 		String file = args[5];
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyKafkaCassandraLogstash");
-
+		String[] argumentFile = { parameter, file };
+		log.info("About to start logstash");
+		logstash = Logstash.start(argumentFile);
+		TimeUnit.SECONDS.sleep(10);
+		log.info("logstash started successfully");
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 
 		Set<String> topicsSet = new HashSet<>(Arrays.asList(topics.split(",")));
@@ -112,9 +117,6 @@ public class StreamlyKafkaCassandraLogstash {
 				return Arrays.asList(SPACE.split(x)).iterator();
 			}
 		});
-
-		String[] argumentFile = { parameter, file };
-		logstash = Logstash.start(argumentFile);
 
 		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(new PairFunction<String, String, Integer>() {
 			@Override
