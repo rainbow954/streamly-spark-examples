@@ -1,4 +1,4 @@
-package examples;
+package io.streamly;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -36,8 +36,6 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wouri.streamly.spark.logstash.SparkLogstash;
-
 import scala.Tuple2;
 
 
@@ -58,10 +56,10 @@ public class StreamlyKafkaMqtt {
 			System.exit(1);
 		}
 		
-//		if (args.length > 8) {
-//			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
-//			System.exit(1);
-//		}
+		if (args.length > 8) {
+			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
+			System.exit(1);
+		}
 		
 		// Get the arguments provided in the spark.properties file
 		String mqttBrokerUrl = args[0];
@@ -88,29 +86,20 @@ public class StreamlyKafkaMqtt {
 		// Setup the mqtt topic
 		final MqttTopic topic = client.getTopic(mqttTopic);
 		
-		// Add support for secured topics if user specified jaas file
-		if (args.length == 8) {
-			String kafkaAdminJaasFile = args[7];
-			System.setProperty("java.security.auth.login.config", kafkaAdminJaasFile);
-		}
 		
 		// Create context with a 2 seconds batch interval
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyKafkaMqtt");
 		
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 		
-		String[] fileLogstash = new String[100];
-		fileLogstash[0] = args[8];
-		fileLogstash[1] = args[9];
-		log.info("About to start logstash");
-		SparkLogstash.startLogstash(fileLogstash);
-		log.info("Logstash started successfully");
 		Set<String> topicsSet = new HashSet<>(Arrays.asList(kafkaTopics.split(",")));
 		Map<String, Object> kafkaParams = new HashMap<>();
 		kafkaParams.put("bootstrap.servers", kafkaBrokers);
 		kafkaParams.put("group.id", "spark-consumer");
 		
 		if (args.length == 8) {
+			String kafkaAdminJaasFile = args[7];
+			System.setProperty("java.security.auth.login.config", kafkaAdminJaasFile);
 			kafkaParams.put("security.protocol", "SASL_PLAINTEXT");
 			kafkaParams.put("sasl.mechanism", "PLAIN");
 		}
