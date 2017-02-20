@@ -2,7 +2,7 @@ package io.streamly.domain;
 
 import java.io.Serializable;
 
-public class KafkaTopic implements Serializable  {
+public class WordOccurence implements Serializable  {
 
 	private String word;
 	private int count;
@@ -21,18 +21,13 @@ public class KafkaTopic implements Serializable  {
 	}
 	@Override
 	public String toString() {
-		return "KafkaTopic [word=" + word + ", count=" + count + "]";
+		return "WordOccurence [word=" + word + ", count=" + count + "]";
 	}
-	public KafkaTopic(String word, int count) {
+	public WordOccurence(String word, int count) {
 		this.word = word;
 		this.count = count;
 	}
-	public KafkaTopic() {
+	public WordOccurence() {
 	}
-	
-	
-	
-	
-	
 	
 }
