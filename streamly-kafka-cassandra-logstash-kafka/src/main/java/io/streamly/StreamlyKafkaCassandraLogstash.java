@@ -147,7 +147,7 @@ public class StreamlyKafkaCassandraLogstash {
 					WordOccurence wordOccurence = new WordOccurence();
 					wordOccurence.setWord(key);
 					wordOccurence.setCount(wordCountMap.get(key));
-					log.info("New topic = {}", wordOccurence);
+					log.info("New wordOccurence = {}", wordOccurence);
 					logstash.addToQueue(key +" : "+wordCountMap.get(key));
 					if (!wordOccurence.getWord().isEmpty())
 						topicList.add(wordOccurence);
