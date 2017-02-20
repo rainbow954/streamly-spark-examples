@@ -18,13 +18,46 @@ Assuming git, java and maven installed. In your local terminal :
  host$ mvn clean install
 ```
 ### 2. Create your topic
-You can create a kafka topic on [Streamly Dashboard] [streamly-dashboard] or use an existing one. There are [Open Streams][open-streams] topics available to all registered users. 
+ - Log into [Streamly Dashboard] [streamly-dashboard]
+ - Open Messaging tab
+ - In the Topic Name box, enter the topic name. This example assumes that the name is `streamly-kafka-topic`.
+ - Set values of other fields (partitions, max messages, replication, retention and authorized hosts)
+ - Enable unsecure read
+ - Click on Add New Topic
+
+![streamly-create-topic][streamly-create-topic]
+
+There are [Open Streams][open-streams] topics available to all registered users :
+
+| Name                         | Description                                                 			  						 |
+|------------------------------|-------------------------------------------------------------------------------------------------|
+| system-bitcoin-transactions  | It contains transaction events produced by a bitcoin network                                    |
+| system-bitcoin-peers         | It contains peer-to-peer communication events of a bitcoin network                              |
+| system-ethereum-transactions | It contains transaction events produced by an ethereum network                                  |
+| system-ethereum-blocks       | It contains events related to blocks(blockchain miners, block number ,..) of an ethereum network|
+| system-ethereum-peers        | It contains peer-to-peer communication events of an ethereum network                            |
 
 ### 3. Create your keyspace
-When you register on [Streamly Dashboard] [streamly-dashboard], you have a default keyspace. You can either use it or create a new keyspace. 
+When you register on [Streamly Dashboard] [streamly-dashboard], you have a default keyspace. You can either use it or create a new one.
+To create a new keyspace :
+
+  - Go to Cassandra tab
+  - Provide the name of the keyspace, in the Keyspace Name box
+  - Choose your strategy and define replication factor value according to that
+  - Click on Create Keyspace button
+
+![streamly-create-keyspace][streamly-create-keyspace]
 
 ### 4. Create your index
-When you register on [Streamly Dashboard] [streamly-dashboard], you have a default index. You can either use it or create a new index. 
+When you register on [Streamly Dashboard] [streamly-dashboard], you have a default index. You can either use it or create a new one. 
+To create a new index :
+  
+  - Go to Elasticsearch tab
+  - Write the name of the index in the mapping box
+  - Define the number of replicas
+  - Click on Add New Index button
+
+![streamly-create-index][streamly-create-index]
 
 ### 5. Update configuration files
 Open `spark.properties` file and edit as appropriate.
@@ -68,6 +101,7 @@ output {
  - Provide a valid name for your application
  - Upload  `logstash.conf`,`spark.properties` and `streamly-kafka-cassandra-logstash-0.0.1.jar` files
  - Click on the start icon
+
 ![streamly-kafka-cassanda-logstash][streamly-kafka-cassanda-logstash]
 
 ### 7. Monitor your application
@@ -84,13 +118,17 @@ You may have some errors and can't find why this happening. Application logs are
   - Go to Notebook tab
   - Create a new note
   - Query your table and see the result
+
 ![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
 
 #### b. Query Elasticsearch
   - Go to Kibana tab
   - Create a new index pattern with your index name and @timestamp as time-field name
+
 ![streamly-kafka-cassandra-logstash-kibana-index-pattern][streamly-kafka-cassandra-logstash-kibana-index-pattern]
+
   - Go to discover
+
 ![streamly-kafka-cassandra-logstash-kibana-discover][streamly-kafka-cassandra-logstash-kibana-discover]
 
 ## Copyright
@@ -109,3 +147,6 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23123951/d71c47de-f76a-11e6-89be-d791d66bd9b4.png
 [streamly-kafka-cassandra-logstash-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23125897/5cd45b1a-f774-11e6-9f75-016f7377c339.png
 [streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23125896/5cd41e8e-f774-11e6-9b86-65cbb2c3779d.png
+[streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23129771/4375024a-f784-11e6-97ca-7d3b16b06929.png
+[streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23129770/43736cfa-f784-11e6-99d8-68920335c410.png
+[streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23131876/fcfc79ee-f78b-11e6-8c6a-762fa35b5606.png
