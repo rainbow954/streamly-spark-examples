@@ -1,4 +1,4 @@
-package examples;
+package io.streamly;
 
 import java.io.PrintStream;
 import java.util.Arrays;
