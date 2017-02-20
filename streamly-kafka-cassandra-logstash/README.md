@@ -1,9 +1,9 @@
 # Streamly Kafka Cassandra with Logstash Example Project
 
 ## Introduction
-This is a simple stream processing job written in Java for the [Streamly Dashboard] [streamly-dashboard] cluster computing platform, consuming events from [Apache Kafka] [kafka] and writing aggregates to [Apache Cassandra] [cassandra]. It also populates events to [Elasticsearch][elasticsearch] using [Logstash] [logstash] plugins.
-
-**Running this requires an account on Streamly Dashboard.**
+This is a simple stream processing application that you can deploy on [Streamly].
+It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
+It also populates events to [Elasticsearch] using [Logstash].
 
 ## Quickstart
 
@@ -18,7 +18,7 @@ Assuming git, java and maven installed. In your local terminal :
  host$ mvn clean install
 ```
 ### 2. Create your topic
- - Log into [Streamly Dashboard] [streamly-dashboard]
+ - Log into [Streamly]
  - Open Messaging tab
  - In the Topic Name box, enter the topic name. This example assumes that the name is `streamly-kafka-topic`.
  - Set values of other fields (partitions, max messages, replication, retention and authorized hosts)
@@ -38,7 +38,7 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-peers        | It contains peer-to-peer communication events of an ethereum network                            |
 
 ### 3. Create your keyspace
-When you register on [Streamly Dashboard] [streamly-dashboard], you have a default keyspace. You can either use it or create a new one.
+When you register on [Streamly] , you have a default keyspace. You can either use it or create a new one.
 To create a new keyspace :
 
   - Go to Cassandra tab
@@ -49,17 +49,17 @@ To create a new keyspace :
 ![streamly-create-keyspace][streamly-create-keyspace]
 
 ### 4. Create your index
-When you register on [Streamly Dashboard] [streamly-dashboard], you have a default index. You can either use it or create a new one. 
+When you register on [Streamly], you have a default index. You can either use it or create a new one. 
 To create a new index :
   
   - Go to Elasticsearch tab
-  - Write the name of the index in the mapping box
+  - Write the name of the index in Index name box. We assume that the name is `streamly-index`.
   - Define the number of replicas
   - Click on Add New Index button
 
 ![streamly-create-index][streamly-create-index]
 
-### 5. Update configuration files
+### 5. Update your configuration files
 Open `spark.properties` file and edit as appropriate.
 
 | Name                                  | Description                															 |
@@ -95,12 +95,12 @@ output {
 }
 ```
 
-### 6. Submit your application on Streamly Dashboard
- - Log into [Streamly Dashboard] [streamly-dashboard]
- - Create an application in the Processing tab
- - Provide a valid name for your application
+### 6. Submit your application 
+ - Go to Processing tab
+ - Click on Add Application
+ - Provide a valid name for your application and save it. In this example the name is `streamly-kafka-cassandra-logstash`.
  - Upload  `logstash.conf`,`spark.properties` and `streamly-kafka-cassandra-logstash-0.0.1.jar` files
- - Click on the start icon
+ - Click on the Start icon
 
 ![streamly-kafka-cassanda-logstash][streamly-kafka-cassanda-logstash]
 
@@ -109,7 +109,7 @@ Wait until your application is running. Then click on Show UI icon. You should s
 ![streamly-kafka-cassandra-logstash-spark-ui][streamly-kafka-cassandra-logstash-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
-### 8. Check application logs
+### 8. Check your application logs
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
@@ -134,11 +134,10 @@ You may have some errors and can't find why this happening. Application logs are
 ## Copyright
 Copyright © 2017 Streamly, Inc.
 
-[streamly-dashboard]: https://board.streamly.io:20080
+[streamly]: https://board.streamly.io:20080
 [kafka]: https://kafka.apache.org/
 [cassandra]: http://cassandra.apache.org/
 [logstash]: https://www.elastic.co/guide/en/logstash/5.2/introduction.html/
-[logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
 [open-streams]: http://streamly.io/streamly-new/streams.html
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
 [streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
