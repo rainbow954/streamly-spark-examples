@@ -14,7 +14,7 @@ Assuming git, java and maven installed. In your local terminal :
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
  host$ cd streamly-spark-examples/spark-logstash-dummy
  host$ mvn clean install
- host$ cd ../streamly-kafka-cassandra-logstash
+ host$ cd ../streamly-kafka-cassandra-logstash-kafka
  host$ mvn clean install
 ```
 ### 2. Create your topic
