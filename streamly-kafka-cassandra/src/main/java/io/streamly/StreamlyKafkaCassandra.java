@@ -36,7 +36,7 @@ import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 import com.datastax.spark.connector.japi.CassandraStreamingJavaUtil;
 
-import io.streamly.domain.KafkaTopic;
+import io.streamly.domain.WordOccurence;
 import scala.Tuple2;
 
 /** 
@@ -138,17 +138,17 @@ public class StreamlyKafkaCassandra {
 			@Override
 			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
 				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				List<KafkaTopic> topicList  = new ArrayList<>();
+				List<WordOccurence> topicList  = new ArrayList<>();
 				for(String key : wordCountMap.keySet()){
-					KafkaTopic t = new KafkaTopic();
+					WordOccurence t = new WordOccurence();
 					t.setWord(key);
 					t.setCount(wordCountMap.get(key));
-					log.info("New topic = {}", t);
+					log.info("New WordOccurence = {}", t);
 					if(!t.getWord().isEmpty())
 						topicList.add(t);
 				}
-				JavaRDD<KafkaTopic> kafkaTopicRDD = jssc.sparkContext().parallelize(topicList);
-				CassandraJavaUtil.javaFunctions(kafkaTopicRDD).writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(KafkaTopic.class)).saveToCassandra();
+				JavaRDD<WordOccurence> WordOccurenceRDD = jssc.sparkContext().parallelize(topicList);
+				CassandraJavaUtil.javaFunctions(WordOccurenceRDD).writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(WordOccurence.class)).saveToCassandra();
 				log.info("Words successfully added : {}, keyspace {}, table {}", words,keyspace,table);
 			}
 		});
