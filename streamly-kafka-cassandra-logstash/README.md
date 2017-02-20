@@ -1,6 +1,7 @@
 # Streamly Kafka Cassandra with Logstash Example Project
 
 ## Introduction
+
 This is a simple stream processing application that you can deploy on [Streamly].
 It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
 It also populates events to [Elasticsearch] using [Logstash].

@@ -1,6 +1,7 @@
 # Streamly Kafka Cassandra Example Project
 
 ## Introduction
+
 This is a simple stream processing application that you can deploy in [Streamly].
 It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
 
