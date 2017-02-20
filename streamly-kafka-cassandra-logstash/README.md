@@ -28,13 +28,14 @@ When you register on [Streamly Dashboard] [streamly-dashboard], you have a defau
 
 ### 5. Update configuration files
 Open `spark.properties` file and edit as appropriate.
+
 | Name                                  | Description                															 |
 |---------------------------------------|----------------------------------------------------------------------------------------|
-| main.class                            | The entry point for your application (e.g. io.streamly.StreamlyKafkaCassandraLogstash) |
-| app.args                              | Comma separated list of arguments passed to the main method of your main class (e.g 192.168.0.206:9093,system-bitcoin-transactions,streamly_keyspace,streamly_table,-f,file://logstash.conf)                                |
-| app.resource                          | Name of the bundled jar including your application (e.g file://streamly-kafka-cassandra-logstash-0.0.1.jar)                                 					|
-| spark.cassandra.connection.port       | Cassandra native connection port  (e.g 9042)                                                   |
-| spark.cassandra.connection.host       | Comma separated Cassandra hosts (e.g 192.168.0.201,192.168.0.205,192.168.0.208)        |
+| main.class                            | The entry point for your application                                                   |
+| app.args                              | Arguments passed to the main method                                                    |
+| app.resource                          | Name of the bundled jar including your application                                     |
+| spark.cassandra.connection.port       | Cassandra native connection port                                                       |
+| spark.cassandra.connection.host       | Comma separated Cassandra hosts                                                        |
 | spark.cassandra.auth.username         | Your access key available in the Profile section  of your Streamly account             |
 | spark.cassandra.auth.password         | Your secret key available in the Profile section  of your Streamly account             |
 
