@@ -134,7 +134,6 @@ public class StreamlyKafkaCassandraLogstash {
 
 		log.info("words retrieved {}" + words);
 
-//		wordCounts.print();
 
 		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String, Integer>>() {
 

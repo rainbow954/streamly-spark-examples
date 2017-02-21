@@ -1,10 +1,12 @@
-package io.streamly;
-
+package io.streamly.examples;
 import java.io.PrintStream;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -26,50 +28,66 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.ConsumerStrategies;
 import org.apache.spark.streaming.kafka010.KafkaUtils;
 import org.apache.spark.streaming.kafka010.LocationStrategies;
-import org.elasticsearch.spark.rdd.api.java.JavaEsSpark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.ImmutableList;
+
+import com.datastax.driver.core.Session;
+import com.datastax.spark.connector.cql.CassandraConnector;
+import com.datastax.spark.connector.japi.CassandraJavaUtil;
+import com.datastax.spark.connector.japi.CassandraStreamingJavaUtil;
+
+import io.streamly.examples.domain.WordOccurence;
 import scala.Tuple2;
 
 /** 
- * This is a spark streaming application that consumes event from kafka topic 
- * and saves the result into an elasticsearch index.	
+ * This is a spark streaming application that consumes event from a kafka topic
+ * and saves the result into a cassandra table.	
  **/
-public class StreamlyKafkaElasticSearch{
 
+public class StreamlyKafkaCassandra {
+	static Logger log = LoggerFactory.getLogger(StreamlyKafkaCassandra.class);
 	private static final Pattern SPACE = Pattern.compile(" ");
-	static Logger log = LoggerFactory.getLogger(StreamlyKafkaElasticSearch.class);
-	static Set<String> globalLine = new HashSet<>();
-
-	public static void main(String[] args) throws InterruptedException{
+	
+	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
-		if (args.length != 3) {
-			System.err.println("Usage: StreamlyKafkaElasticSearch <brokerUrl> <topic> <resource>");
+		if (args.length != 4) {
+			System.err.println("Usage: StreamlyKafkaCassandra <brokerUrl> <topic> <keyspace> <table>");
 			System.exit(1);
 		}
 		String brokers = args[0];		
 		String topics =  args[1];
-		String resource = args[2];
-		
+		String keyspace =  args[2];
+		String table = args[3];
 		SparkConf sparkConf = new SparkConf()
-				.setAppName("StreamlyKafkaElasticSearch");
+				.setAppName("StreamlyKafkaCassandra");
+		
 		
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 
 		Set<String> topicsSet = new HashSet<>(Arrays.asList(topics.split(",")));
-		Map<String, Object> kafkaParams = new HashMap<>();
-		kafkaParams.put("bootstrap.servers", brokers);
-		kafkaParams.put("group.id", "kafka-elasticsearch-consumer");
-		kafkaParams.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-		kafkaParams.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
 		
+		Map<String, Object> kafkaParams = new HashMap<>();
+		kafkaParams.put("bootstrap.servers", brokers);
+		kafkaParams.put("group.id", "kafka-cassandra"+ new SecureRandom().nextInt(100));
+		kafkaParams.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		kafkaParams.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		
+		// Prepare the schema
+		log.info("Create and populate table");
+		CassandraConnector connector = CassandraConnector.apply(jssc.sparkContext().getConf());
+		try (Session session = connector.openSession()) {
+			session.execute("CREATE TABLE IF NOT EXISTS " +keyspace+"."+table+ " (word TEXT PRIMARY KEY, count int)");
+		}
+
+		log.info("Table : {} created successfully", table);
+		
+
 		final JavaInputDStream<ConsumerRecord<String, String>> messages = KafkaUtils.createDirectStream(jssc,
 				LocationStrategies.PreferConsistent(),
 				ConsumerStrategies.<String, String>Subscribe(topicsSet, kafkaParams));
 		
-		log.info("Consumed messages : {}", messages);
+		log.info("messages :{} " ,messages);
 		JavaPairDStream<String, String> results = messages
 				.mapToPair(new PairFunction<ConsumerRecord<String, String>, String, String>() {
 					@Override
@@ -93,7 +111,7 @@ public class StreamlyKafkaElasticSearch{
 				return Arrays.asList(SPACE.split(x)).iterator();
 			}
 		});
-
+		
 		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(
 				new PairFunction<String, String, Integer>() {
 					@Override
@@ -120,9 +138,18 @@ public class StreamlyKafkaElasticSearch{
 			@Override
 			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
 				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				JavaRDD<Map<String, ?>> javaRDD = jssc.sparkContext().parallelize(ImmutableList.of(wordCountMap));
-				JavaEsSpark.saveToEs(javaRDD, resource);
-				log.info("Words successfully added : {} into {}", wordCountMap, resource);
+				List<WordOccurence> topicList  = new ArrayList<>();
+				for(String key : wordCountMap.keySet()){
+					WordOccurence t = new WordOccurence();
+					t.setWord(key);
+					t.setCount(wordCountMap.get(key));
+					log.info("New WordOccurence = {}", t);
+					if(!t.getWord().isEmpty())
+						topicList.add(t);
+				}
+				JavaRDD<WordOccurence> WordOccurenceRDD = jssc.sparkContext().parallelize(topicList);
+				CassandraJavaUtil.javaFunctions(WordOccurenceRDD).writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(WordOccurence.class)).saveToCassandra();
+				log.info("Words successfully added : {}, keyspace {}, table {}", words,keyspace,table);
 			}
 		});
 		
@@ -130,7 +157,7 @@ public class StreamlyKafkaElasticSearch{
 		jssc.start();
 		jssc.awaitTermination();
 	}
-	
+
 	public static void tieSystemOutAndErrToLog() {
         System.setOut(createLoggingProxy(System.out));
         System.setErr(createLoggingProxy(System.err));
@@ -146,6 +173,4 @@ public class StreamlyKafkaElasticSearch{
             }
         };
     }
-	
-
 }

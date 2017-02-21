@@ -1,4 +1,4 @@
-package examples;
+package io.streamly.examples;
 
 /** Java Bean class to be used with the example JavaSqlNetworkWordCount. */
 public class JavaRecord implements java.io.Serializable {
