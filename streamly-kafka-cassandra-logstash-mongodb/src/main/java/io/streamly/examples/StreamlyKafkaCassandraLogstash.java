@@ -53,23 +53,23 @@ public class StreamlyKafkaCassandraLogstash {
 
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
-		if (args.length != 6) {
+		if (args.length != 5) {
 			System.err
-					.println("Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <parameter> <file>");
+					.println("Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <file>");
 			System.exit(1);
 		}
 		String brokers = args[0];
 		String topics = args[1];
 		String keyspace = args[2];
 		String table = args[3];
-		String parameter = args[4];
-		String file = args[5];
+		String parameter = "-f";
+		String file = args[4];
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyKafkaCassandraLogstash");
 		String[] argumentFile = { parameter, file };
 		log.info("About to start logstash");
 		logstash = Logstash.start(argumentFile);
 		//Wait while logstash starts properly
-		TimeUnit.SECONDS.sleep(10);
+		TimeUnit.SECONDS.sleep(15);
 		log.info("logstash started successfully");
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 

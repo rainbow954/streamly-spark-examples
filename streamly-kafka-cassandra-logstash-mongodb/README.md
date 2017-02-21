@@ -98,6 +98,7 @@ You may have some errors and can't find why this happening. Application logs are
  host$ use mydb
  host$ db.wordcount.find()
 ```
+![streamly-kafka-cassandra-logstash-mongodb-ui][streamly-kafka-cassandra-logstash-mongodb-ui]
 
 ## Copyright
 Copyright © 2017 Streamly, Inc.
@@ -107,7 +108,7 @@ Copyright © 2017 Streamly, Inc.
 [cassandra]: http://cassandra.apache.org/
 [aws]: https://console.aws.amazon.com/s3/buckets/?region=us-east-1
 [logstash]: https://www.elastic.co/guide/en/logstash/5.2/introduction.html/
-[install_mongobd]: https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-14-04
+[install_mongobd]: https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-16-04
 [logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
 [open-streams]: http://streamly.io/streamly-new/streams.html
 [mongodb]: https://www.mongodb.com/
@@ -118,3 +119,4 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23123951/d71c47de-f76a-11e6-89be-d791d66bd9b4.png
 [streamly-kafka-cassandra-logstash-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23125897/5cd45b1a-f774-11e6-9f75-016f7377c339.png
 [streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23125896/5cd41e8e-f774-11e6-9b86-65cbb2c3779d.png
+[streamly-kafka-cassandra-logstash-mongodb-ui]: https://cloud.githubusercontent.com/assets/25694018/23185315/594ffab6-f883-11e6-95c0-049847ca5825.png
