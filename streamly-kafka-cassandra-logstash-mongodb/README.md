@@ -41,7 +41,7 @@ Open `spark.properties` file and edit as appropriate.
 ```bash
  host$ cd installMongoBDDirectory
  host$ bin/mongo
- host$ use mydb
+ host$ use test
  host$ db.createCollection("wordcount", { capped : true, size : 5242880, max : 5000 } )
 ```
 
@@ -60,7 +60,7 @@ input {
 output {
   mongodb {
     collection => "wordcount"
-    database => "mydb"
+    database => "test"
     uri => "mongodb://mymongobdip:port" # Ip address of install mongobd
   }
 }
@@ -95,7 +95,7 @@ You may have some errors and can't find why this happening. Application logs are
 ```bash
  host$ cd installMongoBDDirectory
  host$ bin/mongo
- host$ use mydb
+ host$ use test
  host$ db.wordcount.find()
 ```
 ![streamly-kafka-cassandra-logstash-mongodb-ui][streamly-kafka-cassandra-logstash-mongodb-ui]
