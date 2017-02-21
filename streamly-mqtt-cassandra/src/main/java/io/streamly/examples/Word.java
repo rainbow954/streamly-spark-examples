@@ -1,4 +1,4 @@
-package examples;
+package io.streamly.examples;
 
 import java.io.Serializable;
 import java.text.MessageFormat;

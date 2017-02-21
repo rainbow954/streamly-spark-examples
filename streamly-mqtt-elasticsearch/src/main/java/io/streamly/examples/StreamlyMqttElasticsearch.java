@@ -1,4 +1,4 @@
-package examples;
+package io.streamly.examples;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;

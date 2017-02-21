@@ -1,4 +1,4 @@
-package io.streamly;
+package io.streamly.examples;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -164,15 +164,12 @@ public class StreamlyKafkaMqtt {
 			    	// Publish the message
 			    	log.info("Publishing to topic \"{}\" qos {}", topic, pubQoS);
 			    	MqttDeliveryToken token = null;
-			    	try {
-			    		// publish message to broker
-						token = topic.publish(message);
-				    	// Wait until the message has been delivered to the broker
-						token.waitForCompletion();
-						Thread.sleep(100);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+
+		    		// publish message to broker
+					token = topic.publish(message);
+			    	// Wait until the message has been delivered to the broker
+					token.waitForCompletion();
+					
 				} 
 								
 			}

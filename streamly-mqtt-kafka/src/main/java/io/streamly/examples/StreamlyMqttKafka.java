@@ -1,4 +1,4 @@
-package examples;
+package io.streamly.examples;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -79,7 +79,7 @@ public class StreamlyMqttKafka {
 		};
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		tieSystemOutAndErrToLog();
 		if (args.length != 7) {
 			System.err.println("Usage: StreamlyMqttKafka <MQTTBrokerUrl> <topic> <clientId> <username> <password> <kafkaBrokersUrl> <kafkaTopic>");
@@ -137,12 +137,8 @@ public class StreamlyMqttKafka {
 		});
 
 		jssc.start();
-		try {
-			jssc.awaitTermination();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		jssc.awaitTermination();
+		
 	}
 
 }
