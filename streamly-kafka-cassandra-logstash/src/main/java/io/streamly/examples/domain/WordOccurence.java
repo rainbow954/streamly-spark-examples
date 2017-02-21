@@ -1,4 +1,4 @@
-package io.streamly.domain;
+package io.streamly.examples.domain;
 
 import java.io.Serializable;
 
@@ -21,7 +21,7 @@ public class WordOccurence implements Serializable  {
 	}
 	@Override
 	public String toString() {
-		return "wordOccurence [word=" + word + ", count=" + count + "]";
+		return "WordOccurence [word=" + word + ", count=" + count + "]";
 	}
 	public WordOccurence(String word, int count) {
 		this.word = word;

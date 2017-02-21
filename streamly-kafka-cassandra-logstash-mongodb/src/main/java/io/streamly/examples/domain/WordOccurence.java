@@ -1,4 +1,4 @@
-package io.streamly.domain;
+package io.streamly.examples.domain;
 
 import java.io.Serializable;
 

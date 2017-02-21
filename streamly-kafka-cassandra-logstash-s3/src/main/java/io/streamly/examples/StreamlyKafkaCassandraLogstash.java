@@ -1,4 +1,4 @@
-package io.streamly;
+package io.streamly.examples;
 
 import java.io.PrintStream;
 import java.security.SecureRandom;
@@ -38,7 +38,7 @@ import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 import com.wouri.streamly.spark.logstash.Logstash;
 
-import io.streamly.domain.WordOccurence;
+import io.streamly.examples.domain.WordOccurence;
 import scala.Tuple2;
 
 /**
@@ -68,6 +68,7 @@ public class StreamlyKafkaCassandraLogstash {
 		String[] argumentFile = { parameter, file };
 		log.info("About to start logstash");
 		logstash = Logstash.start(argumentFile);
+		//Wait while logstash starts properly
 		TimeUnit.SECONDS.sleep(10);
 		log.info("logstash started successfully");
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
