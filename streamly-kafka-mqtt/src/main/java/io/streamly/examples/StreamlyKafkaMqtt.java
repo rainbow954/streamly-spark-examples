@@ -6,17 +6,15 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
@@ -52,12 +50,12 @@ public class StreamlyKafkaMqtt {
 	public static void main(String[] args) throws InterruptedException, MqttException {
 		tieSystemOutAndErrToLog();
 		if (args.length < 7) {
-			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics>");
+			System.err.println("Usage: StreamlyKafkaMqtt <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics>");
 			System.exit(1);
 		}
 		
 		if (args.length > 8) {
-			System.err.println("Usage: JavaKafkaMQTTStreaming <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
+			System.err.println("Usage: StreamlyKafkaMqtt <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <kafkaBrokers> <kafkaTopics> <kafkaJaasPath>");
 			System.exit(1);
 		}
 		
@@ -129,50 +127,30 @@ public class StreamlyKafkaMqtt {
 		      }
 		});
 		
-		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-			@Override
-			public Iterator<String> call(String x) {
-				return Arrays.asList(SPACE.split(x)).iterator();
-			}
-		});
-		
-		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(
-				new PairFunction<String, String, Integer>() {
-					@Override
-					public Tuple2<String, Integer> call(String s) {
-						return new Tuple2<>(s, 1);
-					}
-				}).reduceByKey(
-						new Function2<Integer, Integer, Integer>() {
-							@Override
-							public Integer call(Integer i1, Integer i2) {
-								return i1 + i2;
-							}
-						});
+		lines.foreachRDD(new VoidFunction<JavaRDD<String>>() {
+	        @Override
+			public void call(JavaRDD<String> rdd) throws Exception {
+	            if(rdd!=null)
+	            {
+	                List<String> messages = rdd.collect();
 
-		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String,Integer>>() {
-			@Override
-			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
-				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				for(String key : wordCountMap.keySet()){					
-			   		String pubMsg = "(" + key + ", " + wordCountMap.get(key) + ")";
-			   		int pubQoS = 0;
-					MqttMessage message = new MqttMessage(pubMsg.getBytes());
-			    	message.setQos(pubQoS);
-			    	message.setRetained(false);
+	                for (String pubMsg : messages) {
+				   		int pubQoS = 0;
+						MqttMessage message = new MqttMessage(pubMsg.getBytes());
+				    	message.setQos(pubQoS);
+				    	message.setRetained(false);
 
-			    	// Publish the message
-			    	log.info("Publishing to topic \"{}\" qos {}", topic, pubQoS);
-			    	MqttDeliveryToken token = null;
+				    	// Publish the message
+				    	log.info("Publishing to topic \"{}\" qos {}", topic, pubQoS);
+				    	MqttDeliveryToken token = null;
 
-		    		// publish message to broker
-					token = topic.publish(message);
-			    	// Wait until the message has been delivered to the broker
-					token.waitForCompletion();
-					
-				} 
-								
-			}
+			    		// publish message to broker
+						token = topic.publish(message);
+				    	// Wait until the message has been delivered to the broker
+						token.waitForCompletion();
+	                }
+	            }
+	        }
 		});
 
 		jssc.start();
