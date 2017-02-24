@@ -15,7 +15,7 @@ Assuming git, java and maven installed. In your local terminal :
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
  host$ cd streamly-spark-examples/spark-logstash-dummy
  host$ mvn clean install
- host$ cd ../streamly-kafka-cassandra-logstash
+ host$ cd ../streamly-kafka-cassandra-logstash-es
  host$ mvn clean install
 ```
 ### 2. Create your topic
@@ -99,8 +99,8 @@ output {
 ### 6. Submit your application 
  - Go to Processing tab
  - Click on Add Application
- - Provide a valid name for your application and save it. In this example the name is `streamly-kafka-cassandra-logstash`.
- - Upload  `logstash.conf`,`spark.properties` and `streamly-kafka-cassandra-logstash-0.0.1.jar` files
+ - Provide a valid name for your application and save it. In this example the name is `streamly-kafka-cassandra-logstash-es`.
+ - Upload  `logstash.conf`,`spark.properties` and `streamly-kafka-cassandra-logstash-es-0.0.1.jar` files
  - Click on the Start icon
 
 ![streamly-kafka-cassanda-logstash][streamly-kafka-cassanda-logstash]

@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.streamly</groupId>
-	<artifactId>streamly-kafka-cassandra-logstash-file</artifactId>
+	<artifactId>streamly-kafka-cassandra-logstash-es</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>Streamly Kafka Cassandra Logstash File</name>
-	<description>Streamly Kafka to Cassandra with Logstash sending events into a file</description>
+	<name>Streamly Kafka Cassandra Logstash</name>
+	<description>Streamly Kafka to Cassandra with Logstash</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
