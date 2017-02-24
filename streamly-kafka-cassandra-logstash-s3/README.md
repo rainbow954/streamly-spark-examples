@@ -36,29 +36,27 @@ Open `spark.properties` file and edit as appropriate.
 | spark.cassandra.auth.username         | Your access key available in the Profile section  of your Streamly account             |
 | spark.cassandra.auth.password         | Your secret key available in the Profile section  of your Streamly account             |
 
-Open `logstash.conf` file and replace empty settings with correct values.
-Go to your [AWS Console] [aws] and create a bucket my_bucket.
+Go to your [AWS Console] [aws] and create a bucket.
+Open `logstash.conf` file and replace empty settings with correct values. 
+We provide you with some dummy input configuration because the 
+input plugin is mandatory for logstash to start properly.
+Hence, the data populated into s3 come from the spark RDD.
 
 ```conf
 input {
-  kafka { 
-  bootstrap_servers => ["192.168.0.206:9093"] # list of kafka nodes
-  topics => ["system-bitcoin-transactions"] # list of kafka topics with unsecured read
-        codec => "json"
-        session_timeout_ms => "30000"
-        group_id => "streamly-kafka-logstash-elasticsearch-group" 
+  file {
+  	path => "/tmp/dummyfile" # Dummy logstash input file
   }
 }
 output {
   s3{
-     # Make sure your aws key have the privileges to write on the bucket my_bucket
-     access_key_id => "my_aws_access_key" # (required)
-     secret_access_key => "my_aws_secret_access_key" # (required)
-     region => "eu-west-1" # (optional, default = "us-east-1")
-     bucket => "my_bucket" # (required)                
+     access_key_id => "" # (required) your aws access key
+     secret_access_key => "" # (required) your aws secret key
+     region => "" # (optional, default = "us-east-1")
+     bucket => "" # (required)  your bucket name              
      size_file => 2048 # (optional) In Bytes
      time_file => 5 # (optional) In Minutes
-  }
+   }
 }
 ```
 

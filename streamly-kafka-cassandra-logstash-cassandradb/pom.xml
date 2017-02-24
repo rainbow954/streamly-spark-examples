@@ -7,8 +7,8 @@
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>Streamly Kafka Cassandra Logstash mongodb</name>
-	<description>Streamly Kafka to Cassandra with Logstash sending events to mongodb</description>
+	<name>Streamly Kafka Cassandra Logstash cassandradb</name>
+	<description>Streamly Kafka to Cassandra with Logstash sending events to cassandra</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
