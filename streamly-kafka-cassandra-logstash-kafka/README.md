@@ -12,7 +12,7 @@ Assuming git, java and maven installed. In your local terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
- host$ cd streamly-spark-examples/spark-logstash-dummy
+ host$ cd streamly-spark-examples/spark-logstash-bridge
  host$ mvn clean install
  host$ cd ../streamly-kafka-cassandra-logstash-kafka
  host$ mvn clean install
