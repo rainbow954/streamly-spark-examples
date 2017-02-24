@@ -36,9 +36,9 @@ import org.slf4j.LoggerFactory;
 import com.datastax.driver.core.Session;
 import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
-import com.wouri.streamly.spark.logstash.Logstash;
 
 import io.streamly.examples.domain.WordOccurence;
+import io.streamly.logstash.Logstash;
 import scala.Tuple2;
 
 /**

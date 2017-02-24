@@ -1,4 +1,4 @@
-package com.wouri.streamly.spark.logstash;
+package io.streamly.logstash;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
