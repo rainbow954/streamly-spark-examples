@@ -35,8 +35,8 @@
 		</dependency>
 		<dependency>
 			<groupId>io.streamly</groupId>
-			<artifactId>spark-logstash-mock</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>spark-logstash-bridge</artifactId>
+			<version>0.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
