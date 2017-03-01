@@ -92,7 +92,7 @@ spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,lond
 spark.cassandra.auth.username=ci00jji37jfhq8q
 spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
-### 6. Submit your application 
+### 7. Submit your application 
  - Go to Processing tab
  - Click on Add Application. A new application is created with name : `No Name`.
  - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra`.
@@ -101,16 +101,16 @@ spark.cassandra.auth.password=r30qwridiw8qkxj
 
 ![streamly-kafka-cassandra][streamly-kafka-cassandra]
 
-### 7. Monitor your application
+### 8. Monitor your application
 Wait until your application is running. Then click on Show UI icon. You should see something like this :
 ![streamly-kafka-cassandra-spark-ui][streamly-kafka-cassandra-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
-### 8. Check your application logs
+### 9. Check your application logs
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
 ![streamly-kafka-cassandra-kibana-ui][streamly-kafka-cassandra-kibana-ui]
 
-### 9. Visualize your data
+### 10. Visualize your data
   - Go to Notebook tab
   - Create a new note
   - Query your table and see the result
