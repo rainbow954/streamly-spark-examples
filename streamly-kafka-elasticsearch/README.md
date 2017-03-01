@@ -116,11 +116,11 @@ You may have some errors and can't find why this happening. Application logs are
 
 ### 10. Visualize your data
   - Go to Kibana tab
-  - Create a new index pattern with your index name and @timestamp as time-field name
+  - Create a new index pattern with your index name and created-at as time-field name
 
 ![streamly-kafka-elasticsearch-kibana-index-pattern][streamly-kafka-elasticsearch-kibana-index-pattern]
 
-  - Go to discover
+  - Since the data sent by the spark job donot generate @timestamp, kibana won't be able to display them on the discover tab. Nevertheless looking at the screenshot below, we can see the data from the bitcoins topic are actually populated to elasticsearch.
 
 ![streamly-kafka-elasticsearch-kibana-discover][streamly-kafka-elasticsearch-kibana-discover]
 
@@ -135,8 +135,8 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
 [streamly-kafka-elasticsearch-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23468983/99758d3e-fea2-11e6-82df-080d6de5f2bf.png
 [streamly-kafka-elasticsearch]: https://cloud.githubusercontent.com/assets/25694018/23468574/6705b884-fea1-11e6-9e21-dc9eb5b84cfd.png
-[streamly-kafka-elasticsearch-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23469043/cfb53084-fea2-11e6-94fa-080cb005b2fb.png
-[streamly-kafka-elasticsearch-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23125896/5cd41e8e-f774-11e6-9b86-65cbb2c3779d.png
+[streamly-kafka-elasticsearch-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23481441/9e1dff00-fecb-11e6-9e38-9de49622c56b.png
+[streamly-kafka-elasticsearch-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23481368/6ab3e378-fecb-11e6-8bbe-eb585d185015.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23468146/4b761a60-fea0-11e6-9db5-dd5fcd20edcd.png
