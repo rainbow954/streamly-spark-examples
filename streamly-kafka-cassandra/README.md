@@ -133,5 +133,5 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342406/00b63c50-fc5a-11e6-8245-e079bc8d224c.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23463922/922e44e4-fe93-11e6-9f62-5a0b98fd4299.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
 [open-streams]: http://streamly.io/streamly-new/streams.html
