@@ -20,8 +20,8 @@ Assuming git, java, and maven installed. In your local terminal :
 ```
 
 ### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. 
-  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. 
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
+  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
   **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
 ![streamly-signup-step1][streamly-signup-step1]
  - Complete your registration 
