@@ -24,7 +24,7 @@ Assuming git, java, and maven installed. In your local terminal :
 ![streamly-signup-step1][streamly-signup-step1]
  - Complete your registration 
 ![streamly-signup-step2][streamly-signup-step2]
-- Log into [Streamly] with your email and password
+ - Log into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
 
