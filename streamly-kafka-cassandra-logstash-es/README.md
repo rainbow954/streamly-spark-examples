@@ -45,16 +45,6 @@ There are [Open Streams][open-streams] topics available to all registered users 
 
 In this example, we consume events from `system-bitcoin-transactions`.
 
-### 3. Create your keyspace
-When you register on [Streamly] , you have a default keyspace. You can either use it or create a new one.
-To create a new keyspace :
-
-  - Go to Cassandra tab
-  - Provide the name of the keyspace, in the Keyspace Name box
-  - Choose your strategy and define replication factor value according to that
-  - Click on Create Keyspace button
-
-![streamly-create-keyspace][streamly-create-keyspace]
 
 ### 4. Create your keyspace
 To create a new keyspace :
@@ -114,7 +104,6 @@ The resulting file looks like :
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
 app.args=london206.streamly.io:9093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
-app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
 spark.cassandra.auth.username=ci00jji37jfhq8q
@@ -157,11 +146,11 @@ Wait until your application is running. Then click on Show UI icon. You should s
 ![streamly-kafka-cassandra-logstash-spark-ui][streamly-kafka-cassandra-logstash-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
-### 8. Check your application logs
+### 10. Check your application logs
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
-### 9. Visualize your data
+### 11. Visualize your data
 #### a. Query Cassandra
   - Go to Notebook tab
   - Create a new note
