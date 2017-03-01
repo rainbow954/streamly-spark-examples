@@ -35,7 +35,6 @@
 		</dependency>
 	</dependencies>
 	<repositories>
-		<!-- list of other repositories -->
 		<repository>
 			<id>SparkPackagesRepo</id>
 			<url>http://dl.bintray.com/spark-packages/maven</url>

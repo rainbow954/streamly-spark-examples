@@ -46,7 +46,6 @@ There are [Open Streams][open-streams] topics available to all registered users 
 In this example, we consume events from `system-bitcoin-transactions`.
 
 ### 4. Create your keyspace
-When you register on [Streamly] , you have a default keyspace. You can either use it or create a new one.
 To create a new keyspace :
 
   - Go to Cassandra tab
