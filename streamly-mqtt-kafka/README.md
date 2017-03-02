@@ -4,9 +4,8 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Mqtt] [mqtt] and writing aggregates to [Apache Kafka] [kafka].
+It is written in Java and consumes events from [Mqtt] [mqtt] then writes aggregates to [Kafka].
 
-**Running this requires an account on Streamly Dashboard.**
 
 ## Quickstart
 
@@ -23,29 +22,35 @@ Assuming git, java and maven installed:
 ### 2. Setup an account
  - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
   The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
-  **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+  
+    **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+
 ![streamly-signup-step1][streamly-signup-step1]
+
  - Complete your registration 
+
 ![streamly-signup-step2][streamly-signup-step2]
+
  - Log into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
 
-### 3. Create a Mqtt topic
-We assume the you have followed up the [streamly-kafka-mqtt-post] project, because this project create a MQTT topic `greenspace/mqtt/topic` and sends some data inside. We are going to used this topic through out this project. 
+### 3. Choose the topic to read from
+We assume that you have followed up the [streamly-kafka-mqtt] project, because this project creates a MQTT topic and sends some data inside. This topic is called  `greenspace/mqtt/topic`. In the next steps, we consume events from  `greenspace/mqtt/topic`.
 
 ### 4. Create your output topic
 To create a new topic :
   
-  - Go to Kafka tab
-  - Write the name of the index in Index name box. We assume that the name is `greenspace-mqtt-kafka`.
-  - Define the number of partitions, maximum messages, replication, retention and Authorized hosts. Make sure the topic as Unsecured read and Unsecured write.
+  - Go to Messaging tab
+  - Write the name of the topic in Topic Name box. We assume that the name is `greenspace-mqtt-kafka`.
+  - Define the number of partitions(eg `1`), maximum messages(eg `100`), replication(eg `1`), retention(eg `1`) and Authorized hosts(eg `*`). 
+  - Enable Unsecured read and Unsecured write buttons.
 
 ![streamly-create-topic][streamly-create-topic]
 
   - Click on Add New Index button
 
-The indexes appears in the list of existing indexes:
+The topic appears in the list of existing topics:
 
 ![streamly-list-topics][streamly-list-topics]
 
@@ -72,7 +77,7 @@ The resulting file looks like :
 ```properties
 main.class=io.streamly.examples.StreamlyMqttKafka
 app.resource=file://streamly-mqtt-kafka-0.0.1.jar
-app.args=tcp://board.streamly.io:21883,greenspace/mqtt/topic,greenspace,ci00jji37jfhq8q,r30qwridiw8qkxj,board.streamly.io:29093,greenspace-mqtt-kafka
+app.args=tcp://apps.streamly.io:21883,greenspace/mqtt/topic,greenspace,ci00jji37jfhq8q,r30qwridiw8qkxj,apps.streamly.io:29093,greenspace-mqtt-kafka
 ```
 
 ### 7. Submit your application 
@@ -93,13 +98,12 @@ You can see how our Spark Streaming job _processes_ the Kafka events stream.
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
-### 11. Visualize your data
-#### Query Kafka
-  - Download and query kafka on ubuntu, Centos and Mac.
+### 10. Visualize your data
+  - Download and query kafka on Ubuntu, Centos and Mac.
 ```bash
  host$ sudo wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /opt/kafka
  host$ cd /opt/kafka
- host$ bin/kafka-console-consumer.sh --bootstrap-server board.streamly.io:29093 --topic greenspace-mqtt-kafka --from-beginning
+ host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-mqtt-kafka --from-beginning
 ```
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
 
@@ -116,8 +120,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [mqtt]: https://www.wut.de/e-mqttw-03-apus-000.php
 [cassandra]: http://cassandra.apache.org/
-[streamly-kafka-mqtt-post]: https://github.com/streamlyio/streamly-spark-examples/tree/master/streamly-kafka-mqtt
-[streamly-kafka-mqtt]: https://cloud.githubusercontent.com/assets/25694018/23525892/57d9383c-ff90-11e6-9394-e1b7c7501d8a.png
+[streamly-kafka-mqtt]: https://github.com/streamlyio/streamly-spark-examples/tree/master/streamly-kafka-mqtt
 [streamly-kafka-cassandra-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23525926/743c87cc-ff90-11e6-8ba0-8c17a0d1bc6e.png
 [streamly-kafka-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23463864/5e5b2394-fe93-11e6-907c-c7f45f88cd2f.png
 [streamly-kafka-cassandra-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23525999/bc037eb2-ff90-11e6-9196-b190acbe7dd1.png
