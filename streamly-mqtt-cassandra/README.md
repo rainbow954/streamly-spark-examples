@@ -31,8 +31,8 @@ Assuming git, java and maven installed:
 
 In the following steps, we assume the namespace is `greenspace`.
 
-### 3. Create a Mqtt topic
-We assume the you have followed up the [streamly-kafka-mqtt-post] project, because this project create a MQTT topic `greenspace/mqtt/topic` and sends some data inside. We are going to used this topic through out this project.    
+### 3. Choose the topic to read from
+We assume that you have followed up the [streamly-kafka-mqtt] project, because this project creates a MQTT topic and sends some data inside. This topic is called  `greenspace/mqtt/topic`. In the next steps, we consume events from  `greenspace/mqtt/topic`.
 
 ### 4. Create your keyspace
 To create a new keyspace :
@@ -75,8 +75,8 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyMqttCassandra
-app.args=tcp://board.streamly.io:21883,greenspace/mqtt/topic,greenspace,ci00jji37jfhq8q,r30qwridiw8qkxj,greenspace_keyspace,greenspace_table
-app.resource=file://streamly-kafka-cassandra-0.0.1.jar
+app.args=tcp://apps.streamly.io:21883,greenspace/mqtt/topic,greenspace,ci00jji37jfhq8q,r30qwridiw8qkxj,greenspace_keyspace,greenspace_table
+app.resource=file://streamly-mqtt-cassandra-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
 spark.cassandra.auth.username=ci00jji37jfhq8q
@@ -86,27 +86,27 @@ spark.cassandra.auth.password=r30qwridiw8qkxj
 ### 7. Submit your application 
  - Go to Processing tab
  - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-mqtt`.
- - Upload `spark.properties` and `streamly-kafka-mqtt-0.0.1.jar` files
+ - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-mqtt-cassandra`.
+ - Upload `spark.properties` and `streamly-mqtt-cassandra-0.0.1.jar` files
  - Click on the Start icon
 
-![streamly-kafka-mqtt][streamly-kafka-mqtt]
+![streamly-mqtt-cassandra][streamly-mqtt-cassandra]
 
 ### 8. Monitor your application
 Wait until your application is running. Then click on Show UI icon. You should see something like this :
-![streamly-kafka-cassandra-spark-ui][streamly-kafka-cassandra-spark-ui]
+![streamly-mqtt-cassandra-spark-ui][streamly-mqtt-cassandra-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
 ### 9. Check your application logs
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
-![streamly-kafka-cassandra-kibana-ui][streamly-kafka-cassandra-kibana-ui]
+![streamly-mqtt-cassandra-kibana-ui][streamly-mqtt-cassandra-kibana-ui]
 
 ### 10. Visualize your data
   - Go to Notebook tab
   - Create a new note
   - Query your table and see the result
 
-![streamly-kafka-cassandra-zeppelin-cassandra][streamly-kafka-cassandra-zeppelin-cassandra]
+![streamly-mqtt-cassandra-zeppelin-cassandra][streamly-mqtt-cassandra-zeppelin-cassandra]
 
 
 ## Copyright
@@ -116,12 +116,11 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [mqtt]: https://www.wut.de/e-mqttw-03-apus-000.php
 [cassandra]: http://cassandra.apache.org/
-[streamly-kafka-mqtt-post]: https://github.com/streamlyio/streamly-spark-examples/tree/master/streamly-kafka-mqtt
-[streamly-kafka-mqtt]: https://cloud.githubusercontent.com/assets/25694018/23525892/57d9383c-ff90-11e6-9394-e1b7c7501d8a.png
-[streamly-kafka-cassandra-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23525926/743c87cc-ff90-11e6-8ba0-8c17a0d1bc6e.png
-[streamly-kafka-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23463864/5e5b2394-fe93-11e6-907c-c7f45f88cd2f.png
-[streamly-kafka-cassandra-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23525999/bc037eb2-ff90-11e6-9196-b190acbe7dd1.png
-[streamly-kafka-cassandra-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
+[streamly-kafka-mqtt]: https://github.com/streamlyio/streamly-spark-examples/tree/master/streamly-kafka-mqtt
+[streamly-mqtt-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23525892/57d9383c-ff90-11e6-9394-e1b7c7501d8a.png
+[streamly-mqtt-cassandra-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23525926/743c87cc-ff90-11e6-8ba0-8c17a0d1bc6e.png
+[streamly-mqtt-cassandra-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23525999/bc037eb2-ff90-11e6-9196-b190acbe7dd1.png
+[streamly-mqtt-cassandra-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23129771/4375024a-f784-11e6-97ca-7d3b16b06929.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
