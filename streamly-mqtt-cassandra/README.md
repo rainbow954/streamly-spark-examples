@@ -1,7 +1,9 @@
 # Streamly Mqtt Cassandra Example Project
 
 ## Introduction
-This is a simple word count analysis stream processing job([blog post] [blog-post]) written in Java for the [Streamly Dashboard] [streamly-dashboard] cluster computing platform, consuming events from [Mqtt] [mqtt] and writing aggregates to [Apache Cassandra] [cassandra].
+
+This is a simple stream processing application that you can deploy in [Streamly].
+It is written in Java and consumes events from [Mqtt] [mqtt] then writes aggregates to [Cassandra].
 
 
 **Running this requires an account on Streamly Dashboard.**

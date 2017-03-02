@@ -1,9 +1,11 @@
 # Streamly Kafka Cassandra with Logstash Example Project
 
 ## Introduction
-This is a simple stream processing job written in Java for the [Streamly Dashboard] [streamly-dashboard] cluster computing platform, consuming events from [Apache Kafka] [kafka] and writing aggregates to [Apache Cassandra] [cassandra]. It also populates events to [CassandraDb] [cassandradb] using Logstash Output plugin for [Cassandra] [logstash_output_cassandra].
 
-**Running this requires an account on Streamly Dashboard.**
+This is a simple stream processing application that you can deploy on [Streamly].
+It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
+It also populates events to [CassandraDb] [cassandradb] using Logstash Output plugin for [Cassandra] [logstash_output_cassandra].
+
 
 ## Quickstart
 
@@ -17,30 +19,103 @@ Assuming git, java and maven installed. In your local terminal :
  host$ cd ../streamly-kafka-cassandra-logstash-cassandradb
  host$ mvn clean install
 ```
-### 2. Create your topic
-You can create a kafka topic on [Streamly Dashboard] [streamly-dashboard] or use an existing one. There are [Open Streams][open-streams] topics available to all registered users. 
 
-### 3. Create your keyspace
-When you register on [Streamly Dashboard] [streamly-dashboard], you have a default keyspace. You can either use it or create a new keyspace. 
+### 2. Setup an account
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
+  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
+  **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+![streamly-signup-step1][streamly-signup-step1]
+ - Complete your registration 
+![streamly-signup-step2][streamly-signup-step2]
+ - Log into [Streamly] with your email and password
 
-### 5. Update configuration files
+In the following steps, we assume the namespace is `greenspace`.
+
+### 3. Choose the topic to read from
+There are [Open Streams][open-streams] topics available to all registered users :
+
+| Name                         | Description                                                 	    |
+|------------------------------|--------------------------------------------------------------------|
+| system-bitcoin-transactions  | It contains transaction events of a bitcoin network                |
+| system-bitcoin-peers         | It contains peer events of a bitcoin network                       |
+| system-bitcoin-blocks        | It contains block events of a bitcoin network                      |
+| system-ethereum-transactions | It contains transaction events of an ethereum network              |
+| system-ethereum-blocks       | It contains block events of an ethereum network					|
+| system-ethereum-hashs        | It contains (transaction/block) hash events of an ethereum network |                         
+| system-ethereum-extras       | It contains other events of an ethereum network     				|
+
+In this example, we consume events from `system-bitcoin-transactions`.
+
+### 4. Create your keyspace
+To create a new keyspace :
+
+  - Go to Cassandra tab
+  - Provide the name of the keyspace, in the Keyspace Name box (eg `greenspace_keyspace`). It should start with your namespace.
+  - Choose the strategy (eg `SimpleStrategy`) and define the replication factor (eg `1`)
+
+![streamly-create-keyspace][streamly-create-keyspace]
+
+  - Click on Create Keyspace button
+
+The keyspace appears in the list of existing keyspaces:
+
+![streamly-list-keyspace][streamly-list-keyspace]
+
+### 5. Create your cassandra keyspace and table
+Here we are going to used the keyspace `greenspace_keyspace` which was created in the previous section. <br/>
+To create a new table :
+  
+  - Go to Cassandra tab
+  - Choose the keyspace `greenspace_keyspace` and click in VIEW TABLES.
+![streamly-create-keyspaces][streamly-create-keyspaces]
+
+  - On the next pages you see the list of the tables of the keyspace `greenspace_keyspace`. This is empty because no table has been created yet.
+![streamly-list-tables-empty][streamly-list-tables-empty]
+  
+  - Click on ADD NEW TABLE. On the next page, click fill in the necessary informations. In the example we are working will just collect a text some we create only a single field.
+![streamly-add-table][streamly-add-table]
+  
+  - Once the formations filled, click on EXECUTE to create your table.
+![streamly-list-tables-full][streamly-list-tables-full]
+
+### 6. Get your streamly access and secret keys
+  - Click on the Profile icon
+  - Look at Access Keys Management section
+
+![streamly-list-apikeys][streamly-list-apikeys]
+
+In this example : access key is `ci00jji37jfhq8q` and secret key is `r30qwridiw8qkxj`.
+Access and secret keys authenticate users on Streamly services (Kafka, Mqtt, Cassandra, Elasticsearch,...).
+
+### 7. Update your configuration file
 Open `spark.properties` file and edit as appropriate.
 
-| Name                                  | Description                															 |
-|---------------------------------------|----------------------------------------------------------------------------------------|
-| main.class                            | The entry point for your application                                                   |
-| app.args                              | Arguments passed to the main method                                                    |
-| app.resource                          | Name of the bundled jar including your application                                     |
-| spark.cassandra.connection.port       | Cassandra native connection port                                                       |
-| spark.cassandra.connection.host       | Comma separated Cassandra hosts                                                        |
-| spark.cassandra.auth.username         | Your access key available in the Profile section  of your Streamly account             |
-| spark.cassandra.auth.password         | Your secret key available in the Profile section  of your Streamly account             |
+| Name                                  | Description                						  |
+|---------------------------------------|-----------------------------------------------------|
+| main.class                            | The entry point for your application                |
+| app.args                              | Arguments passed to the main method                 |
+| app.resource                          | Name of the bundled jar including your application  |
+| spark.cassandra.connection.port       | Cassandra native connection port                    |
+| spark.cassandra.connection.host       | Comma separated Cassandra hosts                     |
+| spark.cassandra.auth.username         | Access key          			                      |
+| spark.cassandra.auth.password         | Secret key             							  |
 
+The resulting file looks like :
 
-Open `logstash.conf` file and replace empty settings with correct values. 
+```properties
+main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
+app.args=london206.streamly.io:9093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
+spark.cassandra.connection.port=9042
+spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
+spark.cassandra.auth.username=ci00jji37jfhq8q
+spark.cassandra.auth.password=r30qwridiw8qkxj
+```
+
+Open `logstash.conf` file and replace empty settings with correct values. <br/>
 We provide you with some dummy input configuration because the 
 input plugin is mandatory for logstash to start properly.
-Hence, the data populated into cassandra come from the spark RDD.
+Hence, the data populated into elasticsearch come from the spark RDD.
 
 ```conf
 input {
@@ -49,46 +124,60 @@ input {
   }
 }
 output {
-  cassandra {
-        hosts => ["192.168.0.201", "192.168.0.202", "192.168.0.205"]
+    cassandra {
+        hosts => ["london201.streamly.io","london202.streamly.io","london205.streamly.io"]
         port => 9042
-        keyspace => "edwidgecassandra"
-        table => "edwidgewordcount"
-        username => "accesskey"
-        password => "secretkey"
+        keyspace => "greenspace_keyspace" # Keyspace should be prefixed by your namespace
+        table => "greenspace_message" 
+        username => "ci00jji37jfhq8q" # Username to authenticate ( your access key)
+        password => "r30qwridiw8qkxj" # Username to authenticate ( your secret key)
     }
 }
 ```
 
-### 6. Submit your application on Streamly Dashboard
- - Log into [Streamly Dashboard] [streamly-dashboard]
- - Create an application in the Processing tab
- - Provide a valid name for your application
- - Upload  `logstash.conf`,`spark.properties` and `streamly-kafka-cassandra-logstash-cassandradb-0.0.1.jar` files
- - Click on the start icon
-![streamly-kafka-cassanda-logstash][streamly-kafka-cassanda-logstash]
+### 8. Submit your application 
+ - Go to Processing tab
+ - Click on Add Application. A new application is created with name : `No Name`.
+ - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandradb-logstash-cassandra`.
+ - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-cassandradb-0.0.1.jar` files
+ - Click on the Start icon
+ 
+ ![streamly-kafka-cassandra-logstash-cassandra][streamly-kafka-cassandra-logstash-cassandra]
 
-### 7. Monitor your application
+
+### 9. Monitor your application
 Wait until your application is running. Then click on Show UI icon. You should see something like this :
 ![streamly-kafka-cassandra-logstash-spark-ui][streamly-kafka-cassandra-logstash-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
-### 8. Check application logs
+### 10. Check your application logs
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
-### 9. Visualize your data
-#### a. Query Cassandra
+### 11. Visualize your data
+#### a. Query Cassandra the table greenspace_table
+  - Go to Notebook tab
+  - Create a new note
+  - Query your table and see the result
+
+![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
+
+#### a. Query Cassandra the table greenspace_output
   - Go to Notebook tab
   - Create a new note
   - Query your tables and see the result
-![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
+![streamly-kafka-cassandra-logstash-zeppelin-cassandra2][streamly-kafka-cassandra-logstash-zeppelin-cassandra2]
 
 
 ## Copyright
 Copyright © 2017 Streamly, Inc.
 
 [streamly-dashboard]: https://board.streamly.io:20080
+[streamly-signup]: https://board.streamly.io:20080/#/signup
+[streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
+[streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
+[streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342406/00b63c50-fc5a-11e6-8245-e079bc8d224c.png
+[streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [kafka]: https://kafka.apache.org/
 [cassandra]: http://cassandra.apache.org/
 [logstash_output_cassandra]: https://github.com/PerimeterX/logstash-output-cassandra	
@@ -96,5 +185,12 @@ Copyright © 2017 Streamly, Inc.
 [cassandradb]: http://cassandra.apache.org/
 [streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23123079/361e72e2-f767-11e6-929c-676e7a903538.png
-[streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23123511/f141e080-f768-11e6-9943-4f9ed30b8b80.png
+[streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23522234/86354da0-ff82-11e6-86e2-6701282dd76c.png
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23123951/d71c47de-f76a-11e6-89be-d791d66bd9b4.png
+[streamly-create-keyspaces]: https://cloud.githubusercontent.com/assets/25694018/23521169/2f35ab20-ff7e-11e6-96a3-7a413722474a.png
+[streamly-list-tables-empty]: https://cloud.githubusercontent.com/assets/25694018/23521195/3c4200ac-ff7e-11e6-8bc2-ce2208a193c2.png
+[streamly-add-table]: https://cloud.githubusercontent.com/assets/25694018/23521209/49080be2-ff7e-11e6-9da1-9c416b1c945f.png
+[streamly-list-tables-full]: https://cloud.githubusercontent.com/assets/25694018/23521218/55a3f690-ff7e-11e6-8def-da180aadf874.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
+[streamly-kafka-cassandra-logstash-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23521634/16354a8e-ff80-11e6-90e0-c194ead8afb6.png
+[streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23524292/48ed3950-ff8a-11e6-818e-b5a1024b9675.png

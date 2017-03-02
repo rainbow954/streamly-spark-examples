@@ -66,7 +66,7 @@ To create a s3 bucket :
   - Go to your [AWS Console] [aws]
 ![streamly-kafka-cassandra-logstash-aws-s3][streamly-kafka-cassandra-logstash-aws-s3]
 
-  - Click on Create Bucket
+  - Click on Create Bucket, leave it with the default settings and click on create.
 ![streamly-kafka-cassandra-logstash-aws-s3-bucket][streamly-kafka-cassandra-logstash-aws-s3-bucket]
 
 To get your aws IAM 
