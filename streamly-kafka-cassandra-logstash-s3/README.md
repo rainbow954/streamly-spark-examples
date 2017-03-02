@@ -160,7 +160,13 @@ You may have some errors and can't find why this happening. Application logs are
   - Go to your [AWS Console] [aws] and click on s3 then on the bucket my_bucket
 
 ![streamly-kafka-cassandra-logstash-aws-s3-bucket-results1][streamly-kafka-cassandra-logstash-aws-s3-bucket-results1]
+
+   - Choose a file
+   
 ![streamly-kafka-cassandra-logstash-aws-s3-bucket-results2][streamly-kafka-cassandra-logstash-aws-s3-bucket-results2]
+
+   - Download the file and open it with your favaorite
+   
 ![streamly-kafka-cassandra-logstash-aws-s3-bucket-results3][streamly-kafka-cassandra-logstash-aws-s3-bucket-results3]
 
 ## Copyright
