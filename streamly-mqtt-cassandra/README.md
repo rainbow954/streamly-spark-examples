@@ -32,7 +32,7 @@ Assuming git, java and maven installed:
 In the following steps, we assume the namespace is `greenspace`.
 
 ### 3. Create a Mqtt topic
-We assume the you have followed up the [Streamly-kafka-mqtt] project, because this project create a MQTT topic `greenspace/mqtt/topic` and sends some data inside. We are going to used this topic through out this project.    
+We assume the you have followed up the [streamly-kafka-mqtt-post] project, because this project create a MQTT topic `greenspace/mqtt/topic` and sends some data inside. We are going to used this topic through out this project.    
 
 ### 4. Create your keyspace
 To create a new keyspace :
@@ -116,6 +116,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [mqtt]: https://www.wut.de/e-mqttw-03-apus-000.php
 [cassandra]: http://cassandra.apache.org/
+[streamly-kafka-mqtt-post]: https://github.com/streamlyio/streamly-spark-examples/tree/master/streamly-kafka-mqtt
 [streamly-kafka-mqtt]: https://cloud.githubusercontent.com/assets/25694018/23525892/57d9383c-ff90-11e6-9394-e1b7c7501d8a.png
 [streamly-kafka-cassandra-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23525926/743c87cc-ff90-11e6-8ba0-8c17a0d1bc6e.png
 [streamly-kafka-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23463864/5e5b2394-fe93-11e6-907c-c7f45f88cd2f.png
