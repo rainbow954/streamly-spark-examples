@@ -124,7 +124,7 @@ You may have some errors and can't find why this happening. Application logs are
 
 ![streamly-kafka-elasticsearch-kibana-index-pattern][streamly-kafka-elasticsearch-kibana-index-pattern]
 
-  - Since the data sent by the spark job donot generate @timestamp, kibana won't be able to display them on the discover tab. Nevertheless looking at the screenshot below, we can see the data from the bitcoins topic are actually populated to elasticsearch.
+  - Since our streaming application does not generate time field data in Elasticsearch, Kibana is not able to display documents of this index on the discover tab. Nevertheless looking at the screenshot below, we can see the data from the bitcoins topic are actually populated to elasticsearch.
 
 ![streamly-kafka-elasticsearch-kibana-discover][streamly-kafka-elasticsearch-kibana-discover]
 
