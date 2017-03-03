@@ -20,18 +20,20 @@ Assuming git, java and maven installed. In your local terminal :
 ```
 
 ### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br />
-The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
+  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
 
-**Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+    **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
 
 ![streamly-signup-step1][streamly-signup-step1]
+
  - Complete your registration 
+
 ![streamly-signup-step2][streamly-signup-step2]
+
  - Log into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
-
 
 ### 3. Choose the topic to read from
 There are [Open Streams][open-streams] topics available to all registered users :
@@ -129,6 +131,7 @@ You may have some errors and can't find why this happening. Application logs are
 ## Copyright
 Copyright © 2017 Streamly, Inc.
 
+[streamly]: https://board.streamly.io:20080
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png

@@ -24,14 +24,18 @@ Assuming git, java and maven installed. In your local terminal :
 ### 2. Setup an account
  - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
   The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
-  **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+
+    **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+
 ![streamly-signup-step1][streamly-signup-step1]
+
  - Complete your registration 
+
 ![streamly-signup-step2][streamly-signup-step2]
+
  - Log into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
-
 ### 3. Choose the topic to read from
 There are [Open Streams][open-streams] topics available to all registered users :
 
@@ -68,7 +72,8 @@ To create a new topic :
   
   - Go to Kafka tab
   - Write the name of the index in Index name box. We assume that the name is `greenspace-kafka-logstash`.
-  - Define the number of partitions, maximum messages, replication, retention and Authorized hosts. Make sure the topic as Unsecured read and Unsecured write.
+  - Define the number of partitions(eg `1`), maximum messages(eg `100`), replication(eg `1`), retention(eg `1`) and Authorized hosts(eg `*`). 
+  - Enable Unsecured read and Unsecured write buttons.
 
 ![streamly-create-topic][streamly-create-topic]
 
@@ -105,7 +110,7 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
-app.args=london206.streamly.io:9093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.args=apps.streamly.io:29093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
@@ -127,7 +132,7 @@ input {
 output {
   kafka {
     topic_id => "greenspace-kafka-logstash" # Should be prefixed by your namespace
-    bootstrap_servers => ["london206.streamly.io:9093"] # list of kafka nodes
+    bootstrap_servers => ["apps.streamly.io:29093"] # list of kafka nodes
   }
 }
 ```
@@ -160,16 +165,16 @@ You may have some errors and can't find why this happening. Application logs are
 #### b. Query Kafka
   - Download and query kafka on ubuntu, Centos and Mac.
 ```bash
- host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /opt/kafka
- host$ cd /opt/kafka
- host$ bin/kafka-console-consumer.sh --bootstrap-server board.streamly.io:29093 --topic greenspace-kafka-logstash --from-beginning
+ host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /tmp/kafka
+ host$ cd /tmp/kafka
+ host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-kafka-logstash --from-beginning
 ```
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
 
 ## Copyright
 Copyright © 2017 Streamly, Inc.
 
-[streamly-dashboard]: https://board.streamly.io:20080
+[streamly]: https://board.streamly.io:20080
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png

@@ -101,8 +101,8 @@ You may have some errors and can't find why this happening. Application logs are
 ### 10. Visualize your data
   - Download and query kafka on Ubuntu, Centos and Mac.
 ```bash
- host$ sudo wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /opt/kafka
- host$ cd /opt/kafka
+ host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /tmp/kafka
+ host$ cd /tmp/kafka
  host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-mqtt-kafka --from-beginning
 ```
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
