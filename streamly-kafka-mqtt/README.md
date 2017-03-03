@@ -83,7 +83,7 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaMqtt
-app.args=tcp://board.streamly.io:21883,greenspace/mqtt/topic,greenspace,ci00jji37jfhq8q,r30qwridiw8qkxj,board.streamly.io:29093,system-bitcoin-transactions
+app.args=tcp://apps.streamly.io:21883,greenspace/mqtt/topic,greenspace,ci00jji37jfhq8q,r30qwridiw8qkxj,apps.streamly.io:29093,system-bitcoin-transactions
 app.resource=file://streamly-kafka-mqtt-0.0.1.jar
 ```
 
@@ -135,7 +135,7 @@ In your local machine :
 ```bash
  host$ mosquitto_sub -h apps.streamly.io -p 21883 -t greenspace/mqtt/topic -q 1 -u ci00jji37jfhq8q -P r30qwridiw8qkxj
  ```
-     The output console looks like this: 
+  The output console looks like this: 
 ![streamly-kafka-mqtt-consumer][streamly-kafka-mqtt-consumer]
 
 ## Copyright
