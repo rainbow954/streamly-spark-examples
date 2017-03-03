@@ -99,10 +99,11 @@ You may have some errors and can't find why this happening. Application logs are
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
 ### 10. Visualize your data
-  - Download and query kafka and consume events from your kafka topic
+  - Download and query kafka to consume all published events
 ```bash
- host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /tmp/kafka
- host$ cd /tmp/kafka
+ host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz
+ host$ tar xvzf kafka_2.10-0.10.1.1.tgz
+ host$ cd kafka_2.10-0.10.1.1/
  host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-mqtt-kafka --from-beginning
 ```
 The output console looks like this: 
@@ -132,7 +133,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342406/00b63c50-fc5a-11e6-8245-e079bc8d224c.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
-[streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23477215/8b354d66-febd-11e6-9384-44f941ffc783.png
+[streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23526668/2ea2d0ce-ff93-11e6-9cb0-cec08b43c04c.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23526687/4ac46b00-ff93-11e6-9eda-815e9d35b9d7.png
 [streamly-kafka-mqtt-consumer]: https://cloud.githubusercontent.com/assets/25694018/23477993/19a74dc2-fec0-11e6-8466-29b918b95218.png
 [streamly-mqtt-kafka-ui]: https://cloud.githubusercontent.com/assets/25694018/23527019/88f9ad8a-ff94-11e6-9849-d7f738e43ffe.png
