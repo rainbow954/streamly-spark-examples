@@ -3,10 +3,8 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy on [Streamly].
-It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
-It also populates events to [Kafka] using [Logstash].
-
-**Running this requires an account on Streamly Dashboard.**
+It is written in Java and consumes events from [Kafka] then writes aggregates to [Cassandra].
+It also populates events to [Mqtt] using [Logstash].
 
 ## Quickstart
 
@@ -17,7 +15,7 @@ Assuming git, java and maven installed. In your local terminal :
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
  host$ cd streamly-spark-examples/spark-logstash-bridge
  host$ mvn clean install
- host$ cd ../streamly-kafka-cassandra-logstash-kafka
+ host$ cd ../streamly-kafka-cassandra-logstash-mqtt
  host$ mvn clean install
 ```
 
@@ -36,6 +34,8 @@ Assuming git, java and maven installed. In your local terminal :
  - Log into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
+
+
 ### 3. Choose the topic to read from
 There are [Open Streams][open-streams] topics available to all registered users :
 
@@ -67,21 +67,22 @@ The keyspace appears in the list of existing keyspaces:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
-### 5. Create your output topic
-To create a new topic :
-  
-  - Go to Kafka tab
-  - Write the name of the index in Index name box. We assume that the name is `greenspace-kafka-logstash`.
-  - Define the number of partitions(eg `1`), maximum messages(eg `100`), replication(eg `1`), retention(eg `1`) and Authorized hosts(eg `*`). 
-  - Enable Unsecured read and Unsecured write buttons.
+### 5. Create a Mqtt topic
+To create a Mqtt topic :
+
+  - Go to Messaging tab
+  - Switch type to Mqtt
+  - Provide the name of the topic, in the Topic Name box (eg `greenspace/mqtt/topic`). It should start with your namespace.
+  - Set authorized hosts to `*` so that the topic can be access from anywhere.
 
 ![streamly-create-topic][streamly-create-topic]
 
-  - Click on Add New Index button
+  - Click on ADD NEW TOPIC
 
-The indexes appears in the list of existing indexes:
+The topics appears in the list of existing topics:
 
-![streamly-list-topics][streamly-list-topics]
+![streamly-list-topics][streamly-list-topics]                          
+
 
 ### 6. Get your access and secret keys
   - Click on the Profile icon
@@ -111,7 +112,7 @@ The resulting file looks like :
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
 app.args=apps.streamly.io:29093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
-app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
+app.resource=file://streamly-kafka-cassandra-logstash-mqtt-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
 spark.cassandra.auth.username=ci00jji37jfhq8q
@@ -130,18 +131,21 @@ input {
   }
 }
 output {
-  kafka {
-    topic_id => "greenspace-kafka-logstash" # Should be prefixed by your namespace
-    bootstrap_servers => ["apps.streamly.io:29093"] # list of kafka nodes
-  }
+    mqtt {
+     host => "apps.streamly.io" # Mqtt host
+     port => 21883 # Mqtt port
+     topic => "greenspace/mqtt/topic" # Mqtt topic
+     username => "ci00jji37jfhq8q"  # Access key
+     password => "r30qwridiw8qkxj"  # Secret key
+    }
 }
 ```
 
 ### 8. Submit your application 
  - Go to Processing tab
  - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra-logstash-es`.
- - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-kafka-0.0.1.jar` files
+ - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra-logstash-mqtt`.
+ - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-mqtt-0.0.1.jar` files
  - Click on the Start icon
  
 ![streamly-kafka-cassanda-logstash-kafka][streamly-kafka-cassanda-logstash-kafka]
@@ -162,13 +166,37 @@ You may have some errors and can't find why this happening. Application logs are
   - Query your table and see the result
 ![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
 
-#### b. Query Kafka
-  - Download and query kafka on ubuntu, Centos and Mac.
+#### b. Query Mqtt
+In your local machine : 
+  - Install mosquitto-clients
+  - On Windows <br /> 
+    Go to http://www.eclipse.org/downloads/download.php?file=/mosquitto/binary/win32/mosquitto-1.4.11-install-win32.exe and download mosquitto
+  - On Centos
 ```bash
- host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /tmp/kafka
- host$ cd /tmp/kafka
- host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-kafka-logstash --from-beginning
+ host$ sudo yum -y install epel-release
+ host$ sudo yum -y install mosquitto
+ host$ sudo systemctl start mosquitto
 ```
+  - On Debian
+```bash
+ host$ sudo apt-get install mosquitto
+```
+  - On Mac <br />
+    Assume that brew is already installed
+```bash
+ host$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+ host$ brew doctor
+ host$ brew prune
+ host$ brew install mosquitto
+ host$ ln -sfv /usr/local/opt/mosquitto/*.plist ~/Library/LaunchAgents
+ host$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mosquitto.plist
+```
+  - Consume events published into your MQTT topic 
+```bash
+ host$ mosquitto_sub -h apps.streamly.io -p 21883 -t greenspace/mqtt/topic -q 1 -u ci00jji37jfhq8q -P r30qwridiw8qkxj
+ ```
+  The output console looks like this: 
+
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
 
 ## Copyright
@@ -179,15 +207,17 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [kafka]: https://kafka.apache.org/
+[mqtt]: http://mqtt.org/
 [cassandra]: http://cassandra.apache.org/
 [logstash]: https://www.elastic.co/guide/en/logstash/5.2/introduction.html/
 [logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
+[streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23477215/8b354d66-febd-11e6-9384-44f941ffc783.png
+[streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23477275/bedb827a-febd-11e6-898f-cd5ac571bd2f.png
 [open-streams]: http://streamly.io/streamly-new/streams.html
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
-[streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
-[streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23483283/90ef6560-fed2-11e6-8c03-71d3976a3dd5.png
-[streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23483331/cda07f80-fed2-11e6-91f1-afca90fa54c3.png
-[streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23123951/d71c47de-f76a-11e6-89be-d791d66bd9b4.png
+[streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23549940/bbfca1e0-000e-11e7-8308-b32603f37271.png
+[streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23549943/bbfefc24-000e-11e7-8d7e-6816f166978e.png
+[streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
 [streamly-kafka-cassandra-logstash-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23125897/5cd45b1a-f774-11e6-9f75-016f7377c339.png
 [streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23125896/5cd41e8e-f774-11e6-9b86-65cbb2c3779d.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342406/00b63c50-fc5a-11e6-8245-e079bc8d224c.png
@@ -195,5 +225,5 @@ Copyright © 2017 Streamly, Inc.
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23482368/271888a4-fecf-11e6-95a2-e7c5ba962901.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23482456/6d883294-fecf-11e6-9cf4-4c9fed49b140.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
-[streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23483078/b205a36e-fed1-11e6-99b8-fc30ea422bcb.png
-[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23483774/939a7ef6-fed4-11e6-92fe-311a0d79dc87.png
+[streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23549942/bbfe10a2-000e-11e7-9389-e3ead84a4104.png
+[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23549941/bbfdbeae-000e-11e7-9619-1652616f31b8.png

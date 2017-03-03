@@ -3,8 +3,8 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy on [Streamly].
-It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
-It also populates events to [CassandraDb] [cassandradb] using Logstash Output plugin for [Cassandra] [logstash_output_cassandra].
+It is written in Java and consumes events from [Kafka] then writes aggregates to [Cassandra].
+It also populates events to [Cassandra] using [Logstash].
 
 
 ## Quickstart
