@@ -140,7 +140,7 @@ output {
 ### 8. Submit your application 
  - Go to Processing tab
  - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra-logstash-es`.
+ - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra-logstash-kafka`.
  - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-kafka-0.0.1.jar` files
  - Click on the Start icon
  
