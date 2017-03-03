@@ -91,7 +91,7 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaElasticsearch
-app.args=london206.streamly.io:9093,system-bitcoin-transactions,greenspace-myindex/logs
+app.args=apps.streamly.io:29093,system-bitcoin-transactions,greenspace-myindex/logs
 app.resource=file://streamly-kafka-elasticsearch-0.0.1.jar
 spark.es.resource=greenspace-myindex/logs
 spark.es.nodes=london201.streamly.io,london202.streamly.io,london205.streamly.io

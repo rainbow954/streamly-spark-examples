@@ -99,12 +99,13 @@ You may have some errors and can't find why this happening. Application logs are
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
 ### 10. Visualize your data
-  - Download and query kafka on Ubuntu, Centos and Mac.
+  - Download and query kafka and consume events from your kafka topic
 ```bash
  host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz /tmp/kafka
  host$ cd /tmp/kafka
  host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-mqtt-kafka --from-beginning
 ```
+The output console looks like this: 
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
 
 
@@ -137,4 +138,4 @@ Copyright © 2017 Streamly, Inc.
 [streamly-mqtt-kafka-ui]: https://cloud.githubusercontent.com/assets/25694018/23527019/88f9ad8a-ff94-11e6-9849-d7f738e43ffe.png
 [streamly-mqtt-kafka-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23527097/d80c4086-ff94-11e6-830d-1b6556ac5ce7.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23527187/3e547f98-ff95-11e6-91fa-b88ead60214d.png
-[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23483774/939a7ef6-fed4-11e6-92fe-311a0d79dc87.png
+[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23533263/d0c52006-ffb0-11e6-91e2-5a8deb414801.png

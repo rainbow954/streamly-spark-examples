@@ -131,13 +131,17 @@ In your local machine :
  host$ ln -sfv /usr/local/opt/mosquitto/*.plist ~/Library/LaunchAgents
  host$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mosquitto.plist
 ```
-  - Open a terminal and consume events published into your MQTT topic with your credentials
-
+  - Consume events published into your MQTT topic with your credentials
+```bash
+ host$ mosquitto_sub -h apps.streamly.io -p 21883 -t greenspace/mqtt/topic -q 1 -u ci00jji37jfhq8q -P r30qwridiw8qkxj
+ ```
+     The output console looks like this: 
 ![streamly-kafka-mqtt-consumer][streamly-kafka-mqtt-consumer]
 
 ## Copyright
 Copyright © 2017 Streamly, Inc.
 
+[streamly]: https://board.streamly.io:20080
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [kafka]: https://kafka.apache.org/
 [mqtt]: http://mqtt.org/
@@ -152,5 +156,5 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-mqtt-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23477533/8f90a24c-febe-11e6-8a24-8ff10f273e62.png
 [streamly-kafka-mqtt]: https://cloud.githubusercontent.com/assets/25694018/23140981/c6a0bfe4-f7b4-11e6-80db-3823b5116599.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
-[streamly-kafka-mqtt-consumer]: https://cloud.githubusercontent.com/assets/25694018/23477993/19a74dc2-fec0-11e6-8466-29b918b95218.png
+[streamly-kafka-mqtt-consumer]: https://cloud.githubusercontent.com/assets/25694018/23533262/d0c386f6-ffb0-11e6-93fd-ca38193bcad4.png
 [streamly-kafka-mqtt-submit]: https://cloud.githubusercontent.com/assets/25694018/23477460/49096642-febe-11e6-833a-1bdffc0fa7f5.png
