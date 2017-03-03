@@ -95,7 +95,7 @@ spark.cassandra.auth.password=r30qwridiw8qkxj
 ### 8. Monitor your application
 Wait until your application is running. Then click on Show UI icon. You should see something like this :
 ![streamly-mqtt-cassandra-spark-ui][streamly-mqtt-cassandra-spark-ui]
-You can see how our Spark Streaming job _processes_ the Kafka events stream.
+You can see how our Spark Streaming job _processes_ the Mqtt events stream.
 
 ### 9. Check your application logs
 You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
