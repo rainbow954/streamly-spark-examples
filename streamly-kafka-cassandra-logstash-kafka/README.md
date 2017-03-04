@@ -46,8 +46,9 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-blocks       | It contains block events of an ethereum network					|
 | system-ethereum-hashs        | It contains (transaction/block) hash events of an ethereum network |                         
 | system-ethereum-extras       | It contains other events of an ethereum network     				|
+| system-apache-logs           | It contains apache logs gathered from various servers       		|
 
-In this example, we consume events from `system-bitcoin-transactions`.
+In this example, we consume events from `system-apache-logs`.
 
 
 ### 4. Create your keyspace
@@ -108,7 +109,7 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
-app.args=apps.streamly.io:29093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
@@ -196,4 +197,4 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23482456/6d883294-fecf-11e6-9cf4-4c9fed49b140.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
 [streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23483078/b205a36e-fed1-11e6-99b8-fc30ea422bcb.png
-[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23533263/d0c52006-ffb0-11e6-91e2-5a8deb414801.png
+[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23580340/07d155b0-0100-11e7-809a-a962efee8ea4.png
