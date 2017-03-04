@@ -49,8 +49,9 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-blocks       | It contains block events of an ethereum network					|
 | system-ethereum-hashs        | It contains (transaction/block) hash events of an ethereum network |                         
 | system-ethereum-extras       | It contains other events of an ethereum network     				|
+| system-apache-logs           | It contains apache logs gathered from various servers       		|
 
-In this example, we consume events from `system-bitcoin-transactions`.
+In this example, we consume events from `system-apache-logs`.
 
 ### 4. Create your keyspace
 To create a new keyspace :
@@ -110,7 +111,7 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
-app.args=apps.streamly.io:29093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
@@ -134,7 +135,7 @@ output {
         hosts => ["london201.streamly.io","london202.streamly.io","london205.streamly.io"]
         port => 9042
         keyspace => "greenspace_keyspace" # Keyspace should be prefixed by your namespace
-        table => "greenspace_message" 
+        table => "greenspace_output2" 
         username => "ci00jji37jfhq8q" # Username to authenticate ( your access key)
         password => "r30qwridiw8qkxj" # Username to authenticate ( your secret key)
     }
@@ -195,8 +196,8 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
 [streamly-create-keyspaces]: https://cloud.githubusercontent.com/assets/25694018/23521169/2f35ab20-ff7e-11e6-96a3-7a413722474a.png
 [streamly-list-tables-empty]: https://cloud.githubusercontent.com/assets/25694018/23521195/3c4200ac-ff7e-11e6-8bc2-ce2208a193c2.png
-[streamly-add-table]: https://cloud.githubusercontent.com/assets/25694018/23521209/49080be2-ff7e-11e6-9da1-9c416b1c945f.png
+[streamly-add-table]: https://cloud.githubusercontent.com/assets/25694018/23581539/10934a08-0116-11e7-92a4-32731076c51f.png
 [streamly-list-tables-full]: https://cloud.githubusercontent.com/assets/25694018/23521218/55a3f690-ff7e-11e6-8def-da180aadf874.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
 [streamly-kafka-cassandra-logstash-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23521634/16354a8e-ff80-11e6-90e0-c194ead8afb6.png
-[streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23524292/48ed3950-ff8a-11e6-818e-b5a1024b9675.png
+[streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23581534/fcd5812a-0115-11e7-9c53-83793fee7ca2.png
