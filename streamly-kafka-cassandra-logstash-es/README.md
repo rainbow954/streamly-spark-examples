@@ -47,8 +47,9 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-blocks       | It contains block events of an ethereum network					|
 | system-ethereum-hashs        | It contains (transaction/block) hash events of an ethereum network |                         
 | system-ethereum-extras       | It contains other events of an ethereum network     				|
+| system-apache-logs           | It contains apache logs gathered from various servers       		|
 
-In this example, we consume events from `system-bitcoin-transactions`.
+In this example, we consume events from `system-apache-logs`.
 
 
 ### 4. Create your keyspace
@@ -107,7 +108,7 @@ The resulting file looks like :
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
-app.args=apps.streamly.io:29093,system-bitcoin-transactions,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
@@ -132,7 +133,7 @@ output {
     user => "ci00jji37jfhq8q" # Username to authenticate ( your access key)
     password => "r30qwridiw8qkxj" # Password to authenticate ( your secret key)
     manage_template => true
-    index => "greenspace-index-to-es" # Should be prefixed by your namespace
+    index => "greenspace-index-to-es2" # Should be prefixed by your namespace
   }
 }
 ```
@@ -189,8 +190,8 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23479954/7bb84cb8-fec6-11e6-9028-fb77fff3e615.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23480042/c1e1deb6-fec6-11e6-940b-04c98b08326d.png
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
-[streamly-kafka-cassandra-logstash-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23481151/b4182728-feca-11e6-87c6-4ff40e8d6df6.png
-[streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23481045/6119b96a-feca-11e6-8538-bf2f01aab58b.png
+[streamly-kafka-cassandra-logstash-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23581800/57e262c6-011c-11e7-8018-9466e5e499ba.png
+[streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23581811/a9d6e868-011c-11e7-9a2e-9a66ce41dd1c.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23129771/4375024a-f784-11e6-97ca-7d3b16b06929.png
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23478736/8b9c7996-fec2-11e6-9fd4-8cc4a798ca5d.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342406/00b63c50-fc5a-11e6-8245-e079bc8d224c.png
