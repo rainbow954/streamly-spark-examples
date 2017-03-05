@@ -1,1 +1,1 @@
-# Streamly Sample Streaming jobs
+# Streamly Sample Streaming Applications

@@ -2,8 +2,8 @@
 
 ## Introduction
 
-This is a simple stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka] then writes aggregates to [Cassandra].
+This is a sample stream processing application that you can deploy in [Streamly].
+It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
 
 
 ## Quickstart
@@ -11,7 +11,7 @@ It is written in Java and consumes events from [Kafka] then writes aggregates to
 
 ### 1. Build the project
 
-Assuming git, java, and maven installed. In your local terminal :
+Assuming git, java, and maven installed. In issue the following commands in your terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
@@ -20,10 +20,10 @@ Assuming git, java, and maven installed. In your local terminal :
 ```
 
 ### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
-  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
+  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, or topic you create must be prefixed with your namespace.  <br />
 
-    **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+    **A user has one single namespace and cannot change it once the account is created. Be sure to choose your namespace carefully.**
 
 ![streamly-signup-step1][streamly-signup-step1]
 
@@ -38,15 +38,15 @@ In the following steps, we assume the namespace is `greenspace`.
 ### 3. Choose the topic to read from
 There are [Open Streams][open-streams] topics available to all registered users :
 
-| Name                         | Description                                                 	    |
-|------------------------------|--------------------------------------------------------------------|
-| system-bitcoin-transactions  | It contains transaction events of a bitcoin network                |
-| system-bitcoin-peers         | It contains peer events of a bitcoin network                       |
-| system-bitcoin-blocks        | It contains block events of a bitcoin network                      |
-| system-ethereum-transactions | It contains transaction events of an ethereum network              |
-| system-ethereum-blocks       | It contains block events of an ethereum network					|
-| system-ethereum-hashs        | It contains (transaction/block) hash events of an ethereum network |                         
-| system-ethereum-extras       | It contains other events of an ethereum network     				|
+| Name                         | Description                                            	  |
+|------------------------------|------------------------------------------------------------------|
+| system-bitcoin-transactions  |  contains transaction events from bitcoin network                |
+| system-bitcoin-peers         |  contains peer events from bitcoin network                       |
+| system-bitcoin-blocks        |  contains block events from bitcoin network                      |
+| system-ethereum-transactions |  contains transaction events from ethereum network               |
+| system-ethereum-blocks       |  contains block events from ethereum network			  |
+| system-ethereum-hashs        |  contains (transaction/block) hash events from  ethereum network |                         
+| system-ethereum-extras       |  contains other events from ethereum network           	  |
 
 In this example, we consume events from `system-bitcoin-transactions`.
 
@@ -54,25 +54,25 @@ In this example, we consume events from `system-bitcoin-transactions`.
 To create a new keyspace :
 
   - Go to Cassandra tab
-  - Provide the name of the keyspace, in the Keyspace Name box (eg `greenspace_keyspace`). It should start with your namespace.
-  - Choose the strategy (eg `SimpleStrategy`) and define the replication factor (eg `1`)
+  - Provide the name of the keyspace name, in the corresponding text field (eg `greenspace_keyspace`). Be sure to prefix it with your namespace.
+  - Choose a replication strategy (e.g. `SimpleStrategy`) and define the replication factor (e.g. `1`)
 
 ![streamly-create-keyspace][streamly-create-keyspace]
 
   - Click on Create Keyspace button
 
-The keyspace appears in the list of existing keyspaces:
+The newly created keyspace should appear in the list of existing keyspaces on the right side of the screen:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
 ### 5. Get your access and secret keys
   - Click on the Profile icon
-  - Look at Access Keys Management section
+  - Open the Access Keys Management section and copy your access and secret keys
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
 In this example : access key is `ci00jji37jfhq8q` and secret key is `r30qwridiw8qkxj`.
-Access and secret keys authenticate users on Streamly services (Kafka, Mqtt, Cassandra, Elasticsearch,...).
+Access and secret keys authenticate users on Streamly services (Kafka, Mqtt, Cassandra, Elasticsearch,etc.).
 
 ### 6. Update your configuration file
 Open `spark.properties` file and edit as appropriate.
@@ -83,11 +83,11 @@ Open `spark.properties` file and edit as appropriate.
 | app.args                              | Arguments passed to the main method                 |
 | app.resource                          | Name of the bundled jar including your application  |
 | spark.cassandra.connection.port       | Cassandra native connection port                    |
-| spark.cassandra.connection.host       | Comma separated Cassandra hosts                     |
+| spark.cassandra.connection.host       | Comma separated list of Cassandra hosts  addresses  |
 | spark.cassandra.auth.username         | Access key          			                      |
 | spark.cassandra.auth.password         | Secret key             							  |
 
-The resulting file looks like :
+The resulting file should look as depicted below::
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandra
@@ -99,27 +99,27 @@ spark.cassandra.auth.username=ci00jji37jfhq8q
 spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
 ### 7. Submit your application 
- - Go to Processing tab
+ - Open the Processing tabin the Streamly dashboard
  - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra`.
+ - Provide a valid name for your application and click on Save icon. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra`.
  - Upload `spark.properties` and `streamly-kafka-cassandra-0.0.1.jar` files
  - Click on the Start icon
 
 ![streamly-kafka-cassandra][streamly-kafka-cassandra]
 
 ### 8. Monitor your application
-Wait until your application is running. Then click on Show UI icon. You should see something like this :
+Wait until your application's status changes to RUNNING. Click on Show UI icon. You should see a screen similar to below screen:
 ![streamly-kafka-cassandra-spark-ui][streamly-kafka-cassandra-spark-ui]
-You can see how our Spark Streaming job _processes_ the Kafka events stream.
+You can see how your Spark Streaming application _processes_ the Kafka events.
 
 ### 9. Check your application logs
-You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
+Application logs are populated in Elasticsearch and can be visualized through Kibana. Be sure to use log4j or logback for logging. If you happen to have to use Systm.out or System.err, you can redirect them to slf4j as showin the example.
 ![streamly-kafka-cassandra-kibana-ui][streamly-kafka-cassandra-kibana-ui]
 
 ### 10. Visualize your data
-  - Go to Notebook tab
+  - In Streamly dashboard, go to Notebook tab
   - Create a new note
-  - Query your table and see the result
+  - Query your table and explore your data
 
 ![streamly-kafka-cassandra-zeppelin-cassandra][streamly-kafka-cassandra-zeppelin-cassandra]
 

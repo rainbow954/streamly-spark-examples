@@ -3,9 +3,6 @@ package io.streamly.logstash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Pascal Fenkam
- */
 public class Logstash {
 	private static Logstash instance;
 	static Logger logger = LoggerFactory.getLogger(Logstash.class);
