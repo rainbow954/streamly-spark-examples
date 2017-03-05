@@ -1,4 +1,4 @@
-# Streamly Kafka Cassandra Example Project
+# Streamly-Kafka-Cassandra
 
 ## Introduction
 
@@ -11,7 +11,7 @@ It is written in Java and consumes events from [Kafka] and writes aggregates to 
 
 ### 1. Build the project
 
-Assuming git, java, and maven installed. Issue the following commands in your terminal :
+Assuming git, java, and maven are installed on your machine. Issue the following commands in your terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
@@ -21,7 +21,7 @@ Assuming git, java, and maven installed. Issue the following commands in your te
 
 ### 2. Create an account
  - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
-  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must be have a name that is prefixed with your namespace.  <br />
+  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must have a name that is prefixed with your namespace.  <br />
 
     **A user has one single namespace. Once an account is created, the associated namespace cannot be changed. Therefore, be sure to choose your namespace carefully.**
 
