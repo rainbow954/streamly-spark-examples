@@ -33,24 +33,24 @@ After about 2 min of clicking on `Sign up`, you should receive a confimation ema
 
 ![streamly-signup-step2][streamly-signup-step2]
 
- - Log into [Streamly] with your email and password
+ - Log in into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
 
 ### 3. Choose the topic to read from
 There are [Open Streams][open-streams] topics available to all registered users :
 
-| Name                         | Description                                            	  |
-|------------------------------|------------------------------------------------------------------|
-| system-bitcoin-transactions  |  contains transaction events from bitcoin network                |
-| system-bitcoin-peers         |  contains peer events from bitcoin network                       |
-| system-bitcoin-blocks        |  contains block events from bitcoin network                      |
-| system-ethereum-transactions |  contains transaction events from ethereum network               |
-| system-ethereum-blocks       |  contains block events from ethereum network			  |
-| system-ethereum-hashs        |  contains (transaction/block) hash events from  ethereum network |                         
-| system-ethereum-extras       |  contains other events from ethereum network           	  |
+| Name                         | Description                                            	   |
+|------------------------------|-------------------------------------------------------------------|
+| system-bitcoin-transactions  |  real-time transaction events from bitcoin network                |
+| system-bitcoin-peers         |  real-time peer events from bitcoin network                       |
+| system-bitcoin-blocks        |  real-time block events from bitcoin network                      |
+| system-ethereum-transactions |  real-time transaction events from ethereum network               |
+| system-ethereum-blocks       |  real-time block events from ethereum network		    	   |
+| system-ethereum-hashs        |  real-time (transaction/block) hash events from  ethereum network |                         
+| system-ethereum-extras       |  misc real-time events from ethereum network           	   |
 
-In this example, we consume events from `system-bitcoin-transactions`.
+This example consumes events from `system-bitcoin-transactions`.
 
 ### 4. Create your keyspace
 To create a new keyspace :
