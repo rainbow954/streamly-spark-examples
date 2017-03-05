@@ -26,7 +26,8 @@ Assuming git, java, and maven installed. Issue the following commands in your te
     **A user has one single namespace. Once an account is created, the associated namespace cannot be changed. Therefore, be sure to choose your namespace carefully.**
 
 ![streamly-signup-step1][streamly-signup-step1]
-Once you click on `Sign up`, you will receive an confimation email. Click on this email to land on the following screen.
+
+After about 2 min of clicking on `Sign up`, you should receive a confimation email. Click on this email to land on the following screen.
 
  - Complete your registration 
 
