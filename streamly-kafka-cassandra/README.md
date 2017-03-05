@@ -55,7 +55,7 @@ This example consumes events from `system-bitcoin-transactions`.
 ### 4. Create your keyspace
 To create a new keyspace :
 
-  - Open the Streamly dashboard and  open the Cassandra tab
+  - Open the Streamly dashboard and switch to the Cassandra tab
   - Specify the keyspace name in the corresponding text field (e.g. `greenspace_keyspace`). Be sure to prefix it with your namespace.
   - Choose a replication strategy (e.g. `SimpleStrategy`) and define the replication factor (e.g. `1`)
 
@@ -89,7 +89,7 @@ Open `spark.properties` file and edit as appropriate.
 | spark.cassandra.auth.username         | Access key          			                      |
 | spark.cassandra.auth.password         | Secret key             							  |
 
-The resulting file should look as depicted below::
+The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandra
@@ -101,21 +101,23 @@ spark.cassandra.auth.username=ci00jji37jfhq8q
 spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
 ### 7. Submit your application 
- - Open the Processing tabin the Streamly dashboard
- - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra`.
+ - Open the Processing tab in the Streamly dashboard
+ - Click on Add Application. A new application is created with name: `No Name`.
+ - Provide a valid name for your application and click on `Save`. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra`.
  - Upload `spark.properties` and `streamly-kafka-cassandra-0.0.1.jar` files
- - Click on the Start icon
+ - Click on the `Start`
 
 ![streamly-kafka-cassandra][streamly-kafka-cassandra]
 
 ### 8. Monitor your application
-Wait until your application's status changes to RUNNING. Click on Show UI icon. You should see a screen similar to below screen:
+Wait until your application's status changes to RUNNING. Click on Show UI icon. You should subsequently see a screen similar to below screen:
+
 ![streamly-kafka-cassandra-spark-ui][streamly-kafka-cassandra-spark-ui]
 You can see how your Spark Streaming application _processes_ the Kafka events.
 
 ### 9. Check your application logs
-Application logs are populated in Elasticsearch and can be visualized through Kibana. Be sure to use log4j or logback for logging. If you happen to have to use Systm.out or System.err, you can redirect them to slf4j as showin the example.
+Application logs are populated in Elasticsearch and can be visualized in Kibana. No manual configuration needed.
+
 ![streamly-kafka-cassandra-kibana-ui][streamly-kafka-cassandra-kibana-ui]
 
 ### 10. Visualize your data
