@@ -55,8 +55,8 @@ This example consumes events from `system-bitcoin-transactions`.
 ### 4. Create your keyspace
 To create a new keyspace :
 
-  - Go to Cassandra tab
-  - Provide the name of the keyspace name, in the corresponding text field (eg `greenspace_keyspace`). Be sure to prefix it with your namespace.
+  - Open the Streamly dashboard and  open the Cassandra tab
+  - Specify the keyspace name in the corresponding text field (e.g. `greenspace_keyspace`). Be sure to prefix it with your namespace.
   - Choose a replication strategy (e.g. `SimpleStrategy`) and define the replication factor (e.g. `1`)
 
 ![streamly-create-keyspace][streamly-create-keyspace]
