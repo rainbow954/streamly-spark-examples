@@ -205,7 +205,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-tables-empty]: https://cloud.githubusercontent.com/assets/25694018/23521195/3c4200ac-ff7e-11e6-8bc2-ce2208a193c2.png
 [streamly-add-table]: https://cloud.githubusercontent.com/assets/25694018/23609467/742bd9be-026e-11e7-8f23-d04be3462d9f.png
 [streamly-list-tables-full]: https://cloud.githubusercontent.com/assets/25694018/23521218/55a3f690-ff7e-11e6-8def-da180aadf874.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
 [streamly-kafka-cassandra-logstash-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23521634/16354a8e-ff80-11e6-90e0-c194ead8afb6.png
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23581534/fcd5812a-0115-11e7-9c53-83793fee7ca2.png
 [streamly-add-new-table]: https://cloud.githubusercontent.com/assets/25694018/23610193/fd57eb26-0271-11e7-9e88-f64d184b4585.png
