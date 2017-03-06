@@ -144,6 +144,6 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-elasticsearch-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23481368/6ab3e378-fecb-11e6-8bbe-eb585d185015.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
-[streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23468146/4b761a60-fea0-11e6-9db5-dd5fcd20edcd.png
+[streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23611875/5530b664-0279-11e7-8980-5272a98353b4.png
 [streamly-kafka-elasticsearch-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23469043/cfb53084-fea2-11e6-94fa-080cb005b2fb.png
 [open-streams]: http://streamly.io/streamly-new/streams.html
