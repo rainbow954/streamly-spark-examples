@@ -53,7 +53,7 @@ There are [Open Streams][open-streams] topics available to all registered users 
 
 In this example, we consume events from `system-apache-logs`.
 
-### 4. Create your keyspace
+### 4. Create your keyspace and table
 To create a new keyspace :
 
   - Go to Cassandra tab
@@ -68,7 +68,9 @@ The keyspace appears in the list of existing keyspaces:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
-### 5. Create your cassandra keyspace and table
+The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you
+
+### 5. Create your cassandra keyspace and table that will be by logstash
 Here we are going to used the keyspace `greenspace_keyspace` which was created in the previous section. <br/>
 To create a new table :
   

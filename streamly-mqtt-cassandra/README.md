@@ -34,7 +34,7 @@ In the following steps, we assume the namespace is `greenspace`.
 ### 3. Choose the topic to read from
 We assume that you have followed up the [streamly-kafka-mqtt] project, because this project creates a MQTT topic and sends some data inside. This topic is called  `greenspace/mqtt/topic`. In the next steps, we consume events from  `greenspace/mqtt/topic`.
 
-### 4. Create your keyspace
+### 4. Create your keyspace and table
 To create a new keyspace :
 
   - Go to Cassandra tab
@@ -48,6 +48,8 @@ To create a new keyspace :
 The keyspace appears in the list of existing keyspaces:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
+
+The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you
 
 ### 5. Get your access and secret keys
   - Click on the Profile icon

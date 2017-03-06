@@ -52,7 +52,7 @@ There are [Open Streams][open-streams] topics available to all registered users 
 
 This example consumes events from `system-bitcoin-transactions`.
 
-### 4. Create your keyspace
+### 4. Create your keyspace and table
 To create a new keyspace :
 
   - Open the Streamly dashboard and switch to the Cassandra tab
@@ -66,6 +66,8 @@ To create a new keyspace :
 The newly created keyspace should appear in the list of existing keyspaces on the right side of the screen:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
+
+The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you.
 
 ### 5. Get your access and secret keys
   - Click on the Profile icon

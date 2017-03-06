@@ -51,7 +51,7 @@ There are [Open Streams][open-streams] topics available to all registered users 
 In this example, we consume events from `system-apache-logs`.
 
 
-### 4. Create your keyspace
+### 4. Create your keyspace and table
 To create a new keyspace :
 
   - Go to Cassandra tab
@@ -65,6 +65,8 @@ To create a new keyspace :
 The keyspace appears in the list of existing keyspaces:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
+
+The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you
 
 ### 5. Create your output topic
 To create a new topic :
