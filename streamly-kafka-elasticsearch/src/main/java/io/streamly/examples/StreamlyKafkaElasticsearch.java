@@ -116,8 +116,6 @@ public class StreamlyKafkaElasticsearch {
 			@Override
 			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
 				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				Date date = new Date();
-				Timestamp timestamp = new Timestamp(date.getTime());
 				JavaRDD<Map<String, ?>> javaRDD = jssc.sparkContext().parallelize(ImmutableList.of(wordCountMap));
 				JavaEsSpark.saveToEs(javaRDD, resource);
 				log.info("Words successfully added : {} into {}", wordCountMap, resource);

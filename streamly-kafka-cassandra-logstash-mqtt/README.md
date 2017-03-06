@@ -3,8 +3,8 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy on [Streamly].
-It is written in Java and consumes events from [Kafka] then writes aggregates to [Cassandra].
-It also populates events to [Mqtt] using [Logstash].
+It is written in Java and consumes events from [Kafka] count each word on the event then writes aggregates to [Cassandra].
+It also populates the counted words to [Mqtt] using [Logstash].
 
 ## Quickstart
 
@@ -225,6 +225,6 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23125896/5cd41e8e-f774-11e6-9b86-65cbb2c3779d.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23608419/8909b464-0269-11e7-99fd-c28fef9f0d87.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23549942/bbfe10a2-000e-11e7-9389-e3ead84a4104.png
 [streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23580773/1dad1538-0108-11e7-8b47-81fa3bf51b98.png
