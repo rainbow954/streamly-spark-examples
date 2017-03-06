@@ -130,7 +130,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23468146/4b761a60-fea0-11e6-9db5-dd5fcd20edcd.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23608419/8909b464-0269-11e7-99fd-c28fef9f0d87.png
 [streamly-mqtt-elasticsearch-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23531279/078726bc-ffa6-11e6-81de-312d92d272d1.png
 [streamly-mqtt-elasticsearch]: https://cloud.githubusercontent.com/assets/25694018/23531280/07d2018c-ffa6-11e6-9be4-9ff30e420e7b.png
 [streamly-mqtt-elasticsearch-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23531377/6ca17e1c-ffa6-11e6-8d2d-61879ff366a9.png
