@@ -3,7 +3,7 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka] then writes aggregates to [Elasticsearch].
+It is written in Java and consumes events from [Kafka] count each word on the event then writes aggregates to [Elasticsearch].
 
 
 ## Quickstart
@@ -137,13 +137,13 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [kafka]: https://kafka.apache.org/
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23608419/8909b464-0269-11e7-99fd-c28fef9f0d87.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-elasticsearch-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23468983/99758d3e-fea2-11e6-82df-080d6de5f2bf.png
 [streamly-kafka-elasticsearch]: https://cloud.githubusercontent.com/assets/25694018/23468574/6705b884-fea1-11e6-9e21-dc9eb5b84cfd.png
 [streamly-kafka-elasticsearch-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23481441/9e1dff00-fecb-11e6-9e38-9de49622c56b.png
 [streamly-kafka-elasticsearch-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23481368/6ab3e378-fecb-11e6-8bbe-eb585d185015.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
-[streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23468146/4b761a60-fea0-11e6-9db5-dd5fcd20edcd.png
+[streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23611875/5530b664-0279-11e7-8980-5272a98353b4.png
 [streamly-kafka-elasticsearch-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23469043/cfb53084-fea2-11e6-94fa-080cb005b2fb.png
 [open-streams]: http://streamly.io/streamly-new/streams.html

@@ -155,6 +155,6 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-mqtt-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23477616/d0500b42-febe-11e6-82e4-ad38f3294bad.png
 [streamly-kafka-mqtt-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23477533/8f90a24c-febe-11e6-8a24-8ff10f273e62.png
 [streamly-kafka-mqtt]: https://cloud.githubusercontent.com/assets/25694018/23140981/c6a0bfe4-f7b4-11e6-80db-3823b5116599.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23608419/8909b464-0269-11e7-99fd-c28fef9f0d87.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-mqtt-consumer]: https://cloud.githubusercontent.com/assets/25694018/23533262/d0c386f6-ffb0-11e6-93fd-ca38193bcad4.png
 [streamly-kafka-mqtt-submit]: https://cloud.githubusercontent.com/assets/25694018/23477460/49096642-febe-11e6-833a-1bdffc0fa7f5.png

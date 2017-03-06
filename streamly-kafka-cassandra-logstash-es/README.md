@@ -3,8 +3,8 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka] and writes aggregates to [Cassandra].
-It also populates events to [Elasticsearch] using [Logstash].
+It is written in Java and consumes events from [Kafka], count each word on the event then writes aggregates to [Cassandra].
+It also populates the counted words to [Elasticsearch] using [Logstash].
 
 ## Quickstart
 
@@ -203,5 +203,5 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23478988/4d5393f8-fec3-11e6-8b56-84db0b04a9b3.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23608419/8909b464-0269-11e7-99fd-c28fef9f0d87.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-cassandra-logstash-es]: https://cloud.githubusercontent.com/assets/25694018/23479559/23e5ab26-fec5-11e6-90dd-823d6b6d18e1.png
