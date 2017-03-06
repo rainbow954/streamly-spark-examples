@@ -49,6 +49,8 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-blocks       |  real-time block events from ethereum network		    	   |
 | system-ethereum-hashs        |  real-time (transaction/block) hash events from  ethereum network |                         
 | system-ethereum-extras       |  misc real-time events from ethereum network           	   |
+| system-apache-logs           | It contains apache logs gathered from various servers          |
+
 
 This example consumes events from `system-bitcoin-transactions`.
 
