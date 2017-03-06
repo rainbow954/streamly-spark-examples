@@ -1,5 +1,29 @@
 # Streamly Kafka Cassandra with Logstash Example Project
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+  - [1. Build the project](#1-build-the-project)
+  - [2. Setup an account](#2-setup-an-account)
+  - [3. Choose the topic to read from](#3-choose-the-topic-to-read-from)
+  - [4. Create your keyspace](#4-create-your-keyspace)
+  - [5. Create your output topic](#5-create-your-output-topic)
+  - [6. Get your access and secret keys](#6-get-your-access-and-secret-keys)
+  - [7. Update your configuration file](#7-update-your-configuration-file)
+  - [8. Submit your application](#8-submit-your-application)
+  - [9. Monitor your application](#9-monitor-your-application)
+  - [10. Check your application logs](#10-check-your-application-logs)
+  - [11. Visualize your data](#11-visualize-your-data)
+    - [a. Query Cassandra](#a-query-cassandra)
+    - [b. Query Kafka](#b-query-kafka)
+- [Copyright](#copyright)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
