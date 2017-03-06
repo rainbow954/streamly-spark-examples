@@ -4,7 +4,7 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Mqtt] [mqtt] then writes aggregates to [Kafka].
+It is written in Java and consumes events from [Mqtt] [mqtt] count each word on the event then writes aggregates to [Kafka].
 
 
 ## Quickstart

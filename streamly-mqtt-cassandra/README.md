@@ -3,7 +3,7 @@
 ## Introduction
 
 This is a simple stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Mqtt] then writes aggregates to [Cassandra].
+It is written in Java and consumes events from [Mqtt] count each word on the event then writes aggregates to [Cassandra].
 
 
 **Running this requires an account on Streamly Dashboard.**
