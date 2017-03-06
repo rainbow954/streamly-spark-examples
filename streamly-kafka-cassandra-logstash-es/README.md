@@ -2,14 +2,14 @@
 
 ## Introduction
 
-This is a simple stream processing application that you can deploy on [Streamly].
+This is a sample stream processing application that you can deploy in [Streamly].
 It is written in Java and consumes events from [Kafka], count each word on the event then writes aggregates to [Cassandra].
 It also populates the counted words to [Elasticsearch] using [Logstash].
 
 ## Quickstart
 
 ### 1. Build the project
-Assuming git, java and maven installed. In your local terminal :
+Assuming git, java, and maven are installed on your machine. Issue the following commands in your terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
@@ -20,18 +20,20 @@ Assuming git, java and maven installed. In your local terminal :
 ```
 
 ### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
-  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
+  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must have a name that is prefixed with your namespace.  <br />
 
-    **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+    **A user has one single namespace. Once an account is created, the associated namespace cannot be changed. Therefore, be sure to choose your namespace carefully.**
 
 ![streamly-signup-step1][streamly-signup-step1]
+
+After about 2 min of clicking on `Sign up`, you should receive a confimation email. Click on this email to land on the following screen.
 
  - Complete your registration 
 
 ![streamly-signup-step2][streamly-signup-step2]
 
- - Log into [Streamly] with your email and password
+ - Log in into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
 
@@ -49,44 +51,44 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-extras       | It contains other events of an ethereum network     				|
 | system-apache-logs           | It contains apache logs gathered from various servers       		|
 
-In this example, we consume events from `system-apache-logs`.
+This example consumes events from `system-apache-logs`.
 
 
 ### 4. Create your keyspace and table
 To create a new keyspace :
 
-  - Go to Cassandra tab
-  - Provide the name of the keyspace, in the Keyspace Name box (eg `greenspace_keyspace`). It should start with your namespace.
-  - Choose the strategy (eg `SimpleStrategy`) and define the replication factor (eg `1`)
+  - Open the Streamly dashboard and switch to the Cassandra tab
+  - Specify the keyspace name in the corresponding text field (e.g. `greenspace_keyspace`). Be sure to prefix it with your namespace.
+  - Choose a replication strategy (e.g. `SimpleStrategy`) and define the replication factor (e.g. `1`)
 
 ![streamly-create-keyspace][streamly-create-keyspace]
 
   - Click on Create Keyspace button
 
-The keyspace appears in the list of existing keyspaces:
+The newly created keyspace should appear in the list of existing keyspaces on the right side of the screen:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
-The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you
+The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you.
 
 ### 5. Create your index
 To create a new index :
   
-  - Go to Elasticsearch tab
-  - Write the name of the index in Index name box. We assume that the name is `greenspace-index-to-es`.
-  - Define the number of replicas
+  - Open the Streamly dashboard and switch to the Elasticsearch tab
+  - Specify the index name in the corresponding text field (e.g. `greenspace-index-to-es`). Be sure to prefix it with your namespace.
+  - Define the number of replicas (e.g. `1`)
 
 ![streamly-create-index][streamly-create-index]
 
   - Click on Add New Index button
 
-The indexes appears in the list of existing indexes:
+The newly created index should appear in the list of existing indexes on the right side of the screen:
 
 ![streamly-list-indexes][streamly-list-indexes]
 
 ### 6. Get your access and secret keys
-  - Click on the Profile icon
-  - Look at Access Keys Management section
+  - Open the Streamly dashboard and click on the Profile icon
+  - Open the Access Keys Management section and copy your access and secret keys
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -106,7 +108,7 @@ Open `spark.properties` file and edit as appropriate.
 | spark.cassandra.auth.username         | Access key          			                      |
 | spark.cassandra.auth.password         | Secret key             							  |
 
-The resulting file looks like :
+The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
@@ -118,10 +120,10 @@ spark.cassandra.auth.username=ci00jji37jfhq8q
 spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
 
-Open `logstash.conf` file and replace empty settings with correct values. <br/>
+Open `logstash.conf` file and edit as appropriate.
 We provide you with some dummy input configuration because the 
 input plugin is mandatory for logstash to start properly.
-Hence, the data populated into elasticsearch come from the spark RDD.
+The resulting file should look as depicted below:
 
 ```conf
 input {
@@ -141,33 +143,35 @@ output {
 ```
 
 ### 8. Submit your application 
- - Go to Processing tab
- - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra-logstash-es`.
+ - Open the Processing tab in the Streamly dashboard
+ - Click on Add Application. A new application is created with name: `No Name`.
+ - Provide a valid name for your application and click on `Save`. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra-logstash-es`.
  - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-es-0.0.1.jar` files
- - Click on the Start icon
+ - Click on `Start`
 
 ![streamly-kafka-cassandra-logstash-es][streamly-kafka-cassandra-logstash-es]
 
 ### 9. Monitor your application
-Wait until your application is running. Then click on Show UI icon. You should see something like this :
+Wait until your application's status changes to RUNNING. Click on Show UI icon. You should subsequently see a screen similar to below screen:
+
 ![streamly-kafka-cassandra-logstash-spark-ui][streamly-kafka-cassandra-logstash-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
 ### 10. Check your application logs
-You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
+Application logs are populated in Elasticsearch and can be visualized in Kibana. No manual configuration needed.
+
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
 ### 11. Visualize your data
 #### a. Query Cassandra
-  - Go to Notebook tab
+  - In Streamly dashboard, go to Notebook tab
   - Create a new note
-  - Query your table and see the result
+  - Query your table and explore your data
 
 ![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
 
 #### b. Query Elasticsearch
-  - Go to Kibana tab
+  - In Streamly dashboard, go to Kibana tab
   - Create a new index pattern with your index name and @timestamp as time-field name
 
 ![streamly-kafka-cassandra-logstash-kibana-index-pattern][streamly-kafka-cassandra-logstash-kibana-index-pattern]
@@ -186,7 +190,7 @@ Copyright © 2017 Streamly, Inc.
 [kafka]: https://kafka.apache.org/
 [cassandra]: http://cassandra.apache.org/
 [logstash]: https://www.elastic.co/guide/en/logstash/5.2/introduction.html/
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
 [streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23479954/7bb84cb8-fec6-11e6-9028-fb77fff3e615.png

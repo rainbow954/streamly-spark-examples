@@ -49,6 +49,8 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-blocks       |  real-time block events from ethereum network		    	   |
 | system-ethereum-hashs        |  real-time (transaction/block) hash events from  ethereum network |                         
 | system-ethereum-extras       |  misc real-time events from ethereum network           	   |
+| system-apache-logs           | It contains apache logs gathered from various servers          |
+
 
 This example consumes events from `system-bitcoin-transactions`.
 
@@ -70,7 +72,7 @@ The newly created keyspace should appear in the list of existing keyspaces on th
 The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you.
 
 ### 5. Get your access and secret keys
-  - Click on the Profile icon
+  - Open the Streamly dashboard and click on the Profile icon
   - Open the Access Keys Management section and copy your access and secret keys
 
 ![streamly-list-apikeys][streamly-list-apikeys]
@@ -146,4 +148,5 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
+
