@@ -77,7 +77,10 @@ To create a new table :
   - Select the keyspace you created previously (e.g. `greenspace_keyspace`) and click on View Tables button.
 ![streamly-create-keyspaces][streamly-create-keyspaces]
   
-  - Click on Add New Table button.
+  - Click on `Add New Table`.
+
+![streamly-add-new-table][streamly-add-new-table]
+
   - Specify the table name in the corresponding text field (e.g. `greenspace_output`).
   - Set the field name (e.g. `message`) , the field type (e.g. `text`) and the field option (e.g. `Primary key`)
 
@@ -90,8 +93,8 @@ The newly created table should appear in the list of existing tables:
 ![streamly-list-tables-full][streamly-list-tables-full]
 
 ### 6. Get your streamly access and secret keys
-  - Click on the Profile icon
-  - Look at Access Keys Management section
+  - Open the Streamly dashboard and click on the Profile icon
+  - Open the Access Keys Management section and copy your access and secret keys
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -111,7 +114,7 @@ Open `spark.properties` file and edit as appropriate.
 | spark.cassandra.auth.username         | Access key          			                      |
 | spark.cassandra.auth.password         | Secret key             							  |
 
-The resulting file looks like :
+The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
@@ -123,10 +126,10 @@ spark.cassandra.auth.username=ci00jji37jfhq8q
 spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
 
-Open `logstash.conf` file and replace empty settings with correct values. <br/>
+Open `logstash.conf` file and edit as appropriate.
 We provide you with some dummy input configuration because the 
 input plugin is mandatory for logstash to start properly.
-Hence, the data populated into elasticsearch come from the spark RDD.
+The resulting file should look as depicted below:
 
 ```conf
 input {
@@ -187,12 +190,13 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup]: https://board.streamly.io:20080/#/signup
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
-[streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342406/00b63c50-fc5a-11e6-8245-e079bc8d224c.png
+[streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [kafka]: https://kafka.apache.org/
 [cassandra]: http://cassandra.apache.org/
+[logstash]: https://www.elastic.co/products/logstash
 [logstash_output_cassandra]: https://github.com/PerimeterX/logstash-output-cassandra	
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
 [cassandradb]: http://cassandra.apache.org/
 [streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23123079/361e72e2-f767-11e6-929c-676e7a903538.png
@@ -202,6 +206,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-tables-empty]: https://cloud.githubusercontent.com/assets/25694018/23521195/3c4200ac-ff7e-11e6-8bc2-ce2208a193c2.png
 [streamly-add-table]: https://cloud.githubusercontent.com/assets/25694018/23609467/742bd9be-026e-11e7-8f23-d04be3462d9f.png
 [streamly-list-tables-full]: https://cloud.githubusercontent.com/assets/25694018/23521218/55a3f690-ff7e-11e6-8def-da180aadf874.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23464521/a0368b08-fe95-11e6-8851-4a205d4d99e3.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23608419/8909b464-0269-11e7-99fd-c28fef9f0d87.png
 [streamly-kafka-cassandra-logstash-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23521634/16354a8e-ff80-11e6-90e0-c194ead8afb6.png
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23581534/fcd5812a-0115-11e7-9c53-83793fee7ca2.png
+[streamly-add-new-table]: https://cloud.githubusercontent.com/assets/25694018/23610193/fd57eb26-0271-11e7-9e88-f64d184b4585.png
