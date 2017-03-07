@@ -49,7 +49,7 @@ import scala.Tuple2;
 public class StreamlyKafkaCassandra {
 	static Logger log = LoggerFactory.getLogger(StreamlyKafkaCassandra.class);
 	private static final Pattern SPACE = Pattern.compile(" ");
-	private static int seconds = 1;
+	private static int seconds = 0;
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
 		if (args.length != 4) {
