@@ -1,21 +1,19 @@
 package io.streamly.examples;
 
+import static java.lang.Math.toIntExact;
+
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
@@ -43,6 +41,7 @@ public class StreamlyKafkaElasticsearch {
 	private static final Pattern SPACE = Pattern.compile(" ");
 	static Logger log = LoggerFactory.getLogger(StreamlyKafkaElasticsearch.class);
 	static Set<String> globalLine = new HashSet<>();
+	private static int seconds = 0;
 
 	public static void main(String[] args) throws InterruptedException {
 		tieSystemOutAndErrToLog();
@@ -85,39 +84,24 @@ public class StreamlyKafkaElasticsearch {
 			}
 		});
 
-		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-			@Override
-			public Iterator<String> call(String x) {
-				log.info("Line retrieved {}", x);
-				return Arrays.asList(SPACE.split(x)).iterator();
-			}
-		});
-
-		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(new PairFunction<String, String, Integer>() {
-			@Override
-			public Tuple2<String, Integer> call(String s) {
-				log.info("Word to count {}", s);
-				return new Tuple2<>(s, 1);
-			}
-		}).reduceByKey(new Function2<Integer, Integer, Integer>() {
-			@Override
-			public Integer call(Integer i1, Integer i2) {
-				log.info("Count with reduceByKey {}", i1 + i2);
-				return i1 + i2;
-			}
-		});
-
-		wordCounts.print();
-
-		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String, Integer>>() {
+		JavaDStream<String> transactionCounts = lines.window(Durations.seconds(60));
+		transactionCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
 			@Override
-			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
-				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				JavaRDD<Map<String, ?>> javaRDD = jssc.sparkContext().parallelize(ImmutableList.of(wordCountMap));
-				JavaEsSpark.saveToEs(javaRDD, resource);
-				log.info("Words successfully added : {} into {}", wordCountMap, resource);
+			public void call(JavaRDD<String> t0) throws Exception {
+				if (t0 != null) {
+					String transactions = "transactions " + toIntExact(t0.count()) + " process in " + seconds
+							+ " seconds";
+					seconds = seconds + 2;
+					Map<String, Integer> transactionsCountsMap = new HashMap<>();
+					transactionsCountsMap.put(transactions, seconds);
+					JavaRDD<Map<String, ?>> javaRDD = jssc.sparkContext()
+							.parallelize(ImmutableList.of(transactionsCountsMap));
+					JavaEsSpark.saveToEs(javaRDD, resource);
+					log.info("Transactions successfully added : {} into {}", transactionsCountsMap, resource);
+				}
 			}
+
 		});
 
 		jssc.start();
