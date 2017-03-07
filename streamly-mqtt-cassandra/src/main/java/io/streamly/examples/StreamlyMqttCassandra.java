@@ -5,26 +5,13 @@ import static java.lang.Math.toIntExact;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
-import org.apache.spark.api.java.function.VoidFunction2;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.streaming.Durations;
-import org.apache.spark.streaming.Time;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
@@ -48,9 +35,7 @@ public class StreamlyMqttCassandra implements Serializable {
 
 	static String keyspace;
 	static String table;
-	private static int seconds = 0;
-
-	static private Map<String, Long> wordCounts = new HashMap<>();
+	private static int seconds = 0;	
 	static JavaStreamingContext jssc;
 
 	public static void main(String[] args) throws Exception {
@@ -110,6 +95,7 @@ public class StreamlyMqttCassandra implements Serializable {
 		jssc.start();
 		jssc.awaitTermination();
 	}
+
 	public static void tieSystemOutAndErrToLog() {
 		System.setOut(createLoggingProxy(System.out));
 		System.setErr(createLoggingProxy(System.err));

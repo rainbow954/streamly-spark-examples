@@ -51,6 +51,7 @@ public class StreamlyMqttElasticsearch {
 
 		JavaReceiverInputDStream<String> inputDStream = MQTTUtils.createStream(jssc, mqttBrokerUrl, mqttTopic, mqttClientID, mqttUsername,
 				mqttPassword, false);
+		
 		JavaDStream<String> jStream = inputDStream.map(new Function<String, String>() {
 			public String call(String arg0) throws Exception {
 				String str = new String(arg0);

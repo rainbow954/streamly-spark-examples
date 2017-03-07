@@ -23,7 +23,7 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Mqtt] [mqtt] count each word on the event then writes aggregates to [Kafka].
+It is written in Java and consumes events from [Mqtt] [mqtt] after every 2 seconds, counts them then writes aggregates to [Kafka].
 
 
 ## Quickstart
@@ -161,7 +161,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-mqtt-kafka-ui]: https://cloud.githubusercontent.com/assets/25694018/23527019/88f9ad8a-ff94-11e6-9849-d7f738e43ffe.png
 [streamly-mqtt-kafka-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23527097/d80c4086-ff94-11e6-830d-1b6556ac5ce7.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23527187/3e547f98-ff95-11e6-91fa-b88ead60214d.png
-[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23533263/d0c52006-ffb0-11e6-91e2-5a8deb414801.png
+[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23678753/b7fd4c96-0385-11e7-9748-4b37b43ffe9b.png
 [save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
 [start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
 [profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
