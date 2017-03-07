@@ -1,6 +1,7 @@
 package io.streamly.examples;
 
 import java.io.PrintStream;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -93,7 +94,7 @@ public class StreamlyKafkaMqtt {
 		Set<String> topicsSet = new HashSet<>(Arrays.asList(kafkaTopics.split(",")));
 		Map<String, Object> kafkaParams = new HashMap<>();
 		kafkaParams.put("bootstrap.servers", kafkaBrokers);
-		kafkaParams.put("group.id", "spark-consumer");
+		kafkaParams.put("group.id", "kafka-mqtt"+ new SecureRandom().nextInt(100));
 		
 		if (args.length == 8) {
 			String kafkaAdminJaasFile = args[7];

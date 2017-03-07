@@ -110,6 +110,21 @@ public class StreamlyKafkaCassandraLogstash {
 				return tuple2._2();
 			}
 		});
+		
+		
+
+//		lines.foreachRDD(new VoidFunction<JavaRDD<String>>() {
+//	        @Override
+//			public void call(JavaRDD<String> rdd) throws Exception {
+//	            if(rdd!=null) {
+//	                List<String> messages = rdd.collect();
+//
+//	                for (String pubMsg : messages) {
+//	                	logstash.addToQueue(pubMsg);
+//	                }
+//	            }
+//	        }
+//		});
 
 		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
 			@Override

@@ -226,9 +226,10 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23478988/4d5393f8-fec3-11e6-8b56-84db0b04a9b3.png
-[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-cassandra-logstash-es]: https://cloud.githubusercontent.com/assets/25694018/23479559/23e5ab26-fec5-11e6-90dd-823d6b6d18e1.png
 [save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
 [start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
 [profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
 [show-ui]: https://cloud.githubusercontent.com/assets/25694018/23653314/64a964c0-032c-11e7-9610-4d89de66e7bf.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
+
