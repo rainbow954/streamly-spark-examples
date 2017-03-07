@@ -7,12 +7,12 @@
 - [Introduction](#introduction)
 - [Quickstart](#quickstart)
   - [1. Build the project](#1-build-the-project)
-  - [2. Setup an account](#2-setup-an-account)
+  - [2. Create an account](#2-create-an-account)
   - [3. Choose the topic to read from](#3-choose-the-topic-to-read-from)
   - [4. Create your keyspace](#4-create-your-keyspace)
   - [5. Create your output topic](#5-create-your-output-topic)
   - [6. Get your access and secret keys](#6-get-your-access-and-secret-keys)
-  - [7. Update your configuration file](#7-update-your-configuration-file)
+  - [7. Update your configuration files](#7-update-your-configuration-files)
   - [8. Submit your application](#8-submit-your-application)
   - [9. Monitor your application](#9-monitor-your-application)
   - [10. Check your application logs](#10-check-your-application-logs)
@@ -43,7 +43,7 @@ Assuming git, java, and maven are installed on your machine. Issue the following
  host$ mvn clean install
 ```
 
-### 2. Setup an account
+### 2. Create an account
  - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
   The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must have a name that is prefixed with your namespace.  <br />
 
@@ -75,7 +75,7 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-extras       | It contains other events of an ethereum network     				|
 | system-apache-logs           | It contains apache logs gathered from various servers       		|
 
-In this example, we consume events from `system-apache-logs`.
+This example consumes events from `system-apache-logs`.
 
 
 ### 4. Create your keyspace
@@ -87,7 +87,7 @@ To create a new keyspace :
 
 ![streamly-create-keyspace][streamly-create-keyspace]
 
-  - Click on Create Keyspace button
+  - Click on `CREATE NEW KEYSPACE`
 
 The newly created keyspace should appear in the list of existing keyspaces on the right side of the screen:
 
@@ -105,15 +105,15 @@ To create a new topic :
 
 ![streamly-create-topic][streamly-create-topic]
 
-  - Click on `Add New Topic`
+  - Click on `ADD NEW TOPIC`
 
 The newly created topic should appear in the list of existing topics on the right side of the screen:
 
 ![streamly-list-topics][streamly-list-topics]
 
 ### 6. Get your access and secret keys
-  - Open the Streamly dashboard and click on the Profile icon
-  - Open the Access Keys Management section and copy your access and secret keys
+  - Open the Streamly dashboard and click on ![profile][profile]
+  - Copy your access and secret keys in the `Access Keys Management` section
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -121,7 +121,7 @@ In this example : access key is `ci00jji37jfhq8q` and secret key is `r30qwridiw8
 Access and secret keys authenticate users on Streamly services (Kafka, Mqtt, Cassandra, Elasticsearch,...).
 
 
-### 7. Update your configuration file
+### 7. Update your configuration files
 Open `spark.properties` file and edit as appropriate.
 
 | Name                                  | Description                						  |
@@ -166,15 +166,15 @@ output {
 
 ### 8. Submit your application 
  - Open the Processing tab in the Streamly dashboard
- - Click on Add Application. A new application is created with name: `No Name`.
- - Provide a valid name for your application and click on `Save`. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra-logstash-kafka`.
+ - Click on `Add Application`. A new application is created with name: `No Name`.
+ - Provide a valid name for your application and click on ![save][save]. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra-logstash-kafka`.
  - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-kafka-0.0.1.jar` files
- - Click on `Start`
+ - Click on ![start][start]
  
 ![streamly-kafka-cassanda-logstash-kafka][streamly-kafka-cassanda-logstash-kafka]
 
 ### 9. Monitor your application
-Wait until your application's status changes to RUNNING. Click on Show UI icon. You should subsequently see a screen similar to below screen:
+Wait until your application's status changes to RUNNING. Click on ![show-ui][show-ui]. You should subsequently see a screen similar to below screen:
 ![streamly-kafka-cassandra-logstash-spark-ui][streamly-kafka-cassandra-logstash-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
@@ -192,14 +192,14 @@ Application logs are populated in Elasticsearch and can be visualized in Kibana.
 ![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
 
 #### b. Query Kafka
-  - Download and query kafka to consume all published events. Issue the following commands in your terminal :
+  - Download and query kafka to consume all published events. Issue the following commands in your terminal (replace `greenspace-kafka-logstash` with your topic) :
 ```bash
  host$ wget http://www-us.apache.org/dist/kafka/0.10.1.1/kafka_2.10-0.10.1.1.tgz
  host$ tar xvzf kafka_2.10-0.10.1.1.tgz
  host$ cd kafka_2.10-0.10.1.1/
  host$ bin/kafka-console-consumer.sh --bootstrap-server apps.streamly.io:29093 --topic greenspace-kafka-logstash --from-beginning
 ```
-The output console looks like this: 
+The output console should look as depicted below:
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
 
 ## Copyright
@@ -211,6 +211,9 @@ Copyright © 2017 Streamly, Inc.
 [streamly-signup-step2]: https://cloud.githubusercontent.com/assets/25694018/23342085/2d303ce6-fc54-11e6-8839-b9b6c00d2efd.png
 [kafka]: https://kafka.apache.org/
 [cassandra]: http://cassandra.apache.org/
+[save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
+[start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
+[profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
 [logstash]: https://www.elastic.co/guide/en/logstash/5.2/introduction.html/
 [logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
 [open-streams]: http://www.streamly.io/open-streams/
@@ -225,6 +228,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23482368/271888a4-fecf-11e6-95a2-e7c5ba962901.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23482456/6d883294-fecf-11e6-9cf4-4c9fed49b140.png
-[streamly-list-apikeys]: hhttps://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
+[streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23483078/b205a36e-fed1-11e6-99b8-fc30ea422bcb.png
 [streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23580340/07d155b0-0100-11e7-809a-a962efee8ea4.png
+[show-ui]: https://cloud.githubusercontent.com/assets/25694018/23653314/64a964c0-032c-11e7-9610-4d89de66e7bf.png

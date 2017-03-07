@@ -1,15 +1,38 @@
 # Streamly Kafka Cassandra with Logstash Example Project
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+  - [1. Build the project](#1-build-the-project)
+  - [2. Create an account](#2-create-an-account)
+  - [3. Choose the topic to read from](#3-choose-the-topic-to-read-from)
+  - [4. Create your keyspace](#4-create-your-keyspace)
+  - [5. Create a Mqtt topic](#5-create-a-mqtt-topic)
+  - [6. Get your access and secret keys](#6-get-your-access-and-secret-keys)
+  - [7. Update your configuration file](#7-update-your-configuration-file)
+  - [8. Submit your application](#8-submit-your-application)
+  - [9. Monitor your application](#9-monitor-your-application)
+  - [10. Check your application logs](#10-check-your-application-logs)
+  - [11. Visualize your data](#11-visualize-your-data)
+    - [a. Query Cassandra](#a-query-cassandra)
+    - [b. Query Mqtt](#b-query-mqtt)
+- [Copyright](#copyright)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Introduction
 
-This is a simple stream processing application that you can deploy on [Streamly].
-It is written in Java and consumes events from [Kafka] count each word on the event then writes aggregates to [Cassandra].
+This is a sample stream processing application that you can deploy in [Streamly].
+It is written in Java and consumes events from [Kafka], count each word on the event then writes aggregates to [Cassandra].
 It also populates the counted words to [Mqtt] using [Logstash].
 
 ## Quickstart
 
 ### 1. Build the project
-Assuming git, java and maven installed. In your local terminal :
+Assuming git, java, and maven are installed on your machine. Issue the following commands in your terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
@@ -19,22 +42,23 @@ Assuming git, java and maven installed. In your local terminal :
  host$ mvn clean install
 ```
 
-### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
-  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
+### 2. Create an account
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
+  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must have a name that is prefixed with your namespace.  <br />
 
-    **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+    **A user has one single namespace. Once an account is created, the associated namespace cannot be changed. Therefore, be sure to choose your namespace carefully.**
 
 ![streamly-signup-step1][streamly-signup-step1]
+
+After about 2 min of clicking on `Sign up`, you should receive a confimation email. Click on this email to land on the following screen.
 
  - Complete your registration 
 
 ![streamly-signup-step2][streamly-signup-step2]
 
- - Log into [Streamly] with your email and password
+ - Log in into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
-
 
 ### 3. Choose the topic to read from
 There are [Open Streams][open-streams] topics available to all registered users :
@@ -50,21 +74,21 @@ There are [Open Streams][open-streams] topics available to all registered users 
 | system-ethereum-extras       | It contains other events of an ethereum network     				|
 | system-apache-logs           | It contains apache logs gathered from various servers       		|
 
-In this example, we consume events from `system-apache-logs`.
+This example consumes events from `system-apache-logs`.
 
 
-### 4. Create your keyspace and table
+### 4. Create your keyspace
 To create a new keyspace :
 
-  - Go to Cassandra tab
-  - Provide the name of the keyspace, in the Keyspace Name box (eg `greenspace_keyspace`). It should start with your namespace.
-  - Choose the strategy (eg `SimpleStrategy`) and define the replication factor (eg `1`)
+  - Open the Streamly dashboard and switch to the Cassandra tab
+  - Specify the keyspace name in the corresponding text field (e.g. `greenspace_keyspace`). Be sure to prefix it with your namespace.
+  - Choose a replication strategy (e.g. `SimpleStrategy`) and define the replication factor (e.g. `1`)
 
 ![streamly-create-keyspace][streamly-create-keyspace]
 
-  - Click on Create Keyspace button
+  - Click on `CREATE NEW KEYSPACE`
 
-The keyspace appears in the list of existing keyspaces:
+The newly created keyspace should appear in the list of existing keyspaces on the right side of the screen:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
@@ -73,23 +97,23 @@ The job will create the table precise in the spark.properties file (e.g. `greens
 ### 5. Create a Mqtt topic
 To create a Mqtt topic :
 
-  - Go to Messaging tab
-  - Switch type to Mqtt
-  - Provide the name of the topic, in the Topic Name box (eg `greenspace/mqtt/topic`). It should start with your namespace.
-  - Set authorized hosts to `*` so that the topic can be access from anywhere.
+  - Open the Streamly dashboard and switch to Messaging tab
+  - In type field select `MQTT`
+  - Specify the topic name in the corresponding text field (e.g. `greenspace/mqtt/topic`). It should start with your namespace.
+  - Set Authorized Hosts to `*` so that the topic can be access from anywhere.
 
 ![streamly-create-topic][streamly-create-topic]
 
-  - Click on ADD NEW TOPIC
+  - Click on `ADD NEW TOPIC`
 
-The topics appears in the list of existing topics:
+The newly created topic should appear in the list of existing topics on the right side of the screen:
 
 ![streamly-list-topics][streamly-list-topics]                          
 
 
 ### 6. Get your access and secret keys
-  - Click on the Profile icon
-  - Look at Access Keys Management section
+  - Open the Streamly dashboard and click on ![profile][profile]
+  - Copy your access and secret keys in the `Access Keys Management` section
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -110,7 +134,7 @@ Open `spark.properties` file and edit as appropriate.
 | spark.cassandra.auth.username         | Access key          			                      |
 | spark.cassandra.auth.password         | Secret key             							  |
 
-The resulting file looks like :
+The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
@@ -122,10 +146,9 @@ spark.cassandra.auth.username=ci00jji37jfhq8q
 spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
 
-Open `logstash.conf` file and replace empty settings with correct values. <br/>
-We provide you with some dummy input configuration because the 
-input plugin is mandatory for logstash to start properly.
-Hence, the data populated into elasticsearch come from the spark RDD.
+Open `logstash.conf` file and edit as appropriate.
+We provide you with some dummy input configuration because the input plugin is mandatory for logstash to start properly.
+The resulting file should look as depicted below:
 
 ```conf
 input {
@@ -145,47 +168,44 @@ output {
 ```
 
 ### 8. Submit your application 
- - Go to Processing tab
- - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-kafka-cassandra-logstash-mqtt`.
+ - Open the Processing tab in the Streamly dashboard
+ - Click on Add Application. A new application is created with name: `No Name`.
+ - Provide a valid name for your application and click on ![save][save]. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra-logstash-mqtt`.
  - Upload `logstash.conf`, `spark.properties` and `streamly-kafka-cassandra-logstash-mqtt-0.0.1.jar` files
- - Click on the Start icon
+ - Click on ![start][start]
  
 ![streamly-kafka-cassanda-logstash-kafka][streamly-kafka-cassanda-logstash-kafka]
 
 ### 9. Monitor your application
-Wait until your application is running. Then click on Show UI icon. You should see something like this :
+Wait until your application's status changes to RUNNING. Click on ![show-ui][show-ui]. You should subsequently see a screen similar to below screen:
 ![streamly-kafka-cassandra-logstash-spark-ui][streamly-kafka-cassandra-logstash-spark-ui]
 You can see how our Spark Streaming job _processes_ the Kafka events stream.
 
 ### 10. Check your application logs
-You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
+Application logs are populated in Elasticsearch and can be visualized in Kibana. No manual configuration needed.
 ![streamly-kafka-cassandra-logstash-kibana-ui][streamly-kafka-cassandra-logstash-kibana-ui]
 
 ### 11. Visualize your data
 #### a. Query Cassandra
-  - Go to Notebook tab
+ - In Streamly dashboard, go to Notebook tab
   - Create a new note
-  - Query your table and see the result
+  - Query your table and explore your data
+
 ![streamly-kafka-cassandra-logstash-zeppelin-cassandra][streamly-kafka-cassandra-logstash-zeppelin-cassandra]
 
 #### b. Query Mqtt
-In your local machine : 
-  - Install mosquitto-clients
-  - On Windows <br /> 
-    Go to http://www.eclipse.org/downloads/download.php?file=/mosquitto/binary/win32/mosquitto-1.4.11-install-win32.exe and download mosquitto
-  - On Centos
+Install mosquitto in your local machine by typing the following commands in your terminal:
+
+  - On Centos 7
 ```bash
- host$ sudo yum -y install epel-release
- host$ sudo yum -y install mosquitto
- host$ sudo systemctl start mosquitto
+ host$ sudo yum install epel-release -y
+ host$ sudo yum install mosquitto -y 
 ```
   - On Debian
 ```bash
- host$ sudo apt-get install mosquitto
+ host$ sudo apt-get install mosquitto-clients -y 
 ```
-  - On Mac <br />
-    Assume that brew is already installed
+  - On Mac
 ```bash
  host$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
  host$ brew doctor
@@ -194,11 +214,17 @@ In your local machine :
  host$ ln -sfv /usr/local/opt/mosquitto/*.plist ~/Library/LaunchAgents
  host$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mosquitto.plist
 ```
-  - Consume events published into your MQTT topic 
-```bash
+  - On Windows
+    - Go to http://www.eclipse.org/downloads/download.php?file=/mosquitto/binary/win32/mosquitto-1.4.11-install-win32.exe and download mosquitto
+    - Double click the downloaded exe to install mosquitto
+
+Consume events from your MQTT topic. Replace `greenspace/mqtt/topic` with your topic, `ci00jji37jfhq8q` with your access key and `r30qwridiw8qkxj` with your secret key.
+
+ ```bash
  host$ mosquitto_sub -h apps.streamly.io -p 21883 -t greenspace/mqtt/topic -q 1 -u ci00jji37jfhq8q -P r30qwridiw8qkxj
- ```
-  The output console looks like this: 
+ ``` 
+
+  The output console should look as depicted below:
 
 ![streamly-kafka-cassandra-logstash-kafka-consumer][streamly-kafka-cassandra-logstash-kafka-consumer]
 
@@ -228,3 +254,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23611534/1f7671cc-0278-11e7-92f3-ac400a2d5c87.png
 [streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23549942/bbfe10a2-000e-11e7-9389-e3ead84a4104.png
 [streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23580773/1dad1538-0108-11e7-8b47-81fa3bf51b98.png
+[save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
+[start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
+[profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
+[show-ui]: https://cloud.githubusercontent.com/assets/25694018/23653314/64a964c0-032c-11e7-9610-4d89de66e7bf.png
