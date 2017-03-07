@@ -117,7 +117,7 @@ public class StreamlyKafkaCassandra {
 				CassandraJavaUtil.javaFunctions(transactionsRdd)
 				.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(Transactions.class))
 				.saveToCassandra();
-				log.info("Number of Transactions :{} successfully added after {} minutes, keyspace {}, table {}", t.getTransactions(), t.getSeconds(), keyspace, table);
+				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}", t.getTransactions(), t.getSeconds(), keyspace, table);
 			}
 			
 		});

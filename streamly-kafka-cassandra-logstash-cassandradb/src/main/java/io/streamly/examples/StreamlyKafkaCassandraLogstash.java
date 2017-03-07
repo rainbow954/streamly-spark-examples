@@ -1,5 +1,7 @@
 package io.streamly.examples;
 
+import static java.lang.Math.toIntExact;
+
 import java.io.PrintStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 
-import io.streamly.examples.domain.WordOccurence;
+import io.streamly.examples.domain.ApacheLogs;
 import io.streamly.logstash.Logstash;
 import scala.Tuple2;
 
@@ -50,6 +52,7 @@ public class StreamlyKafkaCassandraLogstash {
 	private static Logstash logstash;
 	static Logger log = LoggerFactory.getLogger(StreamlyKafkaCassandraLogstash.class);
 	private static final Pattern SPACE = Pattern.compile(" ");
+	private static int seconds = 0;
 
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
@@ -86,7 +89,7 @@ public class StreamlyKafkaCassandraLogstash {
 		CassandraConnector connector = CassandraConnector.apply(jssc.sparkContext().getConf());
 		try (Session session = connector.openSession()) {
 			session.execute(
-					"CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (word TEXT PRIMARY KEY, count int)");
+					"CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (seconds int PRIMARY KEY, messages int)");
 		}
 
 		log.info("Table : {} created successfully", table);
@@ -111,67 +114,26 @@ public class StreamlyKafkaCassandraLogstash {
 			}
 		});
 		
-		
-
-//		lines.foreachRDD(new VoidFunction<JavaRDD<String>>() {
-//	        @Override
-//			public void call(JavaRDD<String> rdd) throws Exception {
-//	            if(rdd!=null) {
-//	                List<String> messages = rdd.collect();
-//
-//	                for (String pubMsg : messages) {
-//	                	logstash.addToQueue(pubMsg);
-//	                }
-//	            }
-//	        }
-//		});
-
-		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-			@Override
-			public Iterator<String> call(String x) {
-				log.info("Line retrieved {}", x);
-				return Arrays.asList(SPACE.split(x)).iterator();
-			}
-		});
-
-		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(new PairFunction<String, String, Integer>() {
-			@Override
-			public Tuple2<String, Integer> call(String s) {
-				log.info("Word to count {}", s);
-				return new Tuple2<>(s, 1);
-			}
-		}).reduceByKey(new Function2<Integer, Integer, Integer>() {
-			@Override
-			public Integer call(Integer i1, Integer i2) {
-				log.info("Count with reduceByKey {}", i1 + i2);
-				return i1 + i2;
-			}
-		});
-
-		log.info("words retrieved {}" + words);
-
-//		wordCounts.print();
-
-		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String, Integer>>() {
+		JavaDStream<String> logsCounts=lines.window(Durations.seconds(60));
+		logsCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
 			@Override
-			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
-				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				List<WordOccurence> topicList = new ArrayList<>();
-				for (String key : wordCountMap.keySet()) {
-					WordOccurence wordOccurence = new WordOccurence();
-					wordOccurence.setWord(key);
-					wordOccurence.setCount(wordCountMap.get(key));
-					log.info("New WordOccurence = {}", wordOccurence);
-					logstash.addToQueue(key +" : "+wordCountMap.get(key));
-					if (!wordOccurence.getWord().isEmpty())
-						topicList.add(wordOccurence);
-				}
-				JavaRDD<WordOccurence> wordOccurenceRDD = jssc.sparkContext().parallelize(topicList);
-				CassandraJavaUtil.javaFunctions(wordOccurenceRDD)
-						.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(WordOccurence.class)).saveToCassandra();
-				log.info("Words successfully added : {}, keyspace {}, table {}", words, keyspace, table);
+			public void call(JavaRDD<String> t0) throws Exception {
+				List<ApacheLogs> logs = new ArrayList<>();
+				ApacheLogs l = new ApacheLogs();
+				l.setMessages(toIntExact(t0.count()));
+				l.setSeconds(seconds);
+				seconds = seconds +2;
+				logs.add(l);
+				log.info("New Apachelogs = {}", l);
+				logstash.addToQueue(l.getMessages() +" : "+l.getSeconds());
+				JavaRDD<ApacheLogs> transactionsRdd = jssc.sparkContext().parallelize(logs);
+				CassandraJavaUtil.javaFunctions(transactionsRdd)
+				.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(ApacheLogs.class))
+				.saveToCassandra();
+				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}", l.getMessages(), l.getSeconds(), keyspace, table);
 			}
+			
 		});
 
 		jssc.start();
