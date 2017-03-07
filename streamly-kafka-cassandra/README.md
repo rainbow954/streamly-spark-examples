@@ -1,5 +1,25 @@
 # Streamly-Kafka-Cassandra
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+  - [1. Build the project](#1-build-the-project)
+  - [2. Create an account](#2-create-an-account)
+  - [3. Choose the topic to read from](#3-choose-the-topic-to-read-from)
+  - [4. Create your keyspace](#4-create-your-keyspace)
+  - [5. Get your access and secret keys](#5-get-your-access-and-secret-keys)
+  - [6. Update your configuration file](#6-update-your-configuration-file)
+  - [7. Submit your application](#7-submit-your-application)
+  - [8. Monitor your application](#8-monitor-your-application)
+  - [9. Check your application logs](#9-check-your-application-logs)
+  - [10. Visualize your data](#10-visualize-your-data)
+- [Copyright](#copyright)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
@@ -54,7 +74,7 @@ There are [Open Streams][open-streams] topics available to all registered users 
 
 This example consumes events from `system-bitcoin-transactions`.
 
-### 4. Create your keyspace and table
+### 4. Create your keyspace
 To create a new keyspace :
 
   - Open the Streamly dashboard and switch to the Cassandra tab
@@ -72,8 +92,8 @@ The newly created keyspace should appear in the list of existing keyspaces on th
 The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you.
 
 ### 5. Get your access and secret keys
-  - Open the Streamly dashboard and click on the Profile icon
-  - Open the Access Keys Management section and copy your access and secret keys
+  - Open the Streamly dashboard and click on ![profile][profile]
+  - Copy your access and secret keys in the `Access Keys Management` section
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -107,14 +127,14 @@ spark.cassandra.auth.password=r30qwridiw8qkxj
 ### 7. Submit your application 
  - Open the Processing tab in the Streamly dashboard
  - Click on Add Application. A new application is created with name: `No Name`.
- - Provide a valid name for your application and click on `Save`. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra`.
+ - Provide a valid name for your application and click on ![save][save]. Again, your application name should start with your namespace. In this example the application name is `greenspace-kafka-cassandra`.
  - Upload `spark.properties` and `streamly-kafka-cassandra-0.0.1.jar` files
- - Click on the `Start`
+ - Click on ![start][start]
 
 ![streamly-kafka-cassandra][streamly-kafka-cassandra]
 
 ### 8. Monitor your application
-Wait until your application's status changes to RUNNING. Click on Show UI icon. You should subsequently see a screen similar to below screen:
+Wait until your application's status changes to RUNNING. Click on ![show-ui][show-ui]. You should subsequently see a screen similar to below screen:
 
 ![streamly-kafka-cassandra-spark-ui][streamly-kafka-cassandra-spark-ui]
 You can see how your Spark Streaming application _processes_ the Kafka events.
@@ -149,4 +169,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
 [open-streams]: http://www.streamly.io/open-streams/
-
+[save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
+[start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
+[profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
+[show-ui]: https://cloud.githubusercontent.com/assets/25694018/23653314/64a964c0-032c-11e7-9610-4d89de66e7bf.png

@@ -1,16 +1,35 @@
 # Streamly Mqtt Elasticsearch Example Project
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+  - [1. Build the project](#1-build-the-project)
+  - [2. Create an account](#2-create-an-account)
+  - [3. Choose the topic to read from](#3-choose-the-topic-to-read-from)
+  - [4. Create your index](#4-create-your-index)
+  - [5. Get your access and secret keys](#5-get-your-access-and-secret-keys)
+  - [6. Update your configuration file](#6-update-your-configuration-file)
+  - [7. Submit your application](#7-submit-your-application)
+  - [8. Monitor your application](#8-monitor-your-application)
+  - [9. Check your application logs](#9-check-your-application-logs)
+  - [10. Visualize your data](#10-visualize-your-data)
+- [Copyright](#copyright)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Introduction
 
-This is a simple stream processing application that you can deploy in [Streamly].
+This is a sample stream processing application that you can deploy in [Streamly].
 It is written in Java and consumes events from [Mqtt] then writes aggregates to [Elasticsearch].
 
 
 ## Quickstart
 
 ### 1. Build the project
-
-Assuming git, java and maven installed. In your local terminal :
+Assuming git, java, and maven are installed on your machine. Issue the following commands in your terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
@@ -18,19 +37,22 @@ Assuming git, java and maven installed. In your local terminal :
  host$ mvn clean install
 ```
 
-### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br />
-The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
+### 2. Create an account
 
-   **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
+  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must have a name that is prefixed with your namespace.  <br />
+
+    **A user has one single namespace. Once an account is created, the associated namespace cannot be changed. Therefore, be sure to choose your namespace carefully.**
 
 ![streamly-signup-step1][streamly-signup-step1]
+
+After about 2 min of clicking on `Sign up`, you should receive a confimation email. Click on this email to land on the following screen.
 
  - Complete your registration 
 
 ![streamly-signup-step2][streamly-signup-step2]
 
- - Log into [Streamly] with your email and password
+ - Log in into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
 
@@ -40,21 +62,21 @@ We assume that you have followed up the [streamly-kafka-mqtt] project, because t
 ### 4. Create your index 
 To create a new index :
   
-  - Go to Elasticsearch tab
-  - Write the name of the index in Index name box. We assume that the name is `greenspace-myindex`.
-  - Define the number of replicas
+  - Open the Streamly dashboard and switch to the Elasticsearch tab
+  - Specify the index name in the corresponding text field (e.g. `greenspace-myindex`). Be sure to prefix it with your namespace.
+  - Define the number of replicas (e.g. `1`)
 
 ![streamly-create-index][streamly-create-index]
 
-  - Click on Add New Index button
+  - Click on `ADD NEW INDEX`
 
-The index appears in the list of existing indexes:
+The newly created index should appear in the list of existing indexes on the right side of the screen:
 
 ![streamly-list-indexes][streamly-list-indexes]
 
 ### 5. Get your access and secret keys
-  - Click on the Profile icon
-  - Look at Access Keys Management section
+  - Open the Streamly dashboard and click on ![profile][profile]
+  - Copy your access and secret keys in the `Access Keys Management` section
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -74,7 +96,8 @@ Open `spark.properties` file and edit as appropriate.
 | spark.es.net.http.auth.user           | Access key          			                      |
 | spark.es.net.http.auth.pass           | Secret key                                          |
 | spark.es.resource                     | Elasticsearch resources, here we used the index/type|
-The resulting file looks like :
+
+The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyMqttElasticsearch
@@ -88,26 +111,26 @@ spark.es.net.http.auth.pass=r30qwridiw8qkxj
 ```
 
 ### 7. Submit your application 
- - Go to Processing tab
- - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-mqtt-es`.
+ - Open the Processing tab in the Streamly dashboard
+ - Click on Add Application. A new application is created with name: `No Name`.
+ - Provide a valid name for your application and click on ![save][save]. Again, your application name should start with your namespace. In this example the application name is `greenspace-mqtt-es`.
  - Upload `spark.properties` and `streamly-mqtt-elasticsearch-0.0.1.jar` files
- - Click on the Start icon
+ - Click on ![start][start]
 
 ![streamly-mqtt-elasticsearch][streamly-mqtt-elasticsearch]
 
 ### 8. Monitor your application
-Wait until your application is running. Then click on Show UI icon. You should see something like this :
+Wait until your application's status changes to RUNNING. Click on ![show-ui][show-ui]. You should subsequently see a screen similar to below screen:
 ![streamly-mqtt-elasticsearch-spark-ui][streamly-mqtt-elasticsearch-spark-ui]
 You can see how our Spark Streaming job _processes_ the Mqtt events stream.
 
 ### 9. Check your application logs
-You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
+Application logs are populated in Elasticsearch and can be visualized in Kibana. No manual configuration needed.
 ![streamly-mqtt-elasticsearch-kibana-ui][streamly-mqtt-elasticsearch-kibana-ui]
 
 ### 10. Visualize your data
-  - Go to Kibana tab
-  - Create a new index pattern with your index name and created-at as time-field name
+  - In Streamly Dashboard, go to Kibana tab
+  - Create a new index pattern with your index name (e.g. `greenspace-myindex`)
 
 ![streamly-mqtt-elasticsearch-kibana-index-pattern][streamly-mqtt-elasticsearch-kibana-index-pattern]
 
@@ -123,7 +146,9 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-mqtt]: https://github.com/streamlyio/streamly-spark-examples/tree/master/streamly-kafka-mqtt
 [mqtt]: http://mqtt.org/
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
-[blog-post]: http://streamly.io/streamly-new/blog.html
+[save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
+[start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
+[profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
 [streamly-mqtt-elasticsearch-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23481368/6ab3e378-fecb-11e6-8bbe-eb585d185015.png
 [streamly-mqtt-elasticsearch-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23481441/9e1dff00-fecb-11e6-9e38-9de49622c56b.png
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
@@ -134,3 +159,4 @@ Copyright © 2017 Streamly, Inc.
 [streamly-mqtt-elasticsearch-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23531279/078726bc-ffa6-11e6-81de-312d92d272d1.png
 [streamly-mqtt-elasticsearch]: https://cloud.githubusercontent.com/assets/25694018/23531280/07d2018c-ffa6-11e6-9be4-9ff30e420e7b.png
 [streamly-mqtt-elasticsearch-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23531377/6ca17e1c-ffa6-11e6-8d2d-61879ff366a9.png
+[show-ui]: https://cloud.githubusercontent.com/assets/25694018/23653314/64a964c0-032c-11e7-9610-4d89de66e7bf.png

@@ -1,18 +1,35 @@
 # Streamly Mqtt Cassandra Example Project
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+  - [1. Build the project](#1-build-the-project)
+  - [2. Create an account](#2-create-an-account)
+  - [3. Choose the topic to read from](#3-choose-the-topic-to-read-from)
+  - [4. Create your keyspace](#4-create-your-keyspace)
+  - [5. Get your access and secret keys](#5-get-your-access-and-secret-keys)
+  - [6. Update your configuration file](#6-update-your-configuration-file)
+  - [7. Submit your application](#7-submit-your-application)
+  - [8. Monitor your application](#8-monitor-your-application)
+  - [9. Check your application logs](#9-check-your-application-logs)
+  - [10. Visualize your data](#10-visualize-your-data)
+- [Copyright](#copyright)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Introduction
 
-This is a simple stream processing application that you can deploy in [Streamly].
+This is a sample stream processing application that you can deploy in [Streamly].
 It is written in Java and consumes events from [Mqtt] count each word on the event then writes aggregates to [Cassandra].
-
-
-**Running this requires an account on Streamly Dashboard.**
 
 ## Quickstart
 
 ### 1. Build the project
 
-Assuming git, java and maven installed:
+Assuming git, java, and maven are installed on your machine. Issue the following commands in your terminal :
 
 ```bash
  host$ git clone https://github.com/streamlyio/streamly-spark-examples.git
@@ -20,40 +37,47 @@ Assuming git, java and maven installed:
  host$ mvn clean install
 ```
 
-### 2. Setup an account
- - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a valid namespace. <br /> 
-  The namespace is a string on which you have full authorization for services that you make used on [Streamly]. Every service that you make used on [Streamly] should start with your namespace. That is for instance if you want to create a keyspace, your keyspace must be prefixed by your namespace. <br />
-  **Make sure you choose your namespace carefully because you wouldn't change it afterwards.**
+### 2. Create an account
+ - Go to [Streamly Registration Page][streamly-signup] and sign up by providing your email address and a namespace. <br /> 
+  The namespace is a string that Streamly uses to scope resources. For instance, any keyspace, index, application, or topic you create must have a name that is prefixed with your namespace.  <br />
+
+    **A user has one single namespace. Once an account is created, the associated namespace cannot be changed. Therefore, be sure to choose your namespace carefully.**
+
 ![streamly-signup-step1][streamly-signup-step1]
+
+After about 2 min of clicking on `Sign up`, you should receive a confimation email. Click on this email to land on the following screen.
+
  - Complete your registration 
+
 ![streamly-signup-step2][streamly-signup-step2]
- - Log into [Streamly] with your email and password
+
+ - Log in into [Streamly] with your email and password
 
 In the following steps, we assume the namespace is `greenspace`.
 
 ### 3. Choose the topic to read from
 We assume that you have followed up the [streamly-kafka-mqtt] project, because this project creates a MQTT topic and sends some data inside. This topic is called  `greenspace/mqtt/topic`. In the next steps, we consume events from  `greenspace/mqtt/topic`.
 
-### 4. Create your keyspace and table
+### 4. Create your keyspace
 To create a new keyspace :
 
-  - Go to Cassandra tab
-  - Provide the name of the keyspace, in the Keyspace Name box (eg `greenspace_keyspace`). It should start with your namespace.
-  - Choose the strategy (eg `SimpleStrategy`) and define the replication factor (eg `1`)
-
+  - Open the Streamly dashboard and switch to the Cassandra tab
+  - Specify the keyspace name in the corresponding text field (e.g. `greenspace_keyspace`). Be sure to prefix it with your namespace.
+  - Choose a replication strategy (e.g. `SimpleStrategy`) and define the replication factor (e.g. `1`)
+  
 ![streamly-create-keyspace][streamly-create-keyspace]
 
-  - Click on Create Keyspace button
+  - Click on `CREATE NEW KEYSPACE`
 
-The keyspace appears in the list of existing keyspaces:
+The newly created keyspace should appear in the list of existing keyspaces on the right side of the screen:
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
 The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you
 
 ### 5. Get your access and secret keys
-  - Click on the Profile icon
-  - Look at Access Keys Management section
+  - Open the Streamly dashboard and click on ![profile][profile]
+  - Copy your access and secret keys in the `Access Keys Management` section
 
 ![streamly-list-apikeys][streamly-list-apikeys]
 
@@ -73,7 +97,7 @@ Open `spark.properties` file and edit as appropriate.
 | spark.cassandra.auth.username         | Access key          			                      |
 | spark.cassandra.auth.password         | Secret key             							  |
 
-The resulting file looks like :
+The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyMqttCassandra
@@ -86,27 +110,27 @@ spark.cassandra.auth.password=r30qwridiw8qkxj
 ```
 
 ### 7. Submit your application 
- - Go to Processing tab
- - Click on Add Application. A new application is created with name : `No Name`.
- - Provide a valid name for your application and click on Save icon. It should start with your namespace. In this example the name is `greenspace-mqtt-cassandra`.
+ - Open the Processing tab in the Streamly dashboard
+ - Click on Add Application. A new application is created with name: `No Name`.
+ - Provide a valid name for your application and click on ![save][save]. Again, your application name should start with your namespace. In this example the application name is `greenspace-mqtt-cassandra`.
  - Upload `spark.properties` and `streamly-mqtt-cassandra-0.0.1.jar` files
- - Click on the Start icon
+ - Click on ![start][start]
 
 ![streamly-mqtt-cassandra][streamly-mqtt-cassandra]
 
 ### 8. Monitor your application
-Wait until your application is running. Then click on Show UI icon. You should see something like this :
+Wait until your application's status changes to RUNNING. Click on ![show-ui][show-ui]. You should subsequently see a screen similar to below screen:
 ![streamly-mqtt-cassandra-spark-ui][streamly-mqtt-cassandra-spark-ui]
 You can see how our Spark Streaming job _processes_ the Mqtt events stream.
 
 ### 9. Check your application logs
-You may have some errors and can't find why this happening. Application logs are populated in Elasticsearch and can be visualized through Kibana.
+Application logs are populated in Elasticsearch and can be visualized in Kibana. No manual configuration needed.
 ![streamly-mqtt-cassandra-kibana-ui][streamly-mqtt-cassandra-kibana-ui]
 
 ### 10. Visualize your data
-  - Go to Notebook tab
+  - In Streamly dashboard, go to Notebook tab
   - Create a new note
-  - Query your table and see the result
+  - Query your table and explore your data
 
 ![streamly-mqtt-cassandra-zeppelin-cassandra][streamly-mqtt-cassandra-zeppelin-cassandra]
 
@@ -132,3 +156,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23477215/8b354d66-febd-11e6-9384-44f941ffc783.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23477275/bedb827a-febd-11e6-898f-cd5ac571bd2f.png
 [streamly-kafka-mqtt-consumer]: https://cloud.githubusercontent.com/assets/25694018/23477993/19a74dc2-fec0-11e6-8466-29b918b95218.png
+[save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
+[start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
+[profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
+[show-ui]: https://cloud.githubusercontent.com/assets/25694018/23653314/64a964c0-032c-11e7-9610-4d89de66e7bf.png
