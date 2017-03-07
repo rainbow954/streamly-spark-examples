@@ -56,9 +56,9 @@ public class StreamlyKafkaCassandraLogstash {
 
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
-		if (args.length != 6) {
-			System.err
-					.println("Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <parameter> <file>");
+		if (args.length != 6) {	
+			System.err.println(
+					"Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <parameter> <file>");
 			System.exit(1);
 		}
 		String brokers = args[0];
@@ -87,8 +87,8 @@ public class StreamlyKafkaCassandraLogstash {
 		log.info("Create and populate table");
 		CassandraConnector connector = CassandraConnector.apply(jssc.sparkContext().getConf());
 		try (Session session = connector.openSession()) {
-			session.execute(
-					"CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (word TEXT PRIMARY KEY, count int)");
+			session.execute("CREATE TABLE IF NOT EXISTS " + keyspace + "." + table
+					+ " (seconds int PRIMARY KEY, messages int)");
 		}
 
 		log.info("Table : {} created successfully", table);
@@ -112,8 +112,8 @@ public class StreamlyKafkaCassandraLogstash {
 				return tuple2._2();
 			}
 		});
-		
-		JavaDStream<String> logsCounts=lines.window(Durations.seconds(60));
+
+		JavaDStream<String> logsCounts = lines.window(Durations.seconds(60));
 		logsCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
 			@Override
@@ -122,17 +122,17 @@ public class StreamlyKafkaCassandraLogstash {
 				ApacheLogs l = new ApacheLogs();
 				l.setMessages(toIntExact(t0.count()));
 				l.setSeconds(seconds);
-				seconds = seconds +2;
+				seconds = seconds + 2;
 				logs.add(l);
 				log.info("New Apachelogs = {}", l);
-				logstash.addToQueue(l.getMessages() +" : "+l.getSeconds());
+				logstash.addToQueue(l.getMessages() + " : " + l.getSeconds());
 				JavaRDD<ApacheLogs> transactionsRdd = jssc.sparkContext().parallelize(logs);
 				CassandraJavaUtil.javaFunctions(transactionsRdd)
-				.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(ApacheLogs.class))
-				.saveToCassandra();
-				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}", l.getMessages(), l.getSeconds(), keyspace, table);
+						.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(ApacheLogs.class)).saveToCassandra();
+				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}",
+						l.getMessages(), l.getSeconds(), keyspace, table);
 			}
-			
+
 		});
 
 		jssc.start();
