@@ -23,7 +23,7 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka] count each word on the event then writes aggregates to [Elasticsearch].
+It is written in Java and consumes events from [Kafka] then writes aggregates to [Elasticsearch].
 
 
 ## Quickstart

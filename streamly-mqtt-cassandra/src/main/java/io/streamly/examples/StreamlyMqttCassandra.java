@@ -35,7 +35,7 @@ public class StreamlyMqttCassandra implements Serializable {
 
 	static String keyspace;
 	static String table;
-	private static int seconds = 0;	
+	private static int seconds = 0;
 	static JavaStreamingContext jssc;
 
 	public static void main(String[] args) throws Exception {

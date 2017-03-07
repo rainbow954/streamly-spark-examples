@@ -45,7 +45,7 @@ public class StreamlyMqttKafka {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonInString = mapper.writeValueAsString(
-					transactions + " transactions processed in " + 2 + " secs total time spent " + time+" secs");
+					transactions + " transactions processed in " + 2 + " secs total time spent " + time + " secs");
 			String event = "{\"transactions_stats\":" + jsonInString + "}";
 			log.info("Message to send to kafka : {}", event);
 			producer.send(new ProducerRecord<String, String>(topic, event));
@@ -93,7 +93,7 @@ public class StreamlyMqttKafka {
 
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyMqttKafka");
 
-		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(5));
+		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
 
 		JavaReceiverInputDStream<String> lines = MQTTUtils.createStream(jssc, brokerUrl, topic, clientID, username,
 				password, false);
@@ -109,43 +109,6 @@ public class StreamlyMqttKafka {
 			}
 
 		});
-
-		// JavaDStream<String> transactionCounts =
-		// lines.window(Durations.seconds(60));
-		// transactionCounts.foreachRDD(new VoidFunction2<JavaRDD<String>,
-		// Time>() {
-		// @Override
-		// public void call(JavaRDD<String> rdd, Time time) {
-		// SparkSession spark =
-		// JavaSparkSessionSingleton.getInstance(rdd.context().getConf());
-		// // Convert JavaRDD[String] to JavaRDD[bean class] to DataFrame
-		// JavaRDD<JavaRecord> rowRDD = rdd.map(new Function<String,
-		// JavaRecord>() {
-		// // @Override
-		// public JavaRecord call(String transaction) {
-		// JavaRecord record = new JavaRecord();
-		// record.setTransaction(transaction);
-		// return record;
-		// }
-		// });
-		// Dataset<Row> transactionsDataFrame = spark.createDataFrame(rowRDD,
-		// JavaRecord.class);
-		//
-		// // Creates a temporary view using the DataFrame
-		// transactionsDataFrame.createOrReplaceTempView("transactions");
-		// // Do word count on table using SQL and print it
-		// Dataset<Row> transactionCountsDataFrame = spark
-		// .sql("select transaction, count(*) as total from transactions group
-		// by transaction");
-		// List<Row> listRows = transactionCountsDataFrame.collectAsList();
-		// for (Row row : listRows) {
-		// log.debug("Data to send: {}", row);
-		// sendToKafka(kafkaBrokersUrl, (String) row.get(0), (Long) row.get(1),
-		// kafkaTopic);
-		// }
-		//
-		// }
-		// });
 
 		jssc.start();
 		jssc.awaitTermination();

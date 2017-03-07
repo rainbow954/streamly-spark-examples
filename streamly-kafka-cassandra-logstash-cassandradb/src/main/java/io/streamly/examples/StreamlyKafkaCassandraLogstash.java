@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,11 +16,8 @@ import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
@@ -57,8 +53,7 @@ public class StreamlyKafkaCassandraLogstash {
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
 		if (args.length != 5) {
-			System.err
-					.println("Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <file>");
+			System.err.println("Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <file>");
 			System.exit(1);
 		}
 		String brokers = args[0];
@@ -71,7 +66,7 @@ public class StreamlyKafkaCassandraLogstash {
 		String[] argumentFile = { parameter, file };
 		log.info("About to start logstash");
 		logstash = Logstash.start(argumentFile);
-		//Wait while logstash starts properly
+		// Wait while logstash starts properly
 		TimeUnit.SECONDS.sleep(15);
 		log.info("logstash started successfully");
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(2));
@@ -88,8 +83,8 @@ public class StreamlyKafkaCassandraLogstash {
 		log.info("Create and populate table");
 		CassandraConnector connector = CassandraConnector.apply(jssc.sparkContext().getConf());
 		try (Session session = connector.openSession()) {
-			session.execute(
-					"CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (seconds int PRIMARY KEY, messages int)");
+			session.execute("CREATE TABLE IF NOT EXISTS " + keyspace + "." + table
+					+ " (seconds int PRIMARY KEY, messages int)");
 		}
 
 		log.info("Table : {} created successfully", table);
@@ -113,8 +108,8 @@ public class StreamlyKafkaCassandraLogstash {
 				return tuple2._2();
 			}
 		});
-		
-		JavaDStream<String> logsCounts=lines.window(Durations.seconds(60));
+
+		JavaDStream<String> logsCounts = lines.window(Durations.seconds(60));
 		logsCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
 			@Override
@@ -123,17 +118,17 @@ public class StreamlyKafkaCassandraLogstash {
 				ApacheLogs l = new ApacheLogs();
 				l.setMessages(toIntExact(t0.count()));
 				l.setSeconds(seconds);
-				seconds = seconds +2;
+				seconds = seconds + 2;
 				logs.add(l);
 				log.info("New Apachelogs = {}", l);
-				logstash.addToQueue(l.getMessages() +" : "+l.getSeconds());
+				logstash.addToQueue(l.getMessages() + " : " + l.getSeconds());
 				JavaRDD<ApacheLogs> transactionsRdd = jssc.sparkContext().parallelize(logs);
 				CassandraJavaUtil.javaFunctions(transactionsRdd)
-				.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(ApacheLogs.class))
-				.saveToCassandra();
-				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}", l.getMessages(), l.getSeconds(), keyspace, table);
+						.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(ApacheLogs.class)).saveToCassandra();
+				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}",
+						l.getMessages(), l.getSeconds(), keyspace, table);
 			}
-			
+
 		});
 
 		jssc.start();

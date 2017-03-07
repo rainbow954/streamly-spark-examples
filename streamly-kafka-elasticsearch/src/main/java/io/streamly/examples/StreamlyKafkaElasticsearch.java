@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,11 +16,8 @@ import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
@@ -113,7 +109,7 @@ public class StreamlyKafkaCassandraLogstash {
 				return tuple2._2();
 			}
 		});
-		
+
 		JavaDStream<String> logsCounts = lines.window(Durations.seconds(60));
 		logsCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
