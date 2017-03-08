@@ -26,8 +26,8 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka], count each word on the event then writes aggregates to [Cassandra].
-It also populates the counted words to [Mqtt] using [Logstash].
+It is written in Java and consumes events from [Kafka] after every 2 seconds, counts those events then writes aggregates to [Cassandra].
+It also populates the counted events to [Mqtt] using [Logstash].
 
 ## Quickstart
 
@@ -246,14 +246,14 @@ Copyright © 2017 Streamly, Inc.
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23549940/bbfca1e0-000e-11e7-8308-b32603f37271.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23549943/bbfefc24-000e-11e7-8d7e-6816f166978e.png
-[streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
+[streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23672741/f400ef10-036f-11e7-828b-d1dabe5ec38a.png
 [streamly-kafka-cassandra-logstash-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23125897/5cd45b1a-f774-11e6-9f75-016f7377c339.png
 [streamly-kafka-cassandra-logstash-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23125896/5cd41e8e-f774-11e6-9b86-65cbb2c3779d.png
 [streamly-list-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23607834/c53a97d0-0266-11e7-94eb-b3271812b28c.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
 [streamly-kafka-cassanda-logstash-kafka]: https://cloud.githubusercontent.com/assets/25694018/23549942/bbfe10a2-000e-11e7-9389-e3ead84a4104.png
-[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23580773/1dad1538-0108-11e7-8b47-81fa3bf51b98.png
+[streamly-kafka-cassandra-logstash-kafka-consumer]: https://cloud.githubusercontent.com/assets/25694018/23674978/0dbe16fa-0378-11e7-9074-f42fb93ceb70.png
 [save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
 [start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
 [profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png

@@ -1,12 +1,13 @@
 package io.streamly.examples;
 
+import static java.lang.Math.toIntExact;
+
 import java.io.PrintStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,11 +16,8 @@ import java.util.regex.Pattern;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
@@ -37,7 +35,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 
-import io.streamly.examples.domain.WordOccurence;
+import io.streamly.examples.domain.ApacheLogs;
 import io.streamly.logstash.Logstash;
 import scala.Tuple2;
 
@@ -50,12 +48,13 @@ public class StreamlyKafkaCassandraLogstash {
 	private static Logstash logstash;
 	static Logger log = LoggerFactory.getLogger(StreamlyKafkaCassandraLogstash.class);
 	private static final Pattern SPACE = Pattern.compile(" ");
+	private static int seconds = 0;
 
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
 		if (args.length != 6) {
-			System.err
-					.println("Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <parameter> <file>");
+			System.err.println(
+					"Usage: StreamlyKafkaCassandraLogstash <brokerUrl> <topic> <keyspace> <table> <parameter> <file>");
 			System.exit(1);
 		}
 		String brokers = args[0];
@@ -84,8 +83,8 @@ public class StreamlyKafkaCassandraLogstash {
 		log.info("Create and populate table");
 		CassandraConnector connector = CassandraConnector.apply(jssc.sparkContext().getConf());
 		try (Session session = connector.openSession()) {
-			session.execute(
-					"CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (word TEXT PRIMARY KEY, count int)");
+			session.execute("CREATE TABLE IF NOT EXISTS " + keyspace + "." + table
+					+ " (seconds int PRIMARY KEY, messages int)");
 		}
 
 		log.info("Table : {} created successfully", table);
@@ -110,51 +109,26 @@ public class StreamlyKafkaCassandraLogstash {
 			}
 		});
 
-		JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-			@Override
-			public Iterator<String> call(String x) {
-				log.info("Line retrieved {}", x);
-				return Arrays.asList(SPACE.split(x)).iterator();
-			}
-		});
-
-		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(new PairFunction<String, String, Integer>() {
-			@Override
-			public Tuple2<String, Integer> call(String s) {
-				log.info("Word to count {}", s);
-				return new Tuple2<>(s, 1);
-			}
-		}).reduceByKey(new Function2<Integer, Integer, Integer>() {
-			@Override
-			public Integer call(Integer i1, Integer i2) {
-				log.info("Count with reduceByKey {}", i1 + i2);
-				return i1 + i2;
-			}
-		});
-
-		log.info("words retrieved {}" + words);
-
-
-		wordCounts.foreachRDD(new VoidFunction<JavaPairRDD<String, Integer>>() {
+		JavaDStream<String> logsCounts = lines.window(Durations.seconds(60));
+		logsCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
 			@Override
-			public void call(JavaPairRDD<String, Integer> arg0) throws Exception {
-				Map<String, Integer> wordCountMap = arg0.collectAsMap();
-				List<WordOccurence> topicList = new ArrayList<>();
-				for (String key : wordCountMap.keySet()) {
-					WordOccurence wordOccurence = new WordOccurence();
-					wordOccurence.setWord(key);
-					wordOccurence.setCount(wordCountMap.get(key));
-					log.info("New WordOccurence = {}", wordOccurence);
-					logstash.addToQueue(key +" : "+wordCountMap.get(key));
-					if (!wordOccurence.getWord().isEmpty())
-						topicList.add(wordOccurence);
-				}
-				JavaRDD<WordOccurence> wordOccurenceRDD = jssc.sparkContext().parallelize(topicList);
-				CassandraJavaUtil.javaFunctions(wordOccurenceRDD)
-						.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(WordOccurence.class)).saveToCassandra();
-				log.info("Words successfully added : {}, keyspace {}, table {}", words, keyspace, table);
+			public void call(JavaRDD<String> t0) throws Exception {
+				List<ApacheLogs> logs = new ArrayList<>();
+				ApacheLogs l = new ApacheLogs();
+				l.setMessages(toIntExact(t0.count()));
+				l.setSeconds(seconds);
+				seconds = seconds + 2;
+				logs.add(l);
+				log.info("New Apachelogs = {}", l);
+				logstash.addToQueue(l.getMessages() + " : " + l.getSeconds());
+				JavaRDD<ApacheLogs> transactionsRdd = jssc.sparkContext().parallelize(logs);
+				CassandraJavaUtil.javaFunctions(transactionsRdd)
+						.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(ApacheLogs.class)).saveToCassandra();
+				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}",
+						l.getMessages(), l.getSeconds(), keyspace, table);
 			}
+
 		});
 
 		jssc.start();

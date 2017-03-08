@@ -18,23 +18,23 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-/** 
- * This class process "json" events coming from a secured mqtt topic
- * and persist them in a secured Elasticsearc Index.
- * 	
+/**
+ * This class process "json" events coming from a secured mqtt topic and persist
+ * them in a secured Elasticsearc Index.
+ * 
  **/
 public class StreamlyMqttElasticsearch {
-	
+
 	static Logger log = LoggerFactory.getLogger(StreamlyMqttElasticsearch.class);
-	
+
 	public static void main(String[] args) throws InterruptedException {
 		tieSystemOutAndErrToLog();
 		if (args.length != 7) {
-			System.err.println("Usage: StreamlyMqttElasticsearch <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <esIndexName> <esIndexType>");
+			System.err.println(
+					"Usage: StreamlyMqttElasticsearch <mqttBrokerUrl> <mqttTopic> <mqttClientID> <mqttUsername> <mqttPassword> <esIndexName> <esIndexType>");
 			System.exit(1);
 		}
-		
+
 		String mqttBrokerUrl = args[0];
 		String mqttTopic = args[1];
 		String mqttClientID = args[2];
@@ -42,15 +42,15 @@ public class StreamlyMqttElasticsearch {
 		String mqttPassword = args[4];
 		final String esIndexName = args[5];
 		final String esIndexType = args[6];
-		
+
 		Duration batchInterval = new Duration(2000);
 
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyMqttElasticsearch");
-		
+
 		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, batchInterval);
 
-		JavaReceiverInputDStream<String> inputDStream = MQTTUtils.createStream(jssc, mqttBrokerUrl, mqttTopic, mqttClientID, mqttUsername,
-				mqttPassword, false);
+		JavaReceiverInputDStream<String> inputDStream = MQTTUtils.createStream(jssc, mqttBrokerUrl, mqttTopic,
+				mqttClientID, mqttUsername, mqttPassword, false);
 		JavaDStream<String> jStream = inputDStream.map(new Function<String, String>() {
 			public String call(String arg0) throws Exception {
 				String str = new String(arg0);
@@ -75,20 +75,22 @@ public class StreamlyMqttElasticsearch {
 	public static String nowDate() {
 		return new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(new Date()).replace(" ", "T") + "Z";
 	}
-	
+
 	public static void tieSystemOutAndErrToLog() {
-        System.setOut(createLoggingProxy(System.out));
-        System.setErr(createLoggingProxy(System.err));
-    }
-    public static PrintStream createLoggingProxy(final PrintStream realPrintStream) {
-        return new PrintStream(realPrintStream) {
-           
-            public void print(final String string) {    
-                log.error(string);
-            }
-            public void println(final String string) {
-                log.error(string);
-            }
-        };
-    }
+		System.setOut(createLoggingProxy(System.out));
+		System.setErr(createLoggingProxy(System.err));
+	}
+
+	public static PrintStream createLoggingProxy(final PrintStream realPrintStream) {
+		return new PrintStream(realPrintStream) {
+
+			public void print(final String string) {
+				log.error(string);
+			}
+
+			public void println(final String string) {
+				log.error(string);
+			}
+		};
+	}
 }

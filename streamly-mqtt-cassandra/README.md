@@ -23,7 +23,7 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Mqtt] count each word on the event then writes aggregates to [Cassandra].
+It is written in Java and consumes events from [Mqtt] after every 2 seconds, counts those events then writes aggregates to [Cassandra].
 
 ## Quickstart
 
@@ -73,7 +73,7 @@ The newly created keyspace should appear in the list of existing keyspaces on th
 
 ![streamly-list-keyspace][streamly-list-keyspace]
 
-The job will create the table precise in the spark.properties file (e.g. `greenspace_table`) with the adequate fields for you
+The job will create the table precise in the spark.properties file (e.g. `greenspace_table2`) with the adequate fields for you
 
 ### 5. Get your access and secret keys
   - Open the Streamly dashboard and click on ![profile][profile]
@@ -146,7 +146,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-mqtt-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23525892/57d9383c-ff90-11e6-9394-e1b7c7501d8a.png
 [streamly-mqtt-cassandra-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23525926/743c87cc-ff90-11e6-8ba0-8c17a0d1bc6e.png
 [streamly-mqtt-cassandra-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23525999/bc037eb2-ff90-11e6-9196-b190acbe7dd1.png
-[streamly-mqtt-cassandra-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
+[streamly-mqtt-cassandra-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23677243/a384dffa-037f-11e7-8746-3b08bc583f53.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23129771/4375024a-f784-11e6-97ca-7d3b16b06929.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png

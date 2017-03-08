@@ -1,25 +1,22 @@
 package io.streamly.examples;
 
+import static java.lang.Math.toIntExact;
+
 import java.io.PrintStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import static java.lang.Math.toIntExact;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
@@ -36,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import com.datastax.driver.core.Session;
 import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
-import com.datastax.spark.connector.japi.CassandraStreamingJavaUtil;
 
 import io.streamly.examples.domain.Transactions;
 import scala.Tuple2;
@@ -49,7 +45,8 @@ import scala.Tuple2;
 public class StreamlyKafkaCassandra {
 	static Logger log = LoggerFactory.getLogger(StreamlyKafkaCassandra.class);
 	private static final Pattern SPACE = Pattern.compile(" ");
-	private static int seconds = 1;
+	private static int seconds = 0;
+
 	public static void main(String[] args) throws Exception {
 		tieSystemOutAndErrToLog();
 		if (args.length != 4) {
@@ -76,8 +73,8 @@ public class StreamlyKafkaCassandra {
 		log.info("Create and populate table");
 		CassandraConnector connector = CassandraConnector.apply(jssc.sparkContext().getConf());
 		try (Session session = connector.openSession()) {
-			session.execute(
-					"CREATE TABLE IF NOT EXISTS " + keyspace + "." + table + " (seconds int PRIMARY KEY, transactions int)");
+			session.execute("CREATE TABLE IF NOT EXISTS " + keyspace + "." + table
+					+ " (seconds int PRIMARY KEY, transactions int)");
 		}
 
 		log.info("Table : {} created successfully", table);
@@ -101,8 +98,8 @@ public class StreamlyKafkaCassandra {
 				return tuple2._2();
 			}
 		});
-		
-		JavaDStream<String> transactionCounts=lines.window(Durations.seconds(60));
+
+		JavaDStream<String> transactionCounts = lines.window(Durations.seconds(60));
 		transactionCounts.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 
 			@Override
@@ -111,15 +108,16 @@ public class StreamlyKafkaCassandra {
 				Transactions t = new Transactions();
 				t.setTransactions(toIntExact(t0.count()));
 				t.setSeconds(seconds);
-				seconds = seconds +2;
+				seconds = seconds + 2;
 				transactions.add(t);
 				JavaRDD<Transactions> transactionsRdd = jssc.sparkContext().parallelize(transactions);
 				CassandraJavaUtil.javaFunctions(transactionsRdd)
-				.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(Transactions.class))
-				.saveToCassandra();
-				log.info("Number of Transactions :{} successfully added after {} minutes, keyspace {}, table {}", t.getTransactions(), t.getSeconds(), keyspace, table);
+						.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(Transactions.class))
+						.saveToCassandra();
+				log.info("Number of Transactions :{} successfully added after {} seconds, keyspace {}, table {}",
+						t.getTransactions(), t.getSeconds(), keyspace, table);
 			}
-			
+
 		});
 
 		jssc.start();

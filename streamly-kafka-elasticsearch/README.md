@@ -23,7 +23,7 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka] count each word on the event then writes aggregates to [Elasticsearch].
+It is written in Java and consumes events from [Kafka] after every 2 seconds, counts them then writes aggregates to [Elasticsearch].
 
 
 ## Quickstart
@@ -163,7 +163,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
 [streamly-kafka-elasticsearch-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23468983/99758d3e-fea2-11e6-82df-080d6de5f2bf.png
 [streamly-kafka-elasticsearch]: https://cloud.githubusercontent.com/assets/25694018/23468574/6705b884-fea1-11e6-9e21-dc9eb5b84cfd.png
-[streamly-kafka-elasticsearch-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23481441/9e1dff00-fecb-11e6-9e38-9de49622c56b.png
+[streamly-kafka-elasticsearch-kibana-discover]: https://cloud.githubusercontent.com/assets/25694018/23680413/700730d6-038b-11e7-8f98-701c6c686edb.png
 [streamly-kafka-elasticsearch-kibana-index-pattern]: https://cloud.githubusercontent.com/assets/25694018/23481368/6ab3e378-fecb-11e6-8bbe-eb585d185015.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png

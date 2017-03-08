@@ -26,8 +26,8 @@
 ## Introduction
 
 This is a sample stream processing application that you can deploy in [Streamly].
-It is written in Java and consumes events from [Kafka], count each word on the event then writes aggregates to [Cassandra].
-It also populates the counted words to [Cassandra] using [Logstash].
+It is written in Java and consumes events from [Kafka] after every 2 seconds, counts those events and writes aggregates to [Cassandra].
+It also populates the counted events to [Cassandra] using [Logstash].
 
 ## Quickstart
 
@@ -225,14 +225,14 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23123079/361e72e2-f767-11e6-929c-676e7a903538.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23522234/86354da0-ff82-11e6-86e2-6701282dd76c.png
-[streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
+[streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23672741/f400ef10-036f-11e7-828b-d1dabe5ec38a.png
 [streamly-create-keyspaces]: https://cloud.githubusercontent.com/assets/25694018/23621620/cd01d462-029b-11e7-855c-13b14d2d5b97.png
 [streamly-list-tables-empty]: https://cloud.githubusercontent.com/assets/25694018/23521195/3c4200ac-ff7e-11e6-8bc2-ce2208a193c2.png
 [streamly-add-table]: https://cloud.githubusercontent.com/assets/25694018/23609467/742bd9be-026e-11e7-8f23-d04be3462d9f.png
 [streamly-list-tables-full]: https://cloud.githubusercontent.com/assets/25694018/23521218/55a3f690-ff7e-11e6-8def-da180aadf874.png
 [streamly-list-apikeys]: https://cloud.githubusercontent.com/assets/25694018/23631833/ff32f0f0-02bf-11e7-9bca-8ccf17224620.png
 [streamly-kafka-cassandra-logstash-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23521634/16354a8e-ff80-11e6-90e0-c194ead8afb6.png
-[streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23581534/fcd5812a-0115-11e7-9c53-83793fee7ca2.png
+[streamly-kafka-cassandra-logstash-zeppelin-cassandra2]: https://cloud.githubusercontent.com/assets/25694018/23672721/da60d354-036f-11e7-9ee0-22546d154bb6.png
 [streamly-add-new-table]: https://cloud.githubusercontent.com/assets/25694018/23610193/fd57eb26-0271-11e7-9e88-f64d184b4585.png
 [save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
 [start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png

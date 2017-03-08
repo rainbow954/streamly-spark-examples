@@ -161,7 +161,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-kafka-cassandra-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23463973/b8c5ab1a-fe93-11e6-99af-e580f0e4a7f8.png
 [streamly-kafka-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23463864/5e5b2394-fe93-11e6-907c-c7f45f88cd2f.png
 [streamly-kafka-cassandra-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23464035/e0156926-fe93-11e6-9d07-5e7a5e8ebfec.png
-[streamly-kafka-cassandra-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23470714/6cd57f6e-fea7-11e6-8dfe-47f0d70b5b6a.png
+[streamly-kafka-cassandra-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23656194/f5edaaf2-0338-11e7-9a65-58983d0c122e.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23129771/4375024a-f784-11e6-97ca-7d3b16b06929.png
 [streamly-create-keyspace]: https://cloud.githubusercontent.com/assets/25694018/23342425/61cf2970-fc5a-11e6-81c3-6e5aab35e71e.png
 [streamly-signup-step1]: https://cloud.githubusercontent.com/assets/25694018/23342086/2d3072e2-fc54-11e6-93b3-30223946e8d8.png
