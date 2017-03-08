@@ -1,6 +1,8 @@
 /target
 /classes
 /checkouts
+.classppath
+.project
 pom.xml
 pom.xml.asc
 *.jar
