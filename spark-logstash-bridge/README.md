@@ -1,4 +1,4 @@
-# Streamly Lockstash Bridge Mock
+# Streamly Logstash Bridge Mock
 
 This is a mock project that allows you to build a spark application  that can invoke logstash. Once the spark application calls logstash, it passes events to this logstash instance using a queue. The interaction between the Spark Application and logstash happens within the same Java Virtual Machine. 
 
