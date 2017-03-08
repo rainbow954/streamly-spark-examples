@@ -37,8 +37,8 @@ import com.datastax.driver.core.Session;
 import com.datastax.spark.connector.cql.CassandraConnector;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 import com.datastax.spark.connector.japi.CassandraStreamingJavaUtil;
-import io.cyanite.input.carbon$putToQueue;
 
+import io.streamly.cyanite.Cyanite;
 import io.streamly.examples.domain.Transactions;
 import scala.Tuple2;
 
@@ -63,7 +63,7 @@ public class StreamlyKafkaCassandraCyanite {
 		String table = args[3];
 		String[] cyaniteArgs = {"-f", args[4]};
 		
-		new CyaniteRunner(cyaniteArgs).start();
+		Cyanite.start(cyaniteArgs);
 		
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyKafkaCassandraCyanite");
 
@@ -119,12 +119,11 @@ public class StreamlyKafkaCassandraCyanite {
 					t.setSeconds(seconds);
 					seconds = seconds +2;
 					transactions.add(t);
-					io.cyanite.input.carbon$putToQueue.invokeStatic("transaction" + t.getTransactions() + " " + t.getSeconds() + " " + System.currentTimeMillis()/1000);
-	
 					JavaRDD<Transactions> transactionsRdd = jssc.sparkContext().parallelize(transactions);
 					CassandraJavaUtil.javaFunctions(transactionsRdd)
 					.writerBuilder(keyspace, table, CassandraJavaUtil.mapToRow(Transactions.class))
 					.saveToCassandra();
+					Cyanite.putToQueue("transaction" + t.getTransactions() + " " + t.getSeconds() + " " + System.currentTimeMillis()/1000);
 					log.info("Number of Transactions :{} successfully added after {} minutes, keyspace {}, table {}", t.getTransactions(), t.getSeconds(), keyspace, table);
 				}
 			}
@@ -140,18 +139,6 @@ public class StreamlyKafkaCassandraCyanite {
 		System.setErr(createLoggingProxy(System.err));
 	}
 
-	public static class CyaniteRunner extends Thread{
-		
-		String[] args;
-		
-		public CyaniteRunner(String[] args){
-			this.args = args;
-		}
-		
-		public void run(){
-			io.cyanite_c.main(args);
-		}
-	}
 	public static PrintStream createLoggingProxy(final PrintStream realPrintStream) {
 		return new PrintStream(realPrintStream) {
 
