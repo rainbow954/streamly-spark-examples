@@ -242,7 +242,7 @@ Copyright © 2017 Streamly, Inc.
 [logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23477215/8b354d66-febd-11e6-9384-44f941ffc783.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23477275/bedb827a-febd-11e6-898f-cd5ac571bd2f.png
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23549940/bbfca1e0-000e-11e7-8308-b32603f37271.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23549943/bbfefc24-000e-11e7-8d7e-6816f166978e.png

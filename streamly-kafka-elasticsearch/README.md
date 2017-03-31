@@ -169,7 +169,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-create-index]: https://cloud.githubusercontent.com/assets/25694018/23468239/9450193e-fea0-11e6-8cb1-1d7ee64d464e.png
 [streamly-list-indexes]: https://cloud.githubusercontent.com/assets/25694018/23611875/5530b664-0279-11e7-8980-5272a98353b4.png
 [streamly-kafka-elasticsearch-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23469043/cfb53084-fea2-11e6-94fa-080cb005b2fb.png
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
 [save]: https://cloud.githubusercontent.com/assets/25694018/23614986/3086f3da-0285-11e7-9eb0-0c141e1fb5ff.png
 [start]: https://cloud.githubusercontent.com/assets/25694018/23615196/e7976a50-0285-11e7-92d0-e10c1bab0165.png
 [profile]: https://cloud.githubusercontent.com/assets/25694018/23615301/3da3d06e-0286-11e7-8118-038ee1a22e92.png
