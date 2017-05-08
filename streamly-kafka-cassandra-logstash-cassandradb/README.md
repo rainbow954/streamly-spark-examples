@@ -143,7 +143,7 @@ The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
-app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-es-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
@@ -224,7 +224,7 @@ Copyright © 2017 Streamly, Inc.
 [cassandradb]: http://cassandra.apache.org/
 [streamly-kafka-cassanda-logstash]: https://cloud.githubusercontent.com/assets/25694018/23123253/ed978d0a-f767-11e6-9535-8ef1da0b2781.png
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23123079/361e72e2-f767-11e6-929c-676e7a903538.png
-[streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23522234/86354da0-ff82-11e6-86e2-6701282dd76c.png
+[streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23522359/eb44d45e-ff82-11e6-80cc-95b36c888ee4.png
 [streamly-kafka-cassandra-logstash-zeppelin-cassandra]: https://cloud.githubusercontent.com/assets/25694018/23672741/f400ef10-036f-11e7-828b-d1dabe5ec38a.png
 [streamly-create-keyspaces]: https://cloud.githubusercontent.com/assets/25694018/23621620/cd01d462-029b-11e7-855c-13b14d2d5b97.png
 [streamly-list-tables-empty]: https://cloud.githubusercontent.com/assets/25694018/23521195/3c4200ac-ff7e-11e6-8bc2-ce2208a193c2.png

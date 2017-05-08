@@ -181,7 +181,7 @@ Copyright © 2017 Streamly, Inc.
 [streamly-create-mqtt-topic]: https://cloud.githubusercontent.com/assets/25694018/23137087/52f97108-f7a0-11e6-8567-56c91625cbbe.png
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23477215/8b354d66-febd-11e6-9384-44f941ffc783.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23477275/bedb827a-febd-11e6-898f-cd5ac571bd2f.png
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
 [mosquitto-clients]: https://mosquitto.org/download/
 [streamly-kafka-mqtt-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23477616/d0500b42-febe-11e6-82e4-ad38f3294bad.png
 [streamly-kafka-mqtt-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23477533/8f90a24c-febe-11e6-8a24-8ff10f273e62.png

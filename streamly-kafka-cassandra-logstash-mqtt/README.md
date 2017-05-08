@@ -138,7 +138,7 @@ The resulting file should look as depicted below:
 
 ```properties
 main.class=io.streamly.examples.StreamlyKafkaCassandraLogstash
-app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,-f,file://logstash.conf
+app.args=apps.streamly.io:29093,system-apache-logs,greenspace_keyspace,greenspace_table,file://logstash.conf
 app.resource=file://streamly-kafka-cassandra-logstash-mqtt-0.0.1.jar
 spark.cassandra.connection.port=9042
 spark.cassandra.connection.host=london201.streamly.io,london202.streamly.io,london205.streamly.io
@@ -242,7 +242,7 @@ Copyright © 2017 Streamly, Inc.
 [logstash plugins]: https://www.elastic.co/guide/en/logstash/current/output-plugins.html 
 [streamly-create-topic]: https://cloud.githubusercontent.com/assets/25694018/23477215/8b354d66-febd-11e6-9384-44f941ffc783.png
 [streamly-list-topics]: https://cloud.githubusercontent.com/assets/25694018/23477275/bedb827a-febd-11e6-898f-cd5ac571bd2f.png
-[open-streams]: http://streamly.io/streamly-new/streams.html
+[open-streams]: http://www.streamly.io/open-streams/
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
 [streamly-kafka-cassandra-logstash-spark-ui]: https://cloud.githubusercontent.com/assets/25694018/23549940/bbfca1e0-000e-11e7-8308-b32603f37271.png
 [streamly-kafka-cassandra-logstash-kibana-ui]: https://cloud.githubusercontent.com/assets/25694018/23549943/bbfefc24-000e-11e7-8d7e-6816f166978e.png

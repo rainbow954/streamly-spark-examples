@@ -60,10 +60,9 @@ public class StreamlyKafkaCassandraLogstash {
 		String topics = args[1];
 		String keyspace = args[2];
 		String table = args[3];
-		String parameter = "-f";
 		String file = args[4];
 		SparkConf sparkConf = new SparkConf().setAppName("StreamlyKafkaCassandraLogstash");
-		String[] argumentFile = { parameter, file };
+		String[] argumentFile = { "-f", file };
 		log.info("About to start logstash");
 		logstash = Logstash.start(argumentFile);
 		// Wait while logstash starts properly
