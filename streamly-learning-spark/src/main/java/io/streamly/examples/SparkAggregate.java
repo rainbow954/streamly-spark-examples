@@ -1,4 +1,4 @@
-package com.spark.examples;
+package io.streamly.examples;
 
 import java.io.Serializable;
 import java.util.Arrays;
