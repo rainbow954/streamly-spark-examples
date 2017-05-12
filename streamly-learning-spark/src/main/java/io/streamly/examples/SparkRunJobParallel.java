@@ -13,13 +13,11 @@ import org.apache.spark.api.java.JavaSparkContext;
 public class SparkRunJobParallel {
 	public static void main(String... args) throws InterruptedException, ExecutionException {
 		// Create a Java Spark Context
-		SparkConf conf = new SparkConf()
-								.setMaster("local[2]")
-								.setAppName("Simple Application");
+		SparkConf conf = new SparkConf().setMaster("local[2]").setAppName("Simple Application");
 
 		final JavaSparkContext sc = new JavaSparkContext(conf);
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
-		
+
 		// Start thread 1
 		Future<Long> future1 = executorService.submit(new Callable<Long>() {
 
@@ -38,9 +36,9 @@ public class SparkRunJobParallel {
 			}
 		});
 		// Wait thread 1
-		System.out.println("File1:" + future1.get());
+		System.out.println("Number of lines in README.md: " + future1.get());
 		// Wait thread 2
-		System.out.println("File2:" + future2.get());
+		System.out.println("Number of lines in spark.properties: " + future2.get());
 		// Close spark context
 		sc.close();
 	}
